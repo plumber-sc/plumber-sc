@@ -1,26 +1,35 @@
 <<template>
     <b-row>
         <b-col cols="3">
-        <h1>Pipelines</h1>
-        <ol>
-            <li v-for="plugin in plugins">
-            {{ plugin.Name }}
-            </li>
-        </ol>
+            <h2>Pipelines</h2>
+            <ol>
+                <li v-for="pipeline in pipelines">
+                    <router-link :to='pipelineUrl(pipeline)'>{{ pipeline.Name }}</router-link>
+                </li>
+            </ol>
+        </b-col>
+        <b-col>
+            <h2>{{ pipelineid }}</h2>
+            <pipeline v-bind:pipeline="selectedPipeline" />
         </b-col>
     </b-row>
 </template>
 
 <script>
 import axios from "axios";
+import Pipeline from "./pipeline.vue";
 
 export default {
   name: "Pipelines",
+  props: ["pipelineid"],
   data() {
     return {
-      msg: "Welcome to Your Vue.js App",
-      plugins: []
+      pipelines: [],
+      selectedPipeline: null
     };
+  },
+  components: {
+    Pipeline
   },
   created() {
     var headers = {
@@ -44,9 +53,23 @@ export default {
           })
           .then(response => {
             console.log(response);
-            this.plugins = response.data.List;
+            this.pipelines = response.data.List;
           });
       });
+  },
+  beforeUpdate() {
+    if (this.pipelineid) {
+      var pipeline = this.pipelines.find(pipeline => {
+        return `${pipeline.Namespace}.${pipeline.Name}` == this.pipelineid;
+      });
+      this.selectedPipeline = pipeline;
+    }
+  },
+  methods: {
+    selectPlugin: function() {},
+    pipelineUrl: function(pipeline) {
+      return `/pipelines/${pipeline.Namespace}.${pipeline.Name}`;
+    }
   }
 };
 </script>

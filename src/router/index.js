@@ -15,6 +15,11 @@ export default new Router({
       component: Pipelines
     },
     {
+      path: '/pipelines/:pipelineid',
+      component: Pipelines,
+      props: true
+    },
+    {
       path: '/',
       name: 'HelloWorld',
       component: HelloWorld
