@@ -1,15 +1,19 @@
 <<template>
     <b-row>
         <b-col cols="3">
+          <div v-if="pipelines.length > 0">
             <h2>Pipelines</h2>
             <ol>
                 <li v-for="pipeline in pipelines">
                     <router-link :to='pipelineUrl(pipeline)'>{{ pipeline.Name }}</router-link>
                 </li>
             </ol>
+          </div>
+          <div v-else>
+            Loading pipelines from Sitecore Commerce
+          </div>
         </b-col>
         <b-col>
-            <h2>{{ pipelineid }}</h2>
             <pipeline v-bind:pipeline="selectedPipeline" />
         </b-col>
     </b-row>
