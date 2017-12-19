@@ -7,8 +7,15 @@
             <h3>{{ pipeline.Name }}</h3>
             <h4>{{ pipeline.Namespace }}</h4>
 
+            <div>
+                <i class="fa fa-cog" aria-hidden="true"></i>
+            </div>
+            <div>
+                <i class="fa fa-commenting-o" aria-hidden="true"></i> {{ pipeline.Comments }}
+            </div>
+
             <div class="timeline-centered">
-                <article class="timeline-entry">
+                <article class="timeline-entry start">
 
                     <div class="timeline-entry-inner">
 
@@ -18,6 +25,9 @@
 
                         <div class="timeline-label">
                             <h2>Start</h2>
+                            <div>
+                                <i class="fa fa-sign-in" aria-hidden="true"></i> {{ pipeline.Receives }}
+                            </div>
                         </div>
                     </div>
 
@@ -47,7 +57,7 @@
 
                 </article>
 
-                <article class="timeline-entry begin">
+                <article class="timeline-entry finish">
 
                   <div class="timeline-entry-inner">
 
@@ -57,6 +67,9 @@
 
                         <div class="timeline-label">
                             <h2>Finish</h2>
+                            <div>
+                                <i class="fa fa-sign-out" aria-hidden="true"></i> {{ pipeline.Returns }}
+                            </div>
                         </div>
                     </div>
 
@@ -183,8 +196,25 @@ img {
   clear: both;
 }
 
-.timeline-centered .timeline-entry.begin {
-  margin-bottom: 0;
+.timeline-centered .timeline-entry.start .timeline-entry-inner .timeline-label,
+.timeline-centered
+  .timeline-entry.finish
+  .timeline-entry-inner
+  .timeline-label {
+  background-color: #fafafa;
+}
+
+.timeline-centered
+  .timeline-entry.start
+  .timeline-entry-inner
+  .timeline-label
+  h2,
+.timeline-centered
+  .timeline-entry.finish
+  .timeline-entry-inner
+  .timeline-label
+  h2 {
+  color: #a0a0a0;
 }
 
 .timeline-centered .timeline-entry.left-aligned {

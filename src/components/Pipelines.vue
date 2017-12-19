@@ -3,11 +3,11 @@
         <b-col cols="3">
           <div v-if="pipelines.length > 0">
             <h2>Pipelines</h2>
-            <ol>
+            <ul>
                 <li v-for="pipeline in pipelines">
                     <router-link :to='pipelineUrl(pipeline)'>{{ pipeline.Name }}</router-link>
                 </li>
-            </ol>
+            </ul>
           </div>
           <div v-else>
             Loading pipelines from Sitecore Commerce
@@ -22,6 +22,7 @@
 <script>
 import axios from "axios";
 import Pipeline from "./pipeline.vue";
+import sortJsonArray from "sort-json-array";
 
 export default {
   name: "Pipelines",
@@ -57,7 +58,7 @@ export default {
           })
           .then(response => {
             console.log(response);
-            this.pipelines = response.data.List;
+            this.pipelines = sortJsonArray(response.data.List, "Namespace");
           });
       });
   },
