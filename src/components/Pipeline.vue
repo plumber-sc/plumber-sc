@@ -1,7 +1,7 @@
 <<template>
     <div class="pipeline">
         <div v-if="!pipeline">
-            No pipeline selected.
+            ...
         </div>
         <div v-else>
             <h3>{{ pipeline.Name }}</h3>

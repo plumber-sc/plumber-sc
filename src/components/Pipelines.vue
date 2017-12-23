@@ -31,6 +31,7 @@ export default {
       pipelines: [],
       pipelineNames: [],
       namespaces: [],
+      blocks: [],
       selectedPipeline: null
     };
   },
@@ -66,6 +67,12 @@ export default {
               this.pipelineNames.unshift(
                 `${pipeline.Namespace}.${pipeline.Name}`
               );
+              pipeline.Blocks.forEach(block => {
+                var blockName = `${block.Namespace}.${block.Name}`;
+                if (!this.blocks.includes(blockName)) {
+                  this.blocks.unshift(blockName);
+                }
+              });
             });
 
             $(".typeahead").typeahead(
@@ -77,7 +84,18 @@ export default {
               {
                 name: "pipelines",
                 limit: 10,
-                source: substringMatcher(this.pipelineNames)
+                source: substringMatcher(this.pipelineNames),
+                templates: {
+                  header: '<h3 class="league-name">Pipelines</h3>'
+                }
+              },
+              {
+                name: "blocks",
+                limit: 10,
+                source: substringMatcher(this.blocks),
+                templates: {
+                  header: '<h3 class="league-name">Blocks</h3>'
+                }
               }
             );
           });
