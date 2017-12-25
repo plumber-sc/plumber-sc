@@ -1,7 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import HelloWorld from '@/components/HelloWorld'
+import Blocks from '@/components/Blocks'
 import Pipelines from '@/components/Pipelines'
+import Plugins from '@/components/Plugins'
 import PageNotFound from '@/components/PageNotFound'
 
 Vue.use(Router)
@@ -10,19 +11,20 @@ export default new Router({
   mode: 'history',
   routes: [
     {
-      path: '/pipelines',
-      name: 'Pipelines',
-      component: Pipelines
-    },
-    {
-      path: '/pipelines/:pipelineid',
+      path: '/pipelines/:pipelineid?',
+      name: 'pipelines',
       component: Pipelines,
       props: true
     },
     {
-      path: '/',
-      name: 'HelloWorld',
-      component: HelloWorld
+      path: '/blocks',
+      name: 'blocks',
+      component: Blocks
+    },
+    {
+      path: '/plugins',
+      name: 'plugins',
+      component: Plugins
     },
     {
       path: '*',
