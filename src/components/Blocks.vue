@@ -1,27 +1,93 @@
 <<template>
 
   <div>
-       <h1>Blocks</h1>
+       <h1>Blocks ({{ blocks.length }})</h1>
     <b-row>
       <b-col>
         <div class="form-group has-feedback has-clear">
-          <input type="text" class="typeahead form-control" data-provide="typeahead" placeholder="Name of the block">
+          <input id="blocksdropdown" type="text" class="typeahead form-control" data-provide="typeahead" placeholder="Name of the block">
           <a class="glyphicon glyphicon-remove-sign form-control-feedback form-control-clear" ng-click="ctrl.clearSearch()" style="pointer-events: auto; text-decoration: none;cursor: pointer;"></a>
         </div>
       </b-col>
     </b-row>
     <b-row class="mt-3">
         <b-col>
-            <pipeline v-bind:pipeline="selectedBlock" />
+          <Block  v-bind:blockName="selectedBlockName"></Block>
         </b-col>
     </b-row>
     </div>
 </template>
 
 <script>
-export default {};
+import $ from "jquery";
+import Typeahead from "typeahead.js";
+
+import Block from "./Block";
+
+export default {
+  data() {
+    return {
+      selectedBlockName: null
+    };
+  },
+  computed: {
+    blocks() {
+      return this.$store.state.blocks;
+    }
+  },
+  created() {},
+  components: { Block },
+  mounted() {
+    var self = this;
+    $(".typeahead").typeahead(
+      {
+        hint: true,
+        highlight: true,
+        minLength: 1
+      },
+      {
+        name: "blocks",
+        limit: 10,
+        source: substringMatcher(this.blocks)
+      }
+    );
+    $("#blocksdropdown").bind("typeahead:select", function(ev, suggestion) {
+      self.selectBlock(suggestion);
+    });
+  },
+  methods: {
+    selectBlock: function(suggestion) {
+      console.log("Selection: " + suggestion);
+      this.selectedBlockName = suggestion;
+    }
+  }
+};
+
+var substringMatcher = function(strs) {
+  return function findMatches(q, cb) {
+    var matches, substringRegex;
+
+    // an array that will be populated with substring matches
+    matches = [];
+
+    // regex used to determine if a string contains the substring `q`
+    substringRegex = new RegExp(q, "i");
+
+    // iterate through the pool of strings and for any string that
+    // contains the substring `q`, add it to the `matches` array
+    $.each(strs, function(i, str) {
+      if (substringRegex.test(str)) {
+        matches.push(str);
+      }
+    });
+
+    cb(matches);
+  };
+};
 </script>
 
 <style>
-
+#blocksdropdown {
+  width: 100%;
+}
 </style>

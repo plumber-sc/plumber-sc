@@ -1,5 +1,6 @@
 <<template>
   <div>
+    <h1>Pipelines ({{ pipelines.length}})</h1>
     <b-row>
       <b-col>
         <div class="form-group has-feedback has-clear">
@@ -73,6 +74,8 @@ export default {
                   this.blocks.unshift(blockName);
                 }
               });
+              //this.$store.commit("setPipelines", this.pipelines);
+              //this.$store.commit("setBlocks", this.blocks);
             });
 
             $(".typeahead").typeahead(
@@ -87,14 +90,6 @@ export default {
                 source: substringMatcher(this.pipelineNames),
                 templates: {
                   header: '<h3 class="league-name">Pipelines</h3>'
-                }
-              },
-              {
-                name: "blocks",
-                limit: 10,
-                source: substringMatcher(this.blocks),
-                templates: {
-                  header: '<h3 class="league-name">Blocks</h3>'
                 }
               }
             );
