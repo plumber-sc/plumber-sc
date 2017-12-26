@@ -19,7 +19,8 @@ export default new Vuex.Store({
   },
   getters: {
     getPipelinesForBlock: (state) => (blockname) => {
-      var pipelinesForBlock = [];
+      var pipelinesForBlock = []
+
       state.pipelines.forEach(pipeline => {
         pipeline.Blocks.forEach(block => {
           if (blockname === `${block.Namespace}.${block.Name}`) {

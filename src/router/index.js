@@ -19,7 +19,8 @@ export default new Router({
     {
       path: '/blocks/:blockname?',
       name: 'blocks',
-      component: Blocks
+      component: Blocks,
+      props: true
     },
     {
       path: '/plugins',

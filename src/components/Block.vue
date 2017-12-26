@@ -1,6 +1,20 @@
 <<template>
-    <div class="block">
-        <h2>{{ blockName }}</h2>
+<div>
+    <div v-if="!block">
+        Something...
+        </div>
+    <div class="block" v-else>
+        <h2>{{ block.Name }}</h2>
+        <h3>{{ block.Namespace }}</h3>
+        <div>
+            <i class="fa fa-cog" aria-hidden="true"></i>
+        </div>
+        <div>
+            <i class="fa fa-sign-in" aria-hidden="true"></i> {{ block.Receives }}
+        </div>
+        <div>
+            <i class="fa fa-sign-out" aria-hidden="true"></i> {{ block.Returns }}
+        </div>
         <p>Used in the following pipelines:</p>
         <ul>
             <li v-for="pipeline in pipelines">
@@ -10,23 +24,51 @@
             </li>
         </ul>
     </div>
+</div>
 </template>
 
 <script>
 export default {
-  props: ["blockName"],
+  props: ["blockname"],
   data() {
     return {
       pipelines: []
     };
   },
+  computed: {
+    block: function() {
+      var selectedBlock = null;
+      if (this.blockname) {
+        selectedBlock = this.$store.state.blocks.find(block => {
+          return this.blockname === `${block.Namespace}.${block.Name}`;
+        });
+        this.pipelines = this.$store.getters.getPipelinesForBlock(
+          this.blockname
+        );
+      }
+      return selectedBlock;
+    }
+  },
+  mounted() {
+    if (this.blockname) {
+      this.block = this.$store.state.blocks.find(block => {
+        return this.blockname === `${block.Namespace}.${block.Name}`;
+      });
+      this.pipelines = this.$store.getters.getPipelinesForBlock(this.blockname);
+    }
+  },
   beforeUpdate() {
-    this.pipelines = this.$store.getters.getPipelinesForBlock(this.blockName);
+    if (this.blockname) {
+      this.block = this.$store.state.blocks.find(block => {
+        return this.blockname === `${block.Namespace}.${block.Name}`;
+      });
+      this.pipelines = this.$store.getters.getPipelinesForBlock(this.blockname);
+    }
   },
   methods: {
-      getPipelineName: (pipeline) => {
-          return `${pipeline.Namespace}.${pipeline.Name}`
-      }
+    getPipelineName: pipeline => {
+      return `${pipeline.Namespace}.${pipeline.Name}`;
+    }
   }
 };
 </script>

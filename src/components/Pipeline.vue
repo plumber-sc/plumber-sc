@@ -41,7 +41,7 @@
                         </div>
 
                         <div class="timeline-label">
-                            <h2>{{ block.Name }}</h2>
+                            <h2><router-link :to="{ name: 'blocks', params: { blockname: `${block.Namespace}.${block.Name}` }}">{{ block.Name }}</router-link></h2>
                             <h3>{{ block.Namespace }}</h3>
                             <div>
                                 <i class="fa fa-cog" aria-hidden="true"></i>
@@ -90,7 +90,9 @@ export default {
   },
   created() {},
   beforeUpdate() {
-    this.blocks = pipeline.blocks;
+    if (this.pipeline) {
+      this.blocks = this.pipeline.blocks;
+    }
   }
 };
 </script>

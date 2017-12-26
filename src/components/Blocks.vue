@@ -12,7 +12,7 @@
     </b-row>
     <b-row class="mt-3">
         <b-col>
-          <Block  v-bind:blockName="selectedBlockName"></Block>
+          <Block  v-bind:blockname="selectedBlockName"></Block>
         </b-col>
     </b-row>
     </div>
@@ -25,6 +25,8 @@ import Typeahead from "typeahead.js";
 import Block from "./Block";
 
 export default {
+  name: "Blocks",
+  props: ["blockname"],
   data() {
     return {
       selectedBlockName: null
@@ -54,11 +56,25 @@ export default {
     $("#blocksdropdown").bind("typeahead:select", function(ev, suggestion) {
       self.selectBlock(suggestion);
     });
+    this.selectedBlockName = this.blockname;
+  },
+  updated() {
+    console.log(this.blockname);
+  },
+  beforeRouteUpdate(to, from, next) {
+    console.log("beforeRouteUpdate");
+    if (to.params.blockname) {
+      this.selectedBlockName = to.params.blockname;
+    }
+    next();
+  },
+  beforeUpdate() {
+    console.log(this.blockname);
   },
   methods: {
     selectBlock: function(suggestion) {
       console.log("Selection: " + suggestion);
-      this.selectedBlockName = suggestion;
+      this.$router.push({ name: "blocks", params: { blockname: suggestion } });
     }
   }
 };
@@ -76,8 +92,9 @@ var substringMatcher = function(strs) {
     // iterate through the pool of strings and for any string that
     // contains the substring `q`, add it to the `matches` array
     $.each(strs, function(i, str) {
-      if (substringRegex.test(str)) {
-        matches.push(str);
+      var blockname = `${str.Namespace}.${str.Name}`;
+      if (substringRegex.test(blockname)) {
+        matches.push(blockname);
       }
     });
 
