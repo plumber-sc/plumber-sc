@@ -43,7 +43,8 @@
 
                         <div class="timeline-label">
                             <span class="namespace">{{ block.Namespace }}</span>
-                            <h2><router-link :to="{ name: 'blocks', params: { blockname: `${block.Namespace}.${block.Name}` }}">{{ block.Name }}</router-link></h2>
+                            <h2 v-if="!isBlockPipeline(block)"><router-link :to="{ name: 'blocks', params: { blockname: `${block.Namespace}.${block.Name}` }}">{{ block.Name }}</router-link></h2>
+                            <h2 v-else><router-link :to="{ name: 'pipelines', params: { pipelineid: `${block.Namespace}.${block.Name}` }}">{{ block.Name }}</router-link></h2>
                             <div>
                                 <i class="fa fa-cog" aria-hidden="true"></i>
                             </div>
@@ -89,10 +90,28 @@ export default {
       blocks: []
     };
   },
+  computed: {
+    pipelines: () => {
+      if (this.$store) {
+        return this.$store.state.pipelines;
+      } else {
+        return [];
+      }
+    }
+  },
   created() {},
   beforeUpdate() {
+    var pipelines = this.$store.state.pipelines;
     if (this.pipeline) {
       this.blocks = this.pipeline.blocks;
+    }
+  },
+  methods: {
+    isBlockPipeline: function(block) {
+      var pipeline = this.$store.getters.getPipeline(
+        `${block.Namespace}.${block.Name}`
+      );
+      return pipeline;
     }
   }
 };

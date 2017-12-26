@@ -29,6 +29,12 @@ export default new Vuex.Store({
         })
       })
       return pipelinesForBlock
+    },
+    getPipeline: (state) => (pipelineName) => {
+      var pipeline = state.pipelines.find((element) => {
+        return `${element.Namespace}.${element.Name}` === pipelineName
+      })
+      return pipeline
     }
   }
 })
