@@ -4,8 +4,9 @@
             ...
         </div>
         <div v-else>
+            <span class="namespace">{{ pipeline.Namespace }}</span>
             <h3>{{ pipeline.Name }}</h3>
-            <h4>{{ pipeline.Namespace }}</h4>
+
 
             <div>
                 <i class="fa fa-cog" aria-hidden="true"></i>
@@ -41,8 +42,8 @@
                         </div>
 
                         <div class="timeline-label">
+                            <span class="namespace">{{ block.Namespace }}</span>
                             <h2><router-link :to="{ name: 'blocks', params: { blockname: `${block.Namespace}.${block.Name}` }}">{{ block.Name }}</router-link></h2>
-                            <h3>{{ block.Namespace }}</h3>
                             <div>
                                 <i class="fa fa-cog" aria-hidden="true"></i>
                             </div>

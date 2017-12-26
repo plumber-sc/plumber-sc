@@ -4,8 +4,9 @@
         Something...
         </div>
     <div class="block" v-else>
-        <h2>{{ block.Name }}</h2>
-        <h3>{{ block.Namespace }}</h3>
+        <span class="namespace">{{ block.Namespace }}</span>
+        <h3>{{ block.Name }}</h3>
+
         <div>
             <i class="fa fa-cog" aria-hidden="true"></i>
         </div>
