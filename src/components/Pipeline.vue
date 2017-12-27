@@ -1,11 +1,10 @@
 <<template>
     <div class="pipeline">
         <div v-if="!pipeline">
-            ...
         </div>
         <div v-else>
             <span class="namespace">{{ pipeline.Namespace }}</span>
-            <h3>{{ pipeline.Name }}</h3>
+            <h2>{{ pipeline.Name }}</h2>
 
 
             <div>
@@ -25,7 +24,7 @@
                         </div>
 
                         <div class="timeline-label">
-                            <h2>Start</h2>
+                            <h3>Start</h3>
                             <div>
                                 <i class="fa fa-sign-in" aria-hidden="true"></i> {{ pipeline.Receives }}
                             </div>
@@ -43,8 +42,8 @@
 
                         <div class="timeline-label">
                             <span class="namespace">{{ block.Namespace }}</span>
-                            <h2 v-if="!isBlockPipeline(block)"><router-link :to="{ name: 'blocks', params: { blockname: `${block.Namespace}.${block.Name}` }}">{{ block.Name }}</router-link></h2>
-                            <h2 v-else><router-link :to="{ name: 'pipelines', params: { pipelineid: `${block.Namespace}.${block.Name}` }}">{{ block.Name }}</router-link></h2>
+                            <h3 v-if="!isBlockPipeline(block)"><router-link :to="{ name: 'blocks', params: { blockname: `${block.Namespace}.${block.Name}` }}">{{ block.Name }}</router-link></h3>
+                            <h3 v-else><router-link :to="{ name: 'pipelines', params: { pipelineid: `${block.Namespace}.${block.Name}` }}">{{ block.Name }}</router-link></h3>
                             <div>
                                 <i class="fa fa-cog" aria-hidden="true"></i>
                             </div>
@@ -68,7 +67,7 @@
                         </div>
 
                         <div class="timeline-label">
-                            <h2>Finish</h2>
+                            <h3>Finish</h3>
                             <div>
                                 <i class="fa fa-sign-out" aria-hidden="true"></i> {{ pipeline.Returns }}
                             </div>
@@ -443,9 +442,7 @@ img {
 .timeline-centered .timeline-entry .timeline-entry-inner .timeline-label h3,
 .timeline-centered .timeline-entry .timeline-entry-inner .timeline-label p {
   color: #737881;
-  font-size: 12px;
   margin: 0;
-  line-height: 1.428571429;
   font-weight: 800;
 }
 
@@ -454,16 +451,16 @@ img {
 }
 
 .timeline-centered .timeline-entry .timeline-entry-inner .timeline-label h2 {
-  font-size: 20px;
   color: black;
 }
 
 .timeline-centered .timeline-entry .timeline-entry-inner .timeline-label h3 {
-  font-size: 16px;
+  color: black;
   margin-bottom: 10px;
 }
 
-.timeline-centered .timeline-entry .timeline-entry-inner .timeline-label h2 a {
+.timeline-centered .timeline-entry .timeline-entry-inner .timeline-label h2 a,
+.timeline-centered .timeline-entry .timeline-entry-inner .timeline-label h3 a {
   color: #303641;
 }
 

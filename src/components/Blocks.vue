@@ -41,18 +41,7 @@ export default {
   components: { Block },
   mounted() {
     var self = this;
-    $(".typeahead").typeahead(
-      {
-        hint: true,
-        highlight: true,
-        minLength: 1
-      },
-      {
-        name: "blocks",
-        limit: 10,
-        source: substringMatcher(this.blocks)
-      }
-    );
+    this.initTypeAhead();
     $("#blocksdropdown").bind("typeahead:select", function(ev, suggestion) {
       self.selectBlock(suggestion);
     });
@@ -69,12 +58,27 @@ export default {
     next();
   },
   beforeUpdate() {
-    console.log(this.blockname);
+    this.initTypeAhead();
   },
   methods: {
     selectBlock: function(suggestion) {
       console.log("Selection: " + suggestion);
       this.$router.push({ name: "blocks", params: { blockname: suggestion } });
+    },
+    initTypeAhead: function() {
+      $("#blocksdropdown").typeahead("destroy");
+      $("#blocksdropdown").typeahead(
+        {
+          hint: true,
+          highlight: true,
+          minLength: 1
+        },
+        {
+          name: "blocks",
+          limit: 10,
+          source: substringMatcher(this.blocks)
+        }
+      );
     }
   }
 };
