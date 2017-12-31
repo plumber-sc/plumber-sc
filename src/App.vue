@@ -17,6 +17,7 @@
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap-vue/dist/bootstrap-vue.css";
 import Navigation from "./components/navigation";
+import xml2js from "xml2js";
 
 import axios from "axios";
 import sortJsonArray from "sort-json-array";
@@ -30,6 +31,19 @@ export default {
     var headers = {
       "Content-Type": "application/x-www-form-urlencoded"
     };
+
+    axios
+      .get("http://localhost:5000/commerceops/$metadata", headers)
+      .then(response => {
+        xml2js.parseString(response.data, (err, result) => {
+          console.log(err);
+          this.$store.commit(
+            "setSchema",
+            result["edmx:Edmx"]["edmx:DataServices"][0]["Schema"]
+          );
+        });
+      });
+
     axios
       .post(
         "http://localhost:5050/connect/token",

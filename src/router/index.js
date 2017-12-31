@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import Blocks from '@/components/Blocks'
 import Pipelines from '@/components/Pipelines'
 import Plugins from '@/components/Plugins'
+import Schema from '@/components/Schema'
 import PageNotFound from '@/components/PageNotFound'
 
 Vue.use(Router)
@@ -26,6 +27,11 @@ export default new Router({
       path: '/plugins',
       name: 'plugins',
       component: Plugins
+    },
+    {
+      path: '/schema',
+      name: 'schema',
+      component: Schema
     },
     {
       path: '*',

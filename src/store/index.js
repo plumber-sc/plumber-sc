@@ -7,7 +7,7 @@ export default new Vuex.Store({
   state: {
     pipelines: [],
     blocks: [],
-    count: 0
+    schema: null
   },
   mutations: {
     setPipelines: (state, pipelines) => {
@@ -15,6 +15,9 @@ export default new Vuex.Store({
     },
     setBlocks: (state, blocks) => {
       state.blocks = blocks
+    },
+    setSchema: (state, schema) => {
+      state.schema = schema
     }
   },
   getters: {
