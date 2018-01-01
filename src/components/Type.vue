@@ -6,7 +6,7 @@
                 <h4 class="typename">{{ item.$.Name }}</h4>
                 <div class="basetype">{{ item.$.BaseType }}</div>
                 <div>
-                    <properties :properties="item.Property" />
+                    <component :is="getComponent(item)" :properties="item.Property" :item="item"></component>
                 </div>
             </div>
         </div>
@@ -15,11 +15,35 @@
 
 <script>
 import Properties from "@/components/Properties";
+import Command from "@/components/Types/Command";
+import Policy from "@/components/Types/Policy";
+import Component from "@/components/Types/Component";
+import Entity from "@/components/Types/Entity";
+import Function from "@/components/Types/Function";
+import Model from "@/components/Types/Model";
+import Other from "@/components/Types/Other";
 
 export default {
+  data() {
+    return {
+      currentView: "Properties"
+    };
+  },
   props: ["title", "types"],
   components: {
-    Properties
+    Properties,
+    Command,
+    Policy,
+    Component,
+    Entity,
+    Function,
+    Model,
+    Other
+  },
+  methods: {
+    getComponent: function(item) {
+      return item.type;
+    }
   }
 };
 </script>
