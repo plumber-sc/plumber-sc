@@ -22,9 +22,5 @@ export default {
 </script>
 
 <style>
-.newspaper {
-  -webkit-column-count: 3; /* Chrome, Safari, Opera */
-  -moz-column-count: 3; /* Firefox */
-  column-count: 3;
-}
+
 </style>

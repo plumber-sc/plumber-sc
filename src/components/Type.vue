@@ -3,7 +3,7 @@
         <h3>{{ title }}</h3>
         <div class="newspaper">
             <div v-for="item in types" class="type">
-                <div class="typename">{{ item.$.Name }}</div>
+                <h4 class="typename">{{ item.$.Name }}</h4>
                 <div class="basetype">{{ item.$.BaseType }}</div>
                 <div>
                     <properties :properties="item.Property" />
@@ -25,10 +25,14 @@ export default {
 </script>
 
 <style>
+h4 {
+  margin-bottom: 0px;
+}
+
 .newspaper {
-  -webkit-column-count: 3; /* Chrome, Safari, Opera */
-  -moz-column-count: 3; /* Firefox */
-  column-count: 3;
+  -webkit-column-count: 2; /* Chrome, Safari, Opera */
+  -moz-column-count: 2; /* Firefox */
+  column-count: 2;
 }
 
 .type-section {
@@ -37,15 +41,11 @@ export default {
 
 .type {
   margin-bottom: 2px;
-  padding: 3px;
+  padding: 10px;
   background-color: #f0f0f0;
   -webkit-column-break-inside: avoid;
   -moz-column-break-inside: avoid;
   column-break-inside: avoid;
-}
-
-.typename {
-  font-weight: 800;
 }
 
 .basetype {
