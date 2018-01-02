@@ -1,10 +1,6 @@
 <template>
   <div id="app" class="container">
-    <b-row class="mb-3">
-      <b-col cols="12">
-        <navigation></navigation>
-      </b-col>
-    </b-row>
+    <navigation></navigation>
     <b-row>
       <b-col cols="12">
         <router-view />
@@ -96,7 +92,7 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
-  margin-top: 20px;
+  margin-top: 100px;
 }
 
 input.typeahead {
