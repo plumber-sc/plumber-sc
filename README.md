@@ -1,10 +1,10 @@
-# cs-showconfig
+<p align="center"><a href="http://plumber-sc.com" target="_blank"><img width="100" src="http://plumber-sc.com/images/logo.png" alt="Plumber for Sitecore Experience Commerce"></a></p>
 
-> A Vue.js project
+# Plumber for Sitecore Experience Commerce
 
 ## Build Setup
 
-``` bash
+```bash
 # install dependencies
 npm install
 
