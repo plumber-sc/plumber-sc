@@ -23,6 +23,7 @@
     "sort-json-array": "^0.1.7",
     "typeahead": "^0.2.2",
     "typeahead.js": "^0.11.1",
+    "underscore": "^1.8.3",
     "vue": "^2.5.2",
     "vue-router": "^3.0.1",
     "vuex": "^3.0.1",

@@ -2,7 +2,7 @@
     <div v-if="types.length > 0" class="type-section">
         <h3>{{ title }}</h3>
         <div class="newspaper">
-            <div v-for="item in types" class="type">
+            <div v-for="item in types" class="type" :class="item.type.toLowerCase()" >
                 <h4 class="typename">{{ item.$.Name }}</h4>
                 <div class="basetype">{{ item.$.BaseType }}</div>
                 <div>
@@ -60,16 +60,59 @@ h4 {
 }
 
 .type-section {
-  margin-bottom: 6px;
+  margin-bottom: 16px;
 }
 
 .type {
-  margin-bottom: 2px;
+  margin-bottom: 8px;
   padding: 10px;
   background-color: #f0f0f0;
   -webkit-column-break-inside: avoid;
   -moz-column-break-inside: avoid;
   column-break-inside: avoid;
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
+  border-radius: 8px;
+}
+
+.command {
+  background-color: #b2dfdb;
+}
+
+.policy {
+  background-color: #c8e6c9;
+}
+
+.entity {
+  background-color: #f0f4c3;
+}
+
+.model {
+  background-color: #fff9c4;
+}
+
+.component {
+  background-color: #b2ebf2;
+}
+
+.function {
+  background-color: #bbdefb;
+}
+
+.action {
+  background-color: #c5cae9;
+}
+
+.entitycontainer {
+  background-color: #d1c4e9;
+}
+
+.enumtype {
+  background-color: #e1bee7;
+}
+
+.other {
+  background-color: #b3e5fc;
 }
 
 .basetype {

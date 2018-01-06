@@ -40,7 +40,7 @@
                             <i class="entypo-feather"></i>
                         </div>
 
-                        <div class="timeline-label">
+                        <div class="timeline-label" v-bind:class="{ pipeline : isBlockPipeline(block) }">
                             <span class="namespace">{{ block.Namespace }}</span>
                             <h3 v-if="!isBlockPipeline(block)"><router-link :to="{ name: 'blocks', params: { blockname: `${block.Namespace}.${block.Name}` }}">{{ block.Name }}</router-link></h3>
                             <h3 v-else><router-link :to="{ name: 'pipelines', params: { pipelineid: `${block.Namespace}.${block.Name}` }}">{{ block.Name }}</router-link></h3>
@@ -475,5 +475,21 @@ img {
   opacity: 0.6;
   -ms-filter: alpha(opacity=60);
   filter: alpha(opacity=60);
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
+  border-radius: 8px;
+}
+
+.start .timeline-entry-inner .timeline-label,
+.finish .timeline-entry-inner .timeline-label {
+  background-color: #b3e5fc !important;
+}
+
+.timeline-entry-inner .timeline-label {
+  background-color: #bbdefb !important;
+}
+
+.timeline-entry-inner .timeline-label.pipeline {
+  background-color: #c5cae9 !important;
 }
 </style>

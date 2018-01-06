@@ -4,16 +4,16 @@
     <b-row>
       <b-col>
         <div class="form-group has-feedback has-clear">
-          <input id="typeSearch" type="text" class="typeahead form-control" data-provide="typeahead" placeholder="Name of the type">
+          <input id="typeSearch" type="text" class="typeahead form-control" v-model="searchText" v-on:keyup="searchChange" data-provide="typeahead" placeholder="Name of the type">
           <a class="glyphicon glyphicon-remove-sign form-control-feedback form-control-clear" ng-click="ctrl.clearSearch()" style="pointer-events: auto; text-decoration: none;cursor: pointer;"></a>
         </div>
       </b-col>
     </b-row>
-    <b-row v-for="schemaItem in schema" class="mt-3">
+    <b-row v-for="schemaItem in filteredSchema" class="mt-3">
       <b-col>
-        <div>
-             <h2>{{ schemaItem.$.Namespace }}</h2>
-            <structure :structure="getStructure(schemaItem)"></structure>
+        <div class="namespace">
+             <h2>{{ schemaItem.namespace }}</h2>
+            <structure :structure="schemaItem.types"></structure>
         </div>
       </b-col>
     </b-row>
@@ -23,11 +23,58 @@
 
 <script>
 import Structure from "@/components/Structure";
+import _ from "underscore";
 
 export default {
+  data: function() {
+    return {
+      searchText: ""
+    };
+  },
   computed: {
     schema: function() {
       return this.$store.state.schema;
+    },
+    filteredSchema: function() {
+      var filteredSchema = [];
+      if (this.$store.state.schema) {
+        this.$store.state.schema.forEach(element => {
+          var include = false;
+
+          if (
+            !this.searchText ||
+            this.searchText == "" ||
+            this.searchText.length < 4
+          ) {
+            include = true;
+          } else {
+            if (
+              element.$.Namespace
+                .toLowerCase()
+                .indexOf(this.searchText.toLowerCase()) > 0
+            ) {
+              include = true;
+            }
+          }
+
+          var schemaElement = {
+            namespace: element.$.Namespace,
+            types: this.getStructure(element, this.searchText)
+          };
+
+          Object.keys(schemaElement.types).forEach((key, index) => {
+            if (schemaElement.types[key].length > 0) {
+              include = true;
+            }
+          });
+
+          if (include) {
+            filteredSchema.unshift(schemaElement);
+          }
+        });
+      }
+
+      return filteredSchema;
     }
   },
   components: {
@@ -35,7 +82,10 @@ export default {
   },
   mounted() {},
   methods: {
-    getStructure: function(schema) {
+    searchChange: function() {
+      console.log(this.searchText);
+    },
+    getStructure: function(schema, searchText) {
       var commands = [];
       var entities = [];
       var policies = [];
@@ -93,6 +143,7 @@ export default {
             element.type = "Model";
             models.unshift(element);
           } else {
+            element.type = "Other";
             others.unshift(element);
           }
         });
@@ -126,6 +177,19 @@ export default {
         });
       }
 
+      if (searchText && searchText.length > 3) {
+        commands = this.filter(commands, this.searchText);
+        entities = this.filter(entities, this.searchText);
+        components = this.filter(components, this.searchText);
+        policies = this.filter(policies, this.searchText);
+        functions = this.filter(functions, this.searchText);
+        actions = this.filter(actions, this.searchText);
+        models = this.filter(models, this.searchText);
+        entitycontainers = this.filter(entitycontainers, this.searchText);
+        enumtypes = this.filter(enumtypes, this.searchText);
+        others = this.filter(others, this.searchText);
+      }
+
       return {
         commands: commands,
         entities: entities,
@@ -138,6 +202,11 @@ export default {
         enumtypes: enumtypes,
         others: others
       };
+    },
+    filter: function(items, searchtext) {
+      return _.filter(items, item => {
+        return item.$.Name.toLowerCase().indexOf(searchtext.toLowerCase()) > 0;
+      });
     }
   }
 };
