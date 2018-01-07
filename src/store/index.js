@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import { createFlashStore } from 'vuex-flash'
 
 Vue.use(Vuex)
 
@@ -7,7 +8,11 @@ export default new Vuex.Store({
   state: {
     pipelines: [],
     blocks: [],
-    schema: null
+    schema: null,
+    plugins: [],
+    config: null,
+    finishedLoading: false,
+    connectionError: false
   },
   mutations: {
     setPipelines: (state, pipelines) => {
@@ -18,6 +23,18 @@ export default new Vuex.Store({
     },
     setSchema: (state, schema) => {
       state.schema = schema
+    },
+    setPlugins: (state, plugins) => {
+      state.plugins = plugins
+    },
+    setConfig: (state, config) => {
+      state.config = config
+    },
+    setFinishedLoading: (state, finishedLoading) => {
+      state.finishedLoading = finishedLoading
+    },
+    setConnectionError: (state, connectionError) => {
+      state.connectionError = connectionError
     }
   },
   getters: {
@@ -39,5 +56,8 @@ export default new Vuex.Store({
       })
       return pipeline
     }
-  }
+  },
+  plugins: [
+    createFlashStore()
+  ]
 })

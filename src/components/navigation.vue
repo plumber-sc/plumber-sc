@@ -14,7 +14,7 @@
       <router-link :to="{ name: 'blocks'}" class="nav-link" active-class="active">Blocks</router-link>
     </li>
     <li class="nav-item">
-      <router-link :to="{ name: 'schema'}"  class="nav-link" active-class="active">Schema</router-link>
+      <router-link :to="{ name: 'metadata'}"  class="nav-link" active-class="active">Metadata</router-link>
     </li>
     <li class="nav-item">
       <router-link :to="{ name: 'plugins'}"  class="nav-link" active-class="active">Plugins</router-link>

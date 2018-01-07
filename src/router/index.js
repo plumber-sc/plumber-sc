@@ -29,8 +29,8 @@ export default new Router({
       component: Plugins
     },
     {
-      path: '/schema',
-      name: 'schema',
+      path: '/metadata',
+      name: 'metadata',
       component: Schema
     },
     {

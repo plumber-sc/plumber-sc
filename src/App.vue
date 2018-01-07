@@ -3,7 +3,14 @@
     <navigation></navigation>
     <b-row>
       <b-col cols="12">
-        <router-view />
+        <vue-snotify></vue-snotify>
+        <div v-if="!finishedLoading && !connectionError" class="alert alert-info" role="alert">
+          <strong>Loading configuration</strong> This may take some time...
+        </div>
+        <div v-if="connectionError" class="alert alert-danger" role="alert">
+          <strong>Oh snap!</strong> Change a few things up and try submitting again.
+        </div>
+        <router-view v-if="finishedLoading" />
       </b-col>
     </b-row>
   </div>
@@ -12,6 +19,8 @@
 <script>
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap-vue/dist/bootstrap-vue.css";
+import "vue-snotify/styles/material.css";
+
 import Navigation from "./components/navigation";
 import xml2js from "xml2js";
 
@@ -20,73 +29,123 @@ import sortJsonArray from "sort-json-array";
 
 export default {
   name: "app",
+  computed: {
+    finishedLoading: function() {
+      return this.$store.state.finishedLoading;
+    },
+    connectionError: function() {
+      return this.$store.state.connectionError;
+    }
+  },
   components: {
     Navigation
   },
   created() {
     // Get configuration
-    axios.get("/static/config.json").then(response => {
-      var config = response.data;
-    });
-
-    var headers = {
-      "Content-Type": "application/x-www-form-urlencoded"
-    };
-
     axios
-      .get("http://localhost:5000/commerceops/$metadata", headers)
+      .get("/static/config.json")
       .then(response => {
-        xml2js.parseString(response.data, (err, result) => {
-          console.log(err);
-          this.$store.commit(
-            "setSchema",
-            result["edmx:Edmx"]["edmx:DataServices"][0]["Schema"]
-          );
-        });
-      });
+        var config = response.data;
+        this.$store.commit("setConfig", config);
 
-    axios
-      .post(
-        "http://localhost:5050/connect/token",
-        "password=b&grant_type=password&username=sitecore%5Cadmin&client_id=csconfig&scope=openid+EngineAPI+postman_api",
-        headers
-      )
-      .then(response => {
-        var token = `Bearer ${response.data.access_token}`;
         var headers = {
-          Authorization: token,
-          "Content-Type": "application/json"
+          "Content-Type": "application/x-www-form-urlencoded"
         };
+
         axios
-          .get("http://localhost:5000/commerceops/GetPipelines()", {
-            headers: headers
-          })
+          .get(config.EngineUri + "/commerceops/$metadata", headers)
           .then(response => {
-            var pipelines = sortJsonArray(response.data.List, "Namespace");
-            var namespaces = [];
-            var pipelineNames = [];
-            var blocks = [];
-
-            pipelines.forEach(pipeline => {
-              if (!namespaces.includes(pipeline.Namespace)) {
-                namespaces.unshift(pipeline.Namespace);
-              }
-              pipelineNames.unshift(`${pipeline.Namespace}.${pipeline.Name}`);
-
-              pipeline.Blocks.forEach(block => {
-                var blockName = `${block.Namespace}.${block.Name}`;
-                var existingBlock = blocks.find(element => {
-                  return `${element.Namespace}.${element.Name}` == blockName;
-                });
-                if (!existingBlock) {
-                  blocks.unshift(block);
-                }
-              });
+            xml2js.parseString(response.data, (err, result) => {
+              console.log(err);
+              this.$store.commit(
+                "setSchema",
+                result["edmx:Edmx"]["edmx:DataServices"][0]["Schema"]
+              );
             });
-
-            this.$store.commit("setPipelines", pipelines);
-            this.$store.commit("setBlocks", blocks);
+          })
+          .catch(error => {
+            this.$store.commit("setConnectionError", true);
+            this.$snotify.error(
+              "Could not connect to Commerce Engine",
+              "Connection Error",
+              {
+                timeout: 5000,
+                showProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true
+              }
+            );
           });
+
+        axios
+          .post(
+            config.IdentityServerUri + "/connect/token",
+            `password=${config.Password}&grant_type=password&username=${config.Username}&client_id=csconfig&scope=openid+EngineAPI+postman_api`,
+            headers
+          )
+          .then(response => {
+            var token = `Bearer ${response.data.access_token}`;
+            var headers = {
+              Authorization: token,
+              "Content-Type": "application/json"
+            };
+
+            axios
+              .get(config.EngineUri + "/commerceops/RunningPlugins()", {
+                headers: headers
+              })
+              .then(response => {
+                this.$store.commit("setPlugins", response.data.value);
+              })
+              .catch(error => {
+                this.$store.commit("setConnectionError", true);
+              });
+
+            axios
+              .get(config.EngineUri + "/commerceops/GetPipelines()", {
+                headers: headers
+              })
+              .then(response => {
+                var pipelines = sortJsonArray(response.data.List, "Namespace");
+                var namespaces = [];
+                var pipelineNames = [];
+                var blocks = [];
+
+                pipelines.forEach(pipeline => {
+                  if (!namespaces.includes(pipeline.Namespace)) {
+                    namespaces.unshift(pipeline.Namespace);
+                  }
+                  pipelineNames.unshift(
+                    `${pipeline.Namespace}.${pipeline.Name}`
+                  );
+
+                  pipeline.Blocks.forEach(block => {
+                    var blockName = `${block.Namespace}.${block.Name}`;
+                    var existingBlock = blocks.find(element => {
+                      return (
+                        `${element.Namespace}.${element.Name}` == blockName
+                      );
+                    });
+                    if (!existingBlock) {
+                      blocks.unshift(block);
+                    }
+                  });
+                });
+
+                this.$store.commit("setPipelines", pipelines);
+                this.$store.commit("setBlocks", blocks);
+                this.$store.commit("setFinishedLoading", true);
+              });
+          });
+      })
+      .catch(function(error) {
+        this.$store.commit("setConnectionError", true);
+        this.$snotify.error("Example body content", "Example title", {
+          timeout: 2000,
+          showProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: true
+        });
       });
   }
 };
@@ -98,6 +157,7 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
   margin-top: 100px;
+  font-family: Helvetica Neue LT, Helvetica Neue, Helvetica, Arial, sans-serif;
 }
 
 input.typeahead {
@@ -199,5 +259,11 @@ span.twitter-typeahead {
 .input-group.input-group-lg span.twitter-typeahead .tt-menu,
 .input-group.input-group-lg span.twitter-typeahead .tt-dropdown-menu {
   top: 46px !important;
+}
+
+h1,
+h2,
+h3 {
+  font-weight: 700;
 }
 </style>

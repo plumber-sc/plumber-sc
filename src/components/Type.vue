@@ -1,8 +1,8 @@
 <<template>
-    <div v-if="types.length > 0" class="type-section">
+    <div v-if="types.length > 0" class="type-section" :class="types[0].type.toLowerCase()" >
         <h3>{{ title }}</h3>
         <div class="newspaper">
-            <div v-for="item in types" class="type" :class="item.type.toLowerCase()" >
+            <div v-for="item in types" class="type">
                 <h4 class="typename">{{ item.$.Name }}</h4>
                 <div class="basetype">{{ item.$.BaseType }}</div>
                 <div>
@@ -81,43 +81,83 @@ h4 {
   border-radius: 8px;
 }
 
-.command {
+.command h3 {
+  color: #009688;
+}
+
+.command .type {
   background-color: #b2dfdb;
 }
 
-.policy {
+.policy h3 {
+  color: #4caf50;
+}
+
+.policy .type {
   background-color: #c8e6c9;
 }
 
-.entity {
+.entity h3 {
+  color: #cddc39;
+}
+
+.entity .type {
   background-color: #f0f4c3;
 }
 
-.model {
+.model h3 {
+  color: #fbc02d;
+}
+
+.model .type {
   background-color: #fff9c4;
 }
 
-.component {
+.component h3 {
+  color: #00bcd4;
+}
+
+.component .type {
   background-color: #b2ebf2;
 }
 
-.function {
+.function h3 {
+  color: #2196f3;
+}
+
+.function .type {
   background-color: #bbdefb;
 }
 
-.action {
+.action h3 {
+  color: #3f51b5;
+}
+
+.action .type {
   background-color: #c5cae9;
 }
 
-.entitycontainer {
+.entitycontainer h3 {
+  color: #673ab7;
+}
+
+.entitycontainer .type {
   background-color: #d1c4e9;
 }
 
-.enumtype {
+.enumtype h3 {
+  color: #9c27b0;
+}
+
+.enumtype .type {
   background-color: #e1bee7;
 }
 
-.other {
+.other h3 {
+  color: #03a9f4;
+}
+
+.other .type {
   background-color: #b3e5fc;
 }
 

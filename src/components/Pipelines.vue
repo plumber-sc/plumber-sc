@@ -1,5 +1,5 @@
 <<template>
-  <div>
+  <div class="pipelines">
     <h1>Pipelines ({{ pipelines.length}})</h1>
     <b-row>
       <b-col>

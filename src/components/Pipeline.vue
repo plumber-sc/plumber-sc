@@ -480,13 +480,16 @@ img {
   border-radius: 8px;
 }
 
-.start .timeline-entry-inner .timeline-label,
+.start .timeline-entry-inner .timeline-label {
+  background-color: #ffcdd2 !important;
+}
+
 .finish .timeline-entry-inner .timeline-label {
-  background-color: #b3e5fc !important;
+  background-color: #e57373 !important;
 }
 
 .timeline-entry-inner .timeline-label {
-  background-color: #bbdefb !important;
+  background-color: #e1bee7 !important;
 }
 
 .timeline-entry-inner .timeline-label.pipeline {

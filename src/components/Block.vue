@@ -1,11 +1,11 @@
 <<template>
-<div class="block">
+<div>
 
     <div v-if="!block">
           <b-row>
               </b-row>
               </div>
-    <div v-else>
+    <div v-else class="block">
         <b-row>
             <b-col>
         <span class="namespace">{{ block.Namespace }}</span>
@@ -68,5 +68,11 @@ export default {
 </script>
 
 <style>
-
+.block {
+  background-color: #e1bee7 !important;
+  padding: 10px;
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
+  border-radius: 8px;
+}
 </style>

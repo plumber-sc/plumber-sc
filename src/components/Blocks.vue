@@ -1,6 +1,5 @@
 <<template>
-
-  <div>
+  <div class="blocks">
        <h1>Blocks ({{ blocks.length }})</h1>
     <b-row>
       <b-col>

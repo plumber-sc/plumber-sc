@@ -6,8 +6,10 @@ import router from './router'
 import store from './store'
 
 import BootstrapVue from 'bootstrap-vue'
+import Snotify from 'vue-snotify'
 
 Vue.use(BootstrapVue)
+Vue.use(Snotify)
 
 Vue.config.productionTip = false
 

@@ -1,6 +1,6 @@
 <<template>
-    <div>
-    <h1>Schema</h1>
+    <div class="metadata">
+    <h1>Metadata</h1>
     <b-row>
       <b-col>
         <div class="form-group has-feedback has-clear">
@@ -51,7 +51,7 @@ export default {
             if (
               element.$.Namespace
                 .toLowerCase()
-                .indexOf(this.searchText.toLowerCase()) > 0
+                .indexOf(this.searchText.toLowerCase()) >= 0
             ) {
               include = true;
             }
@@ -205,7 +205,7 @@ export default {
     },
     filter: function(items, searchtext) {
       return _.filter(items, item => {
-        return item.$.Name.toLowerCase().indexOf(searchtext.toLowerCase()) > 0;
+        return item.$.Name.toLowerCase().indexOf(searchtext.toLowerCase()) >= 0;
       });
     }
   }
@@ -213,5 +213,8 @@ export default {
 </script>
 
 <style>
-
+.namespace h2 {
+  color: #424242;
+  border-bottom: solid 1px #bdbdbd;
+}
 </style>
