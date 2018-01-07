@@ -1,0 +1,9 @@
+{
+    "EnvironmentName": "HabitatAuthoring",
+    "EngineUri": "http://localhost:5000",
+    "IdentityServerUri": "http://localhost:5050",
+    "BizFxUri": "http://localhost:4200",
+    "Language": "en-US",
+    "Currency": "USD",
+    "ShopName": "Storefront"
+}

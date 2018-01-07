@@ -24,6 +24,11 @@ export default {
     Navigation
   },
   created() {
+    // Get configuration
+    axios.get("/static/config.json").then(response => {
+      var config = response.data;
+    });
+
     var headers = {
       "Content-Type": "application/x-www-form-urlencoded"
     };

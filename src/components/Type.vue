@@ -21,6 +21,9 @@ import Component from "@/components/Types/Component";
 import Entity from "@/components/Types/Entity";
 import Function from "@/components/Types/Function";
 import Model from "@/components/Types/Model";
+import EntityContainer from "@/components/Types/EntityContainer";
+import Action from "@/components/Types/Action";
+import EnumType from "@/components/Types/EnumType";
 import Other from "@/components/Types/Other";
 
 export default {
@@ -38,6 +41,9 @@ export default {
     Entity,
     Function,
     Model,
+    EntityContainer,
+    Action,
+    EnumType,
     Other
   },
   methods: {
