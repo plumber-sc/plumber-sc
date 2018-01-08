@@ -24,6 +24,12 @@ export default new Router({
       props: true
     },
     {
+      path: '/policies',
+      name: 'policies',
+      component: Blocks,
+      props: true
+    },
+    {
       path: '/plugins',
       name: 'plugins',
       component: Plugins

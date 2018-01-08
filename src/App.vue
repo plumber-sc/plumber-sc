@@ -5,7 +5,10 @@
       <b-col cols="12">
         <vue-snotify></vue-snotify>
         <div v-if="!finishedLoading && !connectionError" class="alert alert-info" role="alert">
-          <strong>Loading configuration</strong> This may take some time...
+          <strong>Initializing...</strong>
+          <div v-for="message in loadMessages">
+            {{ message }}
+          </div>
         </div>
         <div v-if="connectionError" class="alert alert-danger" role="alert">
           <strong>Oh snap!</strong> Change a few things up and try submitting again.
@@ -23,6 +26,7 @@ import "vue-snotify/styles/material.css";
 
 import Navigation from "./components/navigation";
 import xml2js from "xml2js";
+import _ from "underscore";
 
 import axios from "axios";
 import sortJsonArray from "sort-json-array";
@@ -35,18 +39,24 @@ export default {
     },
     connectionError: function() {
       return this.$store.state.connectionError;
+    },
+    loadMessages: function() {
+      return this.$store.state.loadMessages;
     }
   },
   components: {
     Navigation
   },
   created() {
+    this.$store.commit("addLoadMessage", "Loading configuration");
     // Get configuration
     axios
       .get("/static/config.json")
       .then(response => {
         var config = response.data;
         this.$store.commit("setConfig", config);
+
+        this.$store.commit("addLoadMessage", "Loaded configuration");
 
         var headers = {
           "Content-Type": "application/x-www-form-urlencoded"
@@ -77,6 +87,7 @@ export default {
             );
           });
 
+        this.$store.commit("addLoadMessage", "Loaded authorizatio token.");
         axios
           .post(
             config.IdentityServerUri + "/connect/token",
@@ -90,52 +101,9 @@ export default {
               "Content-Type": "application/json"
             };
 
-            axios
-              .get(config.EngineUri + "/commerceops/RunningPlugins()", {
-                headers: headers
-              })
-              .then(response => {
-                this.$store.commit("setPlugins", response.data.value);
-              })
-              .catch(error => {
-                this.$store.commit("setConnectionError", true);
-              });
-
-            axios
-              .get(config.EngineUri + "/commerceops/GetPipelines()", {
-                headers: headers
-              })
-              .then(response => {
-                var pipelines = sortJsonArray(response.data.List, "Namespace");
-                var namespaces = [];
-                var pipelineNames = [];
-                var blocks = [];
-
-                pipelines.forEach(pipeline => {
-                  if (!namespaces.includes(pipeline.Namespace)) {
-                    namespaces.unshift(pipeline.Namespace);
-                  }
-                  pipelineNames.unshift(
-                    `${pipeline.Namespace}.${pipeline.Name}`
-                  );
-
-                  pipeline.Blocks.forEach(block => {
-                    var blockName = `${block.Namespace}.${block.Name}`;
-                    var existingBlock = blocks.find(element => {
-                      return (
-                        `${element.Namespace}.${element.Name}` == blockName
-                      );
-                    });
-                    if (!existingBlock) {
-                      blocks.unshift(block);
-                    }
-                  });
-                });
-
-                this.$store.commit("setPipelines", pipelines);
-                this.$store.commit("setBlocks", blocks);
-                this.$store.commit("setFinishedLoading", true);
-              });
+            this.getEnvironments(config, headers);
+            this.getPlugins(config, headers);
+            this.getPipelines(config, headers);
           });
       })
       .catch(function(error) {
@@ -147,6 +115,70 @@ export default {
           pauseOnHover: true
         });
       });
+  },
+  methods: {
+    getEnvironments: function(config, headers) {
+      this.$store.commit("addLoadMessage", "Loading environments");
+      axios
+        .get(config.EngineUri + "/commerceops/Environments", {
+          headers: headers
+        })
+        .then(response => {
+          this.$store.commit("setEnvironments", response.data.value);
+          this.$store.commit("addLoadMessage", "Loaded environments");
+        })
+        .catch(error => {});
+    },
+    getPlugins: function(config, headers) {
+      this.$store.commit("addLoadMessage", "Loading plugins");
+      axios
+        .get(config.EngineUri + "/commerceops/RunningPlugins()", {
+          headers: headers
+        })
+        .then(response => {
+          this.$store.commit("setPlugins", response.data.value);
+          this.$store.commit("addLoadMessage", "Loaded plugins");
+        })
+        .catch(error => {
+          this.$store.commit("setConnectionError", true);
+        });
+    },
+    getPipelines: function(config, headers) {
+      this.$store.commit("addLoadMessage", "Loading pipelines.");
+      axios
+        .get(config.EngineUri + "/commerceops/GetPipelines()", {
+          headers: headers
+        })
+        .then(response => {
+          var pipelines = sortJsonArray(response.data.List, "Namespace");
+          var namespaces = [];
+          var pipelineNames = [];
+          var blocks = [];
+
+          pipelines.forEach(pipeline => {
+            if (!namespaces.includes(pipeline.Namespace)) {
+              namespaces.unshift(pipeline.Namespace);
+            }
+            pipelineNames.unshift(`${pipeline.Namespace}.${pipeline.Name}`);
+
+            pipeline.Blocks.forEach(block => {
+              var blockName = `${block.Namespace}.${block.Name}`;
+              var existingBlock = blocks.find(element => {
+                return `${element.Namespace}.${element.Name}` == blockName;
+              });
+              if (!existingBlock) {
+                blocks.unshift(block);
+              }
+            });
+          });
+
+          this.$store.commit("setPipelines", pipelines);
+          this.$store.commit("setBlocks", blocks);
+          this.$store.commit("setFinishedLoading", true);
+
+          this.$store.commit("addLoadMessage", "Loaded pipelines");
+        });
+    }
   }
 };
 </script>
