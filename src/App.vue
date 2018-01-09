@@ -1,9 +1,9 @@
 <template>
   <div id="app" class="container">
     <navigation></navigation>
+    <button @click="authenticate('oauth2')">auth Github</button>
     <b-row>
       <b-col cols="12">
-        <vue-snotify></vue-snotify>
         <div v-if="!finishedLoading && !connectionError" class="alert alert-info" role="alert">
           <strong>Initializing...</strong>
           <div v-for="message in loadMessages">
@@ -117,6 +117,11 @@ export default {
       });
   },
   methods: {
+    authenticate: function(provider) {
+      this.$auth.authenticate(provider).then(function() {
+        // Execute application logic after successful social authentication
+      });
+    },
     getEnvironments: function(config, headers) {
       this.$store.commit("addLoadMessage", "Loading environments");
       axios
