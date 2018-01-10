@@ -6,15 +6,20 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    environments: [],
     pipelines: [],
     blocks: [],
     schema: null,
     plugins: [],
     config: null,
     finishedLoading: false,
-    connectionError: false
+    connectionError: false,
+    loadMessages: []
   },
   mutations: {
+    setEnvironments: (state, environments) => {
+      state.environments = environments
+    },
     setPipelines: (state, pipelines) => {
       state.pipelines = pipelines
     },
@@ -35,6 +40,9 @@ export default new Vuex.Store({
     },
     setConnectionError: (state, connectionError) => {
       state.connectionError = connectionError
+    },
+    addLoadMessage: (state, loadMessage) => {
+      state.loadMessages.push(loadMessage)
     }
   },
   getters: {
