@@ -40,6 +40,19 @@ export default new Router({
       component: Schema
     },
     {
+      path: '/auth',
+      name: 'auth',
+      component: Schema
+    },
+
+    {
+      path: '/auth/callback',
+      component: {
+        template: '<div class="auth-component">{{ $route.fullPath }}</div>'
+      }
+    },
+
+    {
       path: '*',
       component: PageNotFound
     }

@@ -118,9 +118,8 @@ export default {
   },
   methods: {
     authenticate: function(provider) {
-      this.$auth.authenticate(provider).then(function() {
-        // Execute application logic after successful social authentication
-      });
+      window.location =
+        "http://localhost:5050/connect/authorize?response_type=id_token%20token&client_id=Plumber&redirect_uri=http://localhost:8080/auth/callback&scope=openid%20EngineAPI&nonce=vueauth-1515618726734";
     },
     getEnvironments: function(config, headers) {
       this.$store.commit("addLoadMessage", "Loading environments");

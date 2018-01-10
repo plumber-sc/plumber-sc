@@ -16,11 +16,12 @@ Vue.use(Snotify)
 
 Vue.use(VueAxios, axios)
 Vue.use(VueAuthenticate, {
-  baseUrl: 'http://localhost:3000', // Your API domain
+  baseUrl: 'http://localhost:8080', // Your API domain
 
   providers: {
     oauth2: {
       authorizationEndpoint: 'http://localhost:5050/connect/authorize',
+      url: '/auth',
       clientId: 'Plumber',
       responseType: 'id_token token',
       scope: ['openid', 'EngineAPI'],
@@ -31,6 +32,13 @@ Vue.use(VueAuthenticate, {
         return 'vueauth-' + new Date().getTime()
       }
     }
+  },
+  bindResponseInterceptor: function() {
+    this.$http.interceptors.response.use((response) => {
+      alert(response);
+      this.setToken(response)
+      return response
+    })
   }
 })
 
