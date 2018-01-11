@@ -12,6 +12,7 @@ export default new Vuex.Store({
     schema: null,
     plugins: [],
     config: null,
+    token: null,
     finishedLoading: false,
     connectionError: false,
     loadMessages: []
@@ -34,6 +35,9 @@ export default new Vuex.Store({
     },
     setConfig: (state, config) => {
       state.config = config
+    },
+    setToken: (state, token) => {
+      state.token = token
     },
     setFinishedLoading: (state, finishedLoading) => {
       state.finishedLoading = finishedLoading

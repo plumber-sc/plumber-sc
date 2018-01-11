@@ -1,7 +1,7 @@
 <template>
   <div id="app" class="container">
     <navigation></navigation>
-    <button @click="authenticate('oauth2')">auth Github</button>
+    <button v-if="!loggedIn" @click="authenticate('oauth2')">auth Github</button>
     <b-row>
       <b-col cols="12">
         <div v-if="!finishedLoading && !connectionError" class="alert alert-info" role="alert">
@@ -42,6 +42,9 @@ export default {
     },
     loadMessages: function() {
       return this.$store.state.loadMessages;
+    },
+    loggedIn: function() {
+      return this.$store.state.token;
     }
   },
   components: {
@@ -57,54 +60,6 @@ export default {
         this.$store.commit("setConfig", config);
 
         this.$store.commit("addLoadMessage", "Loaded configuration");
-
-        var headers = {
-          "Content-Type": "application/x-www-form-urlencoded"
-        };
-
-        axios
-          .get(config.EngineUri + "/commerceops/$metadata", headers)
-          .then(response => {
-            xml2js.parseString(response.data, (err, result) => {
-              console.log(err);
-              this.$store.commit(
-                "setSchema",
-                result["edmx:Edmx"]["edmx:DataServices"][0]["Schema"]
-              );
-            });
-          })
-          .catch(error => {
-            this.$store.commit("setConnectionError", true);
-            this.$snotify.error(
-              "Could not connect to Commerce Engine",
-              "Connection Error",
-              {
-                timeout: 5000,
-                showProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true
-              }
-            );
-          });
-
-        this.$store.commit("addLoadMessage", "Loaded authorizatio token.");
-        axios
-          .post(
-            config.IdentityServerUri + "/connect/token",
-            `password=${config.Password}&grant_type=password&username=${config.Username}&client_id=csconfig&scope=openid+EngineAPI+postman_api`,
-            headers
-          )
-          .then(response => {
-            var token = `Bearer ${response.data.access_token}`;
-            var headers = {
-              Authorization: token,
-              "Content-Type": "application/json"
-            };
-
-            this.getEnvironments(config, headers);
-            this.getPlugins(config, headers);
-            this.getPipelines(config, headers);
-          });
       })
       .catch(function(error) {
         this.$store.commit("setConnectionError", true);
@@ -116,10 +71,51 @@ export default {
         });
       });
   },
+  mounted() {
+    this.initData(this.$store.state.config);
+  },
   methods: {
     authenticate: function(provider) {
       window.location =
         "http://localhost:5050/connect/authorize?response_type=id_token%20token&client_id=Plumber&redirect_uri=http://localhost:8080/auth/callback&scope=openid%20EngineAPI&nonce=vueauth-1515618726734";
+    },
+    initData: function(config) {
+      var headers = {
+        Authorization: this.$store.state.token,
+        "Content-Type": "application/json"
+      };
+
+      this.getPipelines(this.$store.state.config);
+
+      this.getEnvironments(this.$store.state.config, headers);
+      this.getPlugins(this.$store.state.config, headers);
+      this.getPipelines(this.$store.state.config, headers);
+    },
+    getMetaData: function(config) {
+      axios
+        .get(config.EngineUri + "/commerceops/$metadata", headers)
+        .then(response => {
+          xml2js.parseString(response.data, (err, result) => {
+            console.log(err);
+            this.$store.commit(
+              "setSchema",
+              result["edmx:Edmx"]["edmx:DataServices"][0]["Schema"]
+            );
+          });
+        })
+        .catch(error => {
+          this.$store.commit("setConnectionError", true);
+          this.$snotify.error(
+            "Could not connect to Commerce Engine",
+            "Connection Error",
+            {
+              timeout: 5000,
+              showProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true
+            }
+          );
+        });
     },
     getEnvironments: function(config, headers) {
       this.$store.commit("addLoadMessage", "Loading environments");

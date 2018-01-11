@@ -5,6 +5,7 @@ import Pipelines from '@/components/Pipelines'
 import Plugins from '@/components/Plugins'
 import Schema from '@/components/Schema'
 import PageNotFound from '@/components/PageNotFound'
+import _ from 'underscore'
 
 Vue.use(Router)
 
@@ -48,7 +49,20 @@ export default new Router({
     {
       path: '/auth/callback',
       component: {
-        template: '<div class="auth-component">{{ $route.fullPath }}</div>'
+        mounted() {
+          var hashParts = this.$route.hash.split('&')
+          var hash = {}
+          _.each(hashParts, (element) => {
+            var parts = element.split('=', 2)
+            hash[parts[0]] = parts[1]
+          })
+          var token = `Bearer ${hash.access_token}`
+          this.$store.commit('setToken', token)
+          this.$router.push({
+            name: 'pipelines'
+          })
+        },
+        template: '<div class="auth-component"></div>'
       }
     },
 
