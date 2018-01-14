@@ -1,7 +1,6 @@
 <template>
   <div id="app" class="container">
     <navigation></navigation>
-    <button v-if="!loggedIn" @click="authenticate('oauth2')">auth Github</button>
     <b-row>
       <b-col cols="12">
         <div v-if="!finishedLoading && !connectionError" class="alert alert-info" role="alert">
@@ -13,7 +12,9 @@
         <div v-if="connectionError" class="alert alert-danger" role="alert">
           <strong>Oh snap!</strong> Change a few things up and try submitting again.
         </div>
-        <router-view v-if="finishedLoading" />
+        <keep-alive>
+          <router-view />
+        </keep-alive>
       </b-col>
     </b-row>
   </div>
@@ -51,31 +52,22 @@ export default {
     Navigation
   },
   created() {
-    this.$store.commit("addLoadMessage", "Loading configuration");
-    // Get configuration
-    axios
-      .get("/static/config.json")
-      .then(response => {
-        var config = response.data;
-        this.$store.commit("setConfig", config);
-
-        this.$store.commit("addLoadMessage", "Loaded configuration");
-      })
-      .catch(function(error) {
-        this.$store.commit("setConnectionError", true);
-        this.$snotify.error("Example body content", "Example title", {
-          timeout: 2000,
-          showProgressBar: false,
-          closeOnClick: false,
-          pauseOnHover: true
-        });
-      });
+    console.log("app.vue - created");
   },
   mounted() {
-    this.initData(this.$store.state.config);
+    //this.initData(this.$store.state.config);
+    if (
+      !this.$store.token &&
+      this.$route.path != "/auth/callback" &&
+      !this.$store.state.startedLoading
+    ) {
+      this.authenticate();
+    } else if (this.$route.path != "/auth/callback") {
+      this.$store.dispatch("initData");
+    }
   },
   methods: {
-    authenticate: function(provider) {
+    authenticate: function() {
       window.location =
         "http://localhost:5050/connect/authorize?response_type=id_token%20token&client_id=Plumber&redirect_uri=http://localhost:8080/auth/callback&scope=openid%20EngineAPI&nonce=vueauth-1515618726734";
     },
@@ -85,7 +77,7 @@ export default {
         "Content-Type": "application/json"
       };
 
-      this.getPipelines(this.$store.state.config);
+      this.getMetaData(this.$store.state.config);
 
       this.getEnvironments(this.$store.state.config, headers);
       this.getPlugins(this.$store.state.config, headers);

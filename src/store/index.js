@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import { createFlashStore } from 'vuex-flash'
+import * as actions from './actions'
 
 Vue.use(Vuex)
 
@@ -13,6 +14,7 @@ export default new Vuex.Store({
     plugins: [],
     config: null,
     token: null,
+    startedLoading: false,
     finishedLoading: false,
     connectionError: false,
     loadMessages: []
@@ -38,6 +40,9 @@ export default new Vuex.Store({
     },
     setToken: (state, token) => {
       state.token = token
+    },
+    setStartedLoading: (state, startedLoading) => {
+      state.startedLoading = startedLoading
     },
     setFinishedLoading: (state, finishedLoading) => {
       state.finishedLoading = finishedLoading
@@ -69,6 +74,7 @@ export default new Vuex.Store({
       return pipeline
     }
   },
+  actions,
   plugins: [
     createFlashStore()
   ]

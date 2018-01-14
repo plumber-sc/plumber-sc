@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Blocks from '@/components/Blocks'
+import Policies from '@/components/Policies'
 import Pipelines from '@/components/Pipelines'
 import Plugins from '@/components/Plugins'
 import Schema from '@/components/Schema'
@@ -12,6 +13,26 @@ Vue.use(Router)
 export default new Router({
   mode: 'history',
   routes: [
+    {
+      path: '/',
+      name: 'home',
+      component: {
+        mounted() {
+          var hashParts = this.$route.hash.split('&')
+          var hash = {}
+          _.each(hashParts, (element) => {
+            var parts = element.split('=', 2)
+            hash[parts[0]] = parts[1]
+          })
+          var token = `Bearer ${hash.access_token}`
+          this.$store.commit('setToken', token)
+          this.$router.push({
+            name: 'pipelines'
+          })
+        },
+        template: '<div class="auth-component">Welcome</div>'
+      }
+    },
     {
       path: '/pipelines/:pipelineid?',
       name: 'pipelines',
@@ -27,7 +48,7 @@ export default new Router({
     {
       path: '/policies',
       name: 'policies',
-      component: Blocks,
+      component: Policies,
       props: true
     },
     {
@@ -45,7 +66,6 @@ export default new Router({
       name: 'auth',
       component: Schema
     },
-
     {
       path: '/auth/callback',
       component: {
@@ -58,11 +78,14 @@ export default new Router({
           })
           var token = `Bearer ${hash.access_token}`
           this.$store.commit('setToken', token)
+
+          this.$store.dispatch('initData')
+
           this.$router.push({
             name: 'pipelines'
           })
         },
-        template: '<div class="auth-component"></div>'
+        template: '<div class="auth-component">Welcome</div>'
       }
     },
 

@@ -8,10 +8,6 @@
 
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="nav nav-pills">
-          <li class="nav-item environment">
-            <b-form-select v-model="selected" :options="environments" class="mb-3">
-            </b-form-select>
-          </li>
           <li class="nav-item">
             <router-link :to="{ name: 'pipelines'}" class="nav-link" active-class="active">Pipelines</router-link>
           </li>
