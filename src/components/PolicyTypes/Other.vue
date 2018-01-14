@@ -1,13 +1,5 @@
 <<template>
-    <div>
-       <table id="table">
-            <thead>
-            <tr v-for="property in properties">
-                <th data-field="key" class="key">{{ property.key }}</th>
-                <th data-field="value">{{ property.value }}</th>
-            </tr>
-            </thead>
-        </table>
+    <div v-html="getMarkedupJson(policy)">
     </div>
 </template>
 
@@ -20,5 +12,25 @@ export default {
 </script>
 
 <style>
-
+.json-markup {
+  line-height: 17px;
+  font-size: 13px;
+  font-family: monospace;
+  white-space: pre;
+}
+.json-markup-key {
+  font-weight: bold;
+}
+.json-markup-bool {
+  color: firebrick;
+}
+.json-markup-string {
+  color: green;
+}
+.json-markup-null {
+  color: gray;
+}
+.json-markup-number {
+  color: blue;
+}
 </style>

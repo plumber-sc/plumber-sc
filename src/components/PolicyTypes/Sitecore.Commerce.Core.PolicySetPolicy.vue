@@ -1,8 +1,6 @@
 <<template>
     <div>
-        Sitecore.Commerce.Core.PolicySetPolicy
-        {{ policy.PolicyId }}
-        {{ policy.PolicySetId }}
+        Policy set: {{ policy.PolicySetId }}
     </div>
 </template>
 
@@ -15,5 +13,7 @@ export default {
 </script>
 
 <style>
-
+.policy {
+  background-color: #fff8e1;
+}
 </style>

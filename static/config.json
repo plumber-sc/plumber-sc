@@ -1,10 +1,4 @@
 {
-    "EnvironmentName": "HabitatAuthoring",
     "EngineUri": "http://localhost:5000",
-    "IdentityServerUri": "http://localhost:5050",
-    "Username": "sitecore\\admin",
-    "Password": "b",
-    "Language": "en-US",
-    "Currency": "USD",
-    "ShopName": "Storefront"
+    "IdentityServerUri": "http://localhost:5050"
 }

@@ -49,4 +49,8 @@ export default {
   margin-left: 24px;
   margin-right: 24px;
 }
+
+#navbarNav {
+  margin-left: 24px;
+}
 </style>

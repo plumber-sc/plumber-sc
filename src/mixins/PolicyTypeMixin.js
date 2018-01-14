@@ -1,3 +1,5 @@
+import jsonMarkup from "json-markup";
+
 export default {
   props: ['policy'],
   computed: {
@@ -12,5 +14,10 @@ export default {
       return properties
     }
   },
-  mounted() {}
+  mounted() {},
+  methods: {
+    getMarkedupJson: function(json) {
+      return jsonMarkup(json);
+    }
+  }
 }
