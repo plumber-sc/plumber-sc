@@ -1,17 +1,16 @@
 <template>
   <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light">
     <div class="container">
-      <img src="/static/logo.png" width="64px" />
+      <a href="/" class="logo">
+        <img src="/static/logo.png" width="64px" />
+        <span>Plumber</span>
+      </a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
 
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="nav nav-pills">
-          <li class="nav-item environment">
-            <b-form-select v-model="selected" :options="environments" class="mb-3">
-            </b-form-select>
-          </li>
           <li class="nav-item">
             <router-link :to="{ name: 'pipelines'}" class="nav-link" active-class="active">Pipelines</router-link>
           </li>
@@ -52,5 +51,32 @@ export default {
 .environment {
   margin-left: 24px;
   margin-right: 24px;
+}
+
+a.logo {
+  font-family: "Lobster", cursive;
+  font-size: 34px;
+  text-decoration: none;
+  color: #212121;
+}
+
+a.logo span {
+  margin-left: 6px;
+}
+
+.nav-link {
+  color: #d50000;
+}
+
+.nav-link:hover {
+  color: #212121;
+}
+
+.active {
+  background-color: #d50000 !important;
+}
+
+#navbarNav {
+  margin-left: 24px;
 }
 </style>

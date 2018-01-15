@@ -55,21 +55,21 @@ export default {
 </script>
 
 <style>
-h4 {
+.metadata h4 {
   margin-bottom: 0px;
 }
 
-.newspaper {
+.metadata .newspaper {
   -webkit-column-count: 2; /* Chrome, Safari, Opera */
   -moz-column-count: 2; /* Firefox */
   column-count: 2;
 }
 
-.type-section {
+.metadata .type-section {
   margin-bottom: 16px;
 }
 
-.type {
+.metadata .type {
   margin-bottom: 8px;
   padding: 10px;
   background-color: #f0f0f0;
@@ -81,87 +81,87 @@ h4 {
   border-radius: 8px;
 }
 
-.command h3 {
+.metadata .command h3 {
   color: #009688;
 }
 
-.command .type {
+.metadata .command .type {
   background-color: #b2dfdb;
 }
 
-.policy h3 {
+.metadata .policy h3 {
   color: #4caf50;
 }
 
-.policy .type {
+.metadata .policy .type {
   background-color: #c8e6c9;
 }
 
-.entity h3 {
+.metadata .entity h3 {
   color: #cddc39;
 }
 
-.entity .type {
+.metadata .entity .type {
   background-color: #f0f4c3;
 }
 
-.model h3 {
+.metadata .model h3 {
   color: #fbc02d;
 }
 
-.model .type {
+.metadata .model .type {
   background-color: #fff9c4;
 }
 
-.component h3 {
+.metadata .component h3 {
   color: #00bcd4;
 }
 
-.component .type {
+.metadata .component .type {
   background-color: #b2ebf2;
 }
 
-.function h3 {
+.metadata .function h3 {
   color: #2196f3;
 }
 
-.function .type {
+.metadata .function .type {
   background-color: #bbdefb;
 }
 
-.action h3 {
+.metadata .action h3 {
   color: #3f51b5;
 }
 
-.action .type {
+.metadata .action .type {
   background-color: #c5cae9;
 }
 
-.entitycontainer h3 {
+.metadata .entitycontainer h3 {
   color: #673ab7;
 }
 
-.entitycontainer .type {
+.metadata .entitycontainer .type {
   background-color: #d1c4e9;
 }
 
-.enumtype h3 {
+.metadata .enumtype h3 {
   color: #9c27b0;
 }
 
-.enumtype .type {
+.metadata .enumtype .type {
   background-color: #e1bee7;
 }
 
-.other h3 {
+.metadata .other h3 {
   color: #03a9f4;
 }
 
-.other .type {
+.metadata .other .type {
   background-color: #b3e5fc;
 }
 
-.basetype {
+.metadata .basetype {
   font-size: 80%;
 }
 </style>

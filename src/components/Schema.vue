@@ -9,7 +9,7 @@
         </div>
       </b-col>
     </b-row>
-    <b-row v-for="schemaItem in filteredSchema" class="mt-3">
+    <b-row v-for="schemaItem in filteredSchema" :key="schemaItem.namespace" class="mt-3">
       <b-col>
         <div class="namespace">
              <h2>{{ schemaItem.namespace }}</h2>

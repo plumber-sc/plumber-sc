@@ -7,9 +7,13 @@ import store from './store'
 
 import BootstrapVue from 'bootstrap-vue'
 import Snotify from 'vue-snotify'
+import VueAxios from 'vue-axios'
+import axios from 'axios'
 
 Vue.use(BootstrapVue)
 Vue.use(Snotify)
+
+Vue.use(VueAxios, axios)
 
 Vue.config.productionTip = false
 

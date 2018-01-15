@@ -3,7 +3,7 @@
     <navigation></navigation>
     <b-row>
       <b-col cols="12">
-        <vue-snotify></vue-snotify>
+        <authenticate></authenticate>
         <div v-if="!finishedLoading && !connectionError" class="alert alert-info" role="alert">
           <strong>Initializing...</strong>
           <div v-for="message in loadMessages">
@@ -13,7 +13,9 @@
         <div v-if="connectionError" class="alert alert-danger" role="alert">
           <strong>Oh snap!</strong> Change a few things up and try submitting again.
         </div>
-        <router-view v-if="finishedLoading" />
+        <keep-alive>
+          <router-view v-if="loggedIn && finishedLoading" />
+        </keep-alive>
       </b-col>
     </b-row>
   </div>
@@ -31,9 +33,14 @@ import _ from "underscore";
 import axios from "axios";
 import sortJsonArray from "sort-json-array";
 
+import Authenticate from "@/components/Authenticate.vue";
+
 export default {
   name: "app",
   computed: {
+    startedLoading: function() {
+      return this.$store.state.startedLoading;
+    },
     finishedLoading: function() {
       return this.$store.state.finishedLoading;
     },
@@ -42,142 +49,32 @@ export default {
     },
     loadMessages: function() {
       return this.$store.state.loadMessages;
+    },
+    loggedIn: function() {
+      return this.$store.state.token;
     }
   },
   components: {
-    Navigation
+    Navigation,
+    Authenticate
   },
-  created() {
-    this.$store.commit("addLoadMessage", "Loading configuration");
-    // Get configuration
-    axios
-      .get("/static/config.json")
-      .then(response => {
-        var config = response.data;
-        this.$store.commit("setConfig", config);
-
-        this.$store.commit("addLoadMessage", "Loaded configuration");
-
-        var headers = {
-          "Content-Type": "application/x-www-form-urlencoded"
-        };
-
-        axios
-          .get(config.EngineUri + "/commerceops/$metadata", headers)
-          .then(response => {
-            xml2js.parseString(response.data, (err, result) => {
-              console.log(err);
-              this.$store.commit(
-                "setSchema",
-                result["edmx:Edmx"]["edmx:DataServices"][0]["Schema"]
-              );
-            });
-          })
-          .catch(error => {
-            this.$store.commit("setConnectionError", true);
-            this.$snotify.error(
-              "Could not connect to Commerce Engine",
-              "Connection Error",
-              {
-                timeout: 5000,
-                showProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true
-              }
-            );
-          });
-
-        this.$store.commit("addLoadMessage", "Loaded authorizatio token.");
-        axios
-          .post(
-            config.IdentityServerUri + "/connect/token",
-            `password=${config.Password}&grant_type=password&username=${config.Username}&client_id=csconfig&scope=openid+EngineAPI+postman_api`,
-            headers
-          )
-          .then(response => {
-            var token = `Bearer ${response.data.access_token}`;
-            var headers = {
-              Authorization: token,
-              "Content-Type": "application/json"
-            };
-
-            this.getEnvironments(config, headers);
-            this.getPlugins(config, headers);
-            this.getPipelines(config, headers);
-          });
-      })
-      .catch(function(error) {
-        this.$store.commit("setConnectionError", true);
-        this.$snotify.error("Example body content", "Example title", {
-          timeout: 2000,
-          showProgressBar: false,
-          closeOnClick: false,
-          pauseOnHover: true
-        });
-      });
+  created() {},
+  mounted() {
+    //this.initData(this.$store.state.config);
+    if (
+      !this.$store.token &&
+      this.$route.path != "/auth/callback" &&
+      !this.$store.state.startedLoading
+    ) {
+      this.authenticate();
+    } else if (this.$route.path != "/auth/callback") {
+      this.$store.dispatch("initData");
+    }
   },
   methods: {
-    getEnvironments: function(config, headers) {
-      this.$store.commit("addLoadMessage", "Loading environments");
-      axios
-        .get(config.EngineUri + "/commerceops/Environments", {
-          headers: headers
-        })
-        .then(response => {
-          this.$store.commit("setEnvironments", response.data.value);
-          this.$store.commit("addLoadMessage", "Loaded environments");
-        })
-        .catch(error => {});
-    },
-    getPlugins: function(config, headers) {
-      this.$store.commit("addLoadMessage", "Loading plugins");
-      axios
-        .get(config.EngineUri + "/commerceops/RunningPlugins()", {
-          headers: headers
-        })
-        .then(response => {
-          this.$store.commit("setPlugins", response.data.value);
-          this.$store.commit("addLoadMessage", "Loaded plugins");
-        })
-        .catch(error => {
-          this.$store.commit("setConnectionError", true);
-        });
-    },
-    getPipelines: function(config, headers) {
-      this.$store.commit("addLoadMessage", "Loading pipelines.");
-      axios
-        .get(config.EngineUri + "/commerceops/GetPipelines()", {
-          headers: headers
-        })
-        .then(response => {
-          var pipelines = sortJsonArray(response.data.List, "Namespace");
-          var namespaces = [];
-          var pipelineNames = [];
-          var blocks = [];
-
-          pipelines.forEach(pipeline => {
-            if (!namespaces.includes(pipeline.Namespace)) {
-              namespaces.unshift(pipeline.Namespace);
-            }
-            pipelineNames.unshift(`${pipeline.Namespace}.${pipeline.Name}`);
-
-            pipeline.Blocks.forEach(block => {
-              var blockName = `${block.Namespace}.${block.Name}`;
-              var existingBlock = blocks.find(element => {
-                return `${element.Namespace}.${element.Name}` == blockName;
-              });
-              if (!existingBlock) {
-                blocks.unshift(block);
-              }
-            });
-          });
-
-          this.$store.commit("setPipelines", pipelines);
-          this.$store.commit("setBlocks", blocks);
-          this.$store.commit("setFinishedLoading", true);
-
-          this.$store.commit("addLoadMessage", "Loaded pipelines");
-        });
+    authenticate: function() {
+      window.location =
+        "http://localhost:5050/connect/authorize?response_type=id_token%20token&client_id=Plumber&redirect_uri=http://localhost:8080/auth/callback&scope=openid%20EngineAPI&nonce=vueauth-1515618726734";
     }
   }
 };
@@ -297,5 +194,10 @@ h1,
 h2,
 h3 {
   font-weight: 700;
+  letter-spacing: -0.4px;
+}
+
+h1 {
+  color: #212121;
 }
 </style>

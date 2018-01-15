@@ -1,16 +1,26 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Blocks from '@/components/Blocks'
+import Policies from '@/components/Policies'
 import Pipelines from '@/components/Pipelines'
 import Plugins from '@/components/Plugins'
 import Schema from '@/components/Schema'
 import PageNotFound from '@/components/PageNotFound'
+import _ from 'underscore'
 
 Vue.use(Router)
 
 export default new Router({
   mode: 'history',
   routes: [
+    {
+      path: '/',
+      name: 'home',
+      component: {
+        mounted() {},
+        template: ''
+      }
+    },
     {
       path: '/pipelines/:pipelineid?',
       name: 'pipelines',
@@ -26,7 +36,7 @@ export default new Router({
     {
       path: '/policies',
       name: 'policies',
-      component: Blocks,
+      component: Policies,
       props: true
     },
     {
@@ -39,6 +49,19 @@ export default new Router({
       name: 'metadata',
       component: Schema
     },
+    {
+      path: '/auth',
+      name: 'auth',
+      component: Schema
+    },
+    {
+      path: '/auth/callback',
+      component: {
+        mounted() {},
+        template: '<div class="auth-component">Authenticating</div>'
+      }
+    },
+
     {
       path: '*',
       component: PageNotFound
