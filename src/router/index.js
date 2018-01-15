@@ -17,20 +17,8 @@ export default new Router({
       path: '/',
       name: 'home',
       component: {
-        mounted() {
-          var hashParts = this.$route.hash.split('&')
-          var hash = {}
-          _.each(hashParts, (element) => {
-            var parts = element.split('=', 2)
-            hash[parts[0]] = parts[1]
-          })
-          var token = `Bearer ${hash.access_token}`
-          this.$store.commit('setToken', token)
-          this.$router.push({
-            name: 'pipelines'
-          })
-        },
-        template: '<div class="auth-component">Welcome</div>'
+        mounted() {},
+        template: ''
       }
     },
     {
@@ -69,23 +57,8 @@ export default new Router({
     {
       path: '/auth/callback',
       component: {
-        mounted() {
-          var hashParts = this.$route.hash.split('&')
-          var hash = {}
-          _.each(hashParts, (element) => {
-            var parts = element.split('=', 2)
-            hash[parts[0]] = parts[1]
-          })
-          var token = `Bearer ${hash.access_token}`
-          this.$store.commit('setToken', token)
-
-          this.$store.dispatch('initData')
-
-          this.$router.push({
-            name: 'pipelines'
-          })
-        },
-        template: '<div class="auth-component">Welcome</div>'
+        mounted() {},
+        template: '<div class="auth-component">Authenticating</div>'
       }
     },
 

@@ -67,24 +67,19 @@ export default {
     });
   },
   beforeUpdate() {
-    console.log("beforeUpdate");
     if (this.pipelineid) {
       var pipeline = this.pipelines.find(pipeline => {
         return `${pipeline.Namespace}.${pipeline.Name}` == this.pipelineid;
       });
       this.selectedPipeline = pipeline;
-      console.log(this.selectedPipeline.Name);
     }
     this.initTypeahead();
   },
   methods: {
     selectPlugin: function(suggestion) {
-      console.log("Selection: " + suggestion);
       var pipeline = this.pipelines.find(pipeline => {
         return `${pipeline.Namespace}.${pipeline.Name}` == suggestion;
       });
-      console.log("BeforeUpdate:" + pipeline.Name);
-      //this.selectedPipeline = pipeline;
       this.$router.push(`/pipelines/${suggestion}`);
     },
     pipelineUrl: function(pipeline) {

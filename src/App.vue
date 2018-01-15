@@ -3,6 +3,7 @@
     <navigation></navigation>
     <b-row>
       <b-col cols="12">
+        <authenticate></authenticate>
         <div v-if="!finishedLoading && !connectionError" class="alert alert-info" role="alert">
           <strong>Initializing...</strong>
           <div v-for="message in loadMessages">
@@ -13,7 +14,7 @@
           <strong>Oh snap!</strong> Change a few things up and try submitting again.
         </div>
         <keep-alive>
-          <router-view />
+          <router-view v-if="loggedIn && finishedLoading" />
         </keep-alive>
       </b-col>
     </b-row>
@@ -32,9 +33,14 @@ import _ from "underscore";
 import axios from "axios";
 import sortJsonArray from "sort-json-array";
 
+import Authenticate from "@/components/Authenticate.vue";
+
 export default {
   name: "app",
   computed: {
+    startedLoading: function() {
+      return this.$store.state.startedLoading;
+    },
     finishedLoading: function() {
       return this.$store.state.finishedLoading;
     },
@@ -49,11 +55,10 @@ export default {
     }
   },
   components: {
-    Navigation
+    Navigation,
+    Authenticate
   },
-  created() {
-    console.log("app.vue - created");
-  },
+  created() {},
   mounted() {
     //this.initData(this.$store.state.config);
     if (
@@ -70,8 +75,7 @@ export default {
     authenticate: function() {
       window.location =
         "http://localhost:5050/connect/authorize?response_type=id_token%20token&client_id=Plumber&redirect_uri=http://localhost:8080/auth/callback&scope=openid%20EngineAPI&nonce=vueauth-1515618726734";
-    },
-
+    }
   }
 };
 </script>
@@ -190,5 +194,10 @@ h1,
 h2,
 h3 {
   font-weight: 700;
+  letter-spacing: -0.4px;
+}
+
+h1 {
+  color: #212121;
 }
 </style>

@@ -2,9 +2,6 @@ import axios from 'axios'
 import * as api from '../api'
 
 export const initData = (context) => {
-  console.log('initData')
-  console.log(context)
-
   var headers = {
     Authorization: context.state.token,
     'Content-Type': 'application/json'
