@@ -11,10 +11,12 @@
         <h2>{{ environment.Id }} </h2>
             <div class="form-group">
       <label for="environmentSelect">Search for policy containing:</label>
-      <input id="pipelineSearch" type="text" class="typeahead form-control" data-provide="typeahead" placeholder="Name of the pipeline">
+      <b-form-input v-model="searchText"
+                  type="text"
+                  placeholder="Enter your name"></b-form-input>
       </div>
         {{ environment.Name }} (version {{ environment.Version }})
-        <policy v-for="policy in environment.Policies" :key="policy.PolicyId" :policy="policy"></policy>
+        <policy v-for="policy in policies" :key="policy.PolicyId" :policy="policy"></policy>
     </div
 
         </div>
@@ -28,7 +30,8 @@ import Policy from "@/components/Policy.vue";
 export default {
   data() {
     return {
-      selected: null
+      selected: null,
+      searchText: ""
     };
   },
   computed: {
@@ -41,6 +44,19 @@ export default {
         return environment.Name == this.selected;
       });
       return environment;
+    },
+    policies: function() {
+      var policies = this.environment.Policies;
+      if (this.searchText != "") {
+        policies = _.filter(policies, policy => {
+          return (
+            JSON.stringify(policy)
+              .toLowerCase()
+              .indexOf(this.searchText.toLowerCase()) >= 0
+          );
+        });
+      }
+      return policies;
     }
   },
   components: {
