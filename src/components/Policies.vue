@@ -1,10 +1,18 @@
 <<template>
   <div class="policies">
     <h1>Policies</h1>
-    <b-form-select v-model="selected" :options="environments" class="mb-3">
+     <div class="form-group">
+    <label for="environmentSelect">Environment</label>
+    <b-form-select id="environmentSelect" v-model="selected" :options="environments" class="mb-3">
+
     </b-form-select>
+    </div>
     <div v-if="selected">
         <h2>{{ environment.Id }} </h2>
+            <div class="form-group">
+      <label for="environmentSelect">Search for policy containing:</label>
+      <input id="pipelineSearch" type="text" class="typeahead form-control" data-provide="typeahead" placeholder="Name of the pipeline">
+      </div>
         {{ environment.Name }} (version {{ environment.Version }})
         <policy v-for="policy in environment.Policies" :key="policy.PolicyId" :policy="policy"></policy>
     </div
