@@ -13,7 +13,5 @@ export default {
 </script>
 
 <style>
-.policy {
-  background-color: #fff8e1;
-}
+
 </style>

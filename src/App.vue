@@ -86,6 +86,7 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
   margin-top: 100px;
+  margin-bottom: 60px;
   font-family: Helvetica Neue LT, Helvetica Neue, Helvetica, Arial, sans-serif;
 }
 

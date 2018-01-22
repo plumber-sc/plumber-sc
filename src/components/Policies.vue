@@ -1,25 +1,38 @@
-<<template>
+<template>
   <div class="policies">
-    <h1>Policies</h1>
-     <div class="form-group">
-    <label for="environmentSelect">Environment</label>
-    <b-form-select id="environmentSelect" v-model="selected" :options="environments" class="mb-3">
+    <b-row>
+      <b-col>
+        <h1>Policies</h1>
+      </b-col>
 
-    </b-form-select>
-    </div>
+      <b-col>
+        <form>
+          <div class="form-group row">
+            <label for="environmentSelect" class="col-sm-3 col-form-label">Environment: </label>
+            <div class="col-sm-9">
+              <b-form-select id="environmentSelect" v-model="selected" :options="environments" class="mb-3" />
+            </div>
+          </div>
+        </form>
+      </b-col>
+    </b-row>
+
     <div v-if="selected">
-        <h2>{{ environment.Id }} </h2>
-            <div class="form-group">
-      <label for="environmentSelect">Search for policy containing:</label>
-      <b-form-input v-model="searchText"
-                  type="text"
-                  placeholder="Enter your name"></b-form-input>
-      </div>
-        {{ environment.Name }} (version {{ environment.Version }})
-        <policy v-for="policy in policies" :key="policy.PolicyId" :policy="policy"></policy>
-    </div
-
+      <h2>{{ environment.Id }} </h2>
+      {{ environment.Name }} (version {{ environment.Version }})
+      <form class="searchform">
+        <div class="form-group row">
+          <label for="searchText" class="col-sm-3 col-form-label">Search for policy containing:</label>
+          <div class="col-sm-9">
+            <b-form-input v-model="searchText" type="text" placeholder="Search text"></b-form-input>
+          </div>
         </div>
+      </form>
+      <div class="results">
+        {{ policies.length }} policies found.
+      </div>
+      <policy v-for="policy in policies" :key="policy.PolicyId" :policy="policy"></policy>
+    </div>
   </div>
 </template>
 
@@ -66,5 +79,24 @@ export default {
 </script>
 
 <style>
+.searchform {
+  background-color: #fafafa;
+  padding-left: 12px;
+  padding-right: 12px;
+  padding-top: 12px;
+  padding-bottom: 6px;
+  -webkit-column-break-inside: avoid;
+  -moz-column-break-inside: avoid;
+  column-break-inside: avoid;
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
+  border-radius: 8px;
+}
 
+.results {
+  padding-left: 12px;
+  padding-right: 12px;
+  padding-top: 12px;
+  padding-bottom: 6px;
+}
 </style>

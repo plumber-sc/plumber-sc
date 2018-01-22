@@ -481,18 +481,18 @@ img {
 }
 
 .start .timeline-entry-inner .timeline-label {
-  background-color: #ffcdd2 !important;
+  background-color: #f0f4c3 !important;
 }
 
 .finish .timeline-entry-inner .timeline-label {
-  background-color: #e57373 !important;
+  background-color: #c5e1a5 !important;
 }
 
 .timeline-entry-inner .timeline-label {
-  background-color: #e1bee7 !important;
+  background-color: #aed581 !important;
 }
 
 .timeline-entry-inner .timeline-label.pipeline {
-  background-color: #c5cae9 !important;
+  background-color: #9ccc65 !important;
 }
 </style>

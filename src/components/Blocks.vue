@@ -49,6 +49,9 @@ export default {
   updated() {
     console.log(this.blockname);
   },
+  activated() {
+    console.log("Activated");
+  },
   beforeRouteUpdate(to, from, next) {
     console.log("beforeRouteUpdate");
     if (to.params.blockname) {
