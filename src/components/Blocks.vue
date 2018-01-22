@@ -46,8 +46,9 @@ export default {
     });
     this.selectedBlockName = this.blockname;
   },
-  updated() {
-    console.log(this.blockname);
+  activated() {
+    console.log("Activated");
+    this.selectedBlockName = this.blockname;
   },
   beforeRouteUpdate(to, from, next) {
     console.log("beforeRouteUpdate");

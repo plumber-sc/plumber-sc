@@ -32,10 +32,10 @@ export default {
 </script>
 
 <style>
-.policy {
+.policies .policy {
   margin-bottom: 8px;
   padding: 10px;
-  background-color: #f0f0f0;
+  background-color: #fafafa;
   -webkit-column-break-inside: avoid;
   -moz-column-break-inside: avoid;
   column-break-inside: avoid;
