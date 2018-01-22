@@ -493,6 +493,6 @@ img {
 }
 
 .timeline-entry-inner .timeline-label.pipeline {
-  background-color: #9ccc65 !important;
+  background-color: #fff59d !important;
 }
 </style>
