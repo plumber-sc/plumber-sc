@@ -1,4 +1,35 @@
+body {
+  margin-top: 0px;
+}
+
+.hero {
+  background-image: url(/images/valve.jpg);
+  background-size: cover;
+}
+
 .logo {
-    font-family: 'Lobster', cursive;
-    font-size: 64pt;
+  padding-left: 120px;
+  padding-top: 80px;
+  padding-bottom: 80px;
+  padding-right: 20px;
+}
+
+.logoname {
+  padding-left: 20px;
+  padding-top: 120px;
+  padding-bottom: 80px;
+}
+
+#logo {
+  padding-top: 20px;
+  font-family: "Lobster", cursive;
+  font-size: 80pt;
+  line-height: 60pt;
+  color: #eceff1;
+  text-shadow: 2px 2px #546e7a;
+}
+
+.subtitle {
+  display: block;
+  color: #fafafa;
 }
