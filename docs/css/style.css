@@ -174,18 +174,6 @@ body {
   }
 }
 
-.logo {
-  margin-right: 20px;
-}
-
-.logoname {
-  padding-top: 40px;
-  text-align: left;
-=======
-body {
-  margin-top: 0px;
-}
-
 .hero {
   background-image: url(/images/valve.jpg);
   background-size: cover;
@@ -194,12 +182,12 @@ body {
 .logo {
   padding-left: 120px;
   padding-top: 80px;
-  padding-bottom: 80px;
   padding-right: 20px;
+  float: left;
 }
 
 .logoname {
-  padding-left: 20px;
+  text-align: left;
   padding-top: 120px;
   padding-bottom: 80px;
 }
@@ -220,12 +208,19 @@ body {
 
 .github {
   margin-top: 40px;
-  text-align: left;
+  text-align: center;
   color: white;
   font-size: 24pt;
+}
+
+.github a:hover {
+  text-decoration: none;
 }
 
 .github span {
   margin-right: 6px;
 }
 
+.introduction {
+  font-size: 20pt;
+}
