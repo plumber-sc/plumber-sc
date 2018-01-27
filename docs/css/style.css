@@ -181,6 +181,27 @@ body {
 .logoname {
   padding-top: 40px;
   text-align: left;
+=======
+body {
+  margin-top: 0px;
+}
+
+.hero {
+  background-image: url(/images/valve.jpg);
+  background-size: cover;
+}
+
+.logo {
+  padding-left: 120px;
+  padding-top: 80px;
+  padding-bottom: 80px;
+  padding-right: 20px;
+}
+
+.logoname {
+  padding-left: 20px;
+  padding-top: 120px;
+  padding-bottom: 80px;
 }
 
 #logo {
@@ -207,3 +228,4 @@ body {
 .github span {
   margin-right: 6px;
 }
+
