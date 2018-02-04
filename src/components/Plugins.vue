@@ -1,10 +1,11 @@
 <<template>
   <div class="plugins">
-  <h1>Plugins</h1>
-  <div v-for="plugin in plugins">
-    {{ plugin.Name }}
+    <h1>Plugins</h1>
+    <div class="message">The following plugins were loaded:</div>
+    <div v-for="plugin in plugins">
+      {{ plugin.Name }}
     </div>
-    </div>
+  </div>
 </template>
 
 <script>
@@ -20,5 +21,8 @@ export default {
 </script>
 
 <style>
-
+.message {
+  font-weight: bold;
+  font-size: 120%;
+}
 </style>

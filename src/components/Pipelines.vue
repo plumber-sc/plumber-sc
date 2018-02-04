@@ -4,7 +4,9 @@
     <b-row>
       <b-col>
         <div class="form-group has-feedback has-clear">
-          <input id="pipelineSearch" type="text" class="typeahead form-control" data-provide="typeahead" placeholder="Name of the pipeline">
+          <div id="scrollable-dropdown-menu">
+            <input id="pipelineSearch" type="text" class="typeahead form-control" data-provide="typeahead" placeholder="Name of the pipeline">
+          </div>
           <a class="glyphicon glyphicon-remove-sign form-control-feedback form-control-clear" ng-click="ctrl.clearSearch()" style="pointer-events: auto; text-decoration: none;cursor: pointer;"></a>
         </div>
       </b-col>
@@ -127,5 +129,8 @@ var substringMatcher = function(strs) {
 </script>
 
 <style>
-
+#scrollable-dropdown-menu .tt-dropdown-menu {
+  max-height: 150px;
+  overflow-y: auto;
+}
 </style>

@@ -60,7 +60,6 @@ export default {
   },
   created() {},
   mounted() {
-    //this.initData(this.$store.state.config);
     if (
       !this.$store.token &&
       this.$route.path != "/auth/callback" &&
@@ -73,8 +72,24 @@ export default {
   },
   methods: {
     authenticate: function() {
-      window.location =
-        "http://localhost:5050/connect/authorize?response_type=id_token%20token&client_id=Plumber&redirect_uri=http://localhost:8080/auth/callback&scope=openid%20EngineAPI&nonce=vueauth-1515618726734";
+      axios
+        .get("/static/config.json")
+        .then(response => {
+          var config = response.data;
+          var identityUri = `${
+            config.IdentityServerUri
+          }/connect/authorize?response_type=id_token%20token&client_id=${
+            config.ClientId
+          }&redirect_uri=${
+            config.PlumberUri
+          }/auth/callback&scope=openid%20EngineAPI&nonce=plumber-${Math.floor(
+            Date.now()
+          )}`;
+          window.location = identityUri;
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
     }
   }
 };

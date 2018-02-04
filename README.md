@@ -2,6 +2,22 @@
 
 # Plumber for Sitecore Commerce
 
+Plumber is a configuration viewer for Sitecore Commerce, a bit like `showconfig.aspx` in Sitecore but with built-in search capabilities.
+
+## What do you use it for?
+
+Checking what happens in Sitecore Commerce can sometimes be a bit complicated. This tool will give you insight into how the pipelines are configured, which blocks are used and how the policies are configured per environment.
+
+## Installing Plumber
+
+There are two ways to install Plumber:
+
+### Using IIS
+
+The `dist` folder contains a pre-compiled version of Plumber that you can install as an IIS site.
+
+### In development mode
+
 ## Build Setup
 
 ```bash
