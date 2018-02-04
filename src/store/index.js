@@ -75,15 +75,7 @@ export default new Vuex.Store({
       return pipeline;
     },
     getConfig: state => () => {
-      axios
-        .get("/static/config.json")
-        .then(response => {
-          var config = response.data;
-          this.commit("setConfig", config);
-        })
-        .catch(function(error) {
-          context.commit("setConnectionError", true)
-        });
+     
     }
   },
   actions,

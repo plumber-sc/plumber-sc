@@ -8,9 +8,11 @@ Plumber is a configuration viewer for Sitecore Commerce, a bit like `showconfig.
 
 Checking what happens in Sitecore Commerce can sometimes be a bit complicated. This tool will give you insight into how the pipelines are configured, which blocks are used and how the policies are configured per environment.
 
+Plumber is a [Vue](https://vuejs.org/) single page application. Built for production, you can use it with any web server. It doesn't require any server side technology for itself.
+
 ## Installing Plumber
 
-There are two ways to install Plumber:
+This document describes two ways of installing Plumber: as an IIS website or running it in development mode directly from NPM.
 
 ### Using IIS
 
@@ -18,7 +20,46 @@ The `dist` folder contains a pre-compiled version of Plumber that you can instal
 
 ### In development mode
 
-## Build Setup
+If you want
+
+## Configuring Plumber
+
+Configuration of Plumber is done in `config.json` located in the `static` directory.
+
+The default config.json looks like this:
+
+```javascript
+{
+  "EngineUri": "http://localhost:5000",
+  "IdentityServerUri": "http://localhost:5050",
+  "ClientId": "Plumber",
+  "PlumberUri": "http://localhost:8080"
+}
+```
+
+The following table describes the parameters and their default values.
+
+<table>
+<tr>
+    <td>Parameter</td><td>Default</td><td>Description</td>
+</tr>
+<tr>
+    <td>EngineUri</td><td>"http://localhost:5000"</td><td>Base uri of the commerce engine</td>
+</tr>
+<tr>
+    <td>IdentityServerUri</td><td>"http://localhost:5050"</td><td>Base uri of the Sitecore Identity Server. Identity Server is used to retrieve a token to connect to Commerce Engine. This means you need a user account to be able to access it.</td>
+</tr>
+<tr>
+    <td>ClientId</td><td>"Plumber"</td><td>Client id used to connect to identity server. </td>
+</tr>
+<tr>
+    <td>PlumberUri</td><td>"http://localhost:8080"</td><td>Base uri of the commerce engine</td>
+</tr>
+</table>
+
+## Configuring Identity Server
+
+## Vue Build Setup
 
 ```bash
 # install dependencies
