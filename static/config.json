@@ -1,4 +1,4 @@
 {
-    "EngineUri": "http://localhost:5000",
-    "IdentityServerUri": "http://localhost:5050"
+    "EngineUri": "https://localhost:5000",
+    "IdentityServerUri": "https://localhost:5050"
 }

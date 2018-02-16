@@ -73,8 +73,20 @@ export default {
   },
   methods: {
     authenticate: function() {
-      window.location =
-        "http://localhost:5050/connect/authorize?response_type=id_token%20token&client_id=Plumber&redirect_uri=http://localhost:8080/auth/callback&scope=openid%20EngineAPI&nonce=vueauth-1515618726734";
+      axios
+        .get('/static/config.json')
+        .then(response => {
+          var config = response.data
+          console.log(config);
+          this.$store.commit('setConfig', config)
+          this.$store.commit('addLoadMessage', 'Loaded configuration');
+
+          window.location = config.IdentityServerUri +
+            "/connect/authorize?response_type=id_token%20token&client_id=Plumber&redirect_uri=http://localhost:8080/auth/callback&scope=openid%20EngineAPI&nonce=vueauth-1515618726734";
+        })
+        .catch(function(error) {
+          context.commit('setConnectionError', true)
+        })
     }
   }
 };
