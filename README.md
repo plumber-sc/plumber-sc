@@ -108,9 +108,24 @@ This configuratin sets up Identity Server to allow authentication from clients a
 
 There are some small things you need to configure in your commerce engine to so Plumber-sc can access it.
 
-First, you need to add plumber-sc as an allowed origin
+First, you need to add plumber-sc as an allowed origin. Open `config.json` in the `wwwroot` folder of your commerce engine and add the url (by default `http://localhost:8080`) to the `AllowedOrigins` section. It should look something like this: 
+
+```
+  "AllowedOrigins": [
+      "https://localhost:4200",
+      "http://localhost:4200",
+      "http://localhost:8080",
+      "http://sxa.storefront.com"
+  ],
+```
+
+Secondly, you need to turn off CSRF validation. In `config.json` change `"AntiForgeryEnabled": true` to `"AntiForgeryEnabled": false`
+
+
 
 ## Vue Build Setup
+
+If you want to change something in the app, below you will find instructions on how to build the project below. 
 
 ```bash
 # install dependencies
