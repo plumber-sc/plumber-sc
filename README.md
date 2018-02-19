@@ -105,6 +105,7 @@ Open the file and add the following to the `Clients` section:
 This configuratin sets up Identity Server to allow authentication from clients authenticating with client id `Plumber` coming from `https://localhost:8080`. If you're running plumber-sc on a different port you need to adjust these settings.
 
 ## Configuring your commerce engine
+
 There are some small things you need to configure in your commerce engine to so Plumber-sc can access it.
 
 First, you need to add plumber-sc as an allowed origin
