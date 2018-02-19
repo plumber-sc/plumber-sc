@@ -18,6 +18,8 @@ This document describes two ways of installing Plumber: as an IIS website or run
 
 The `dist` folder contains a pre-compiled version of Plumber that you can install as an IIS site. 
 
+Make sure you have installed the IIS Rewrite module (https://www.iis.net/downloads/microsoft/url-rewrite)
+
 To use IIS to host Plumber-sc:
 
 1. In IIS Manager, create a new website called `plumber-sc`, use port `8080` and set the folder to host the application.
