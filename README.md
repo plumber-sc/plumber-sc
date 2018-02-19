@@ -50,14 +50,64 @@ The following table describes the parameters and their default values.
     <td>IdentityServerUri</td><td>"http://localhost:5050"</td><td>Base uri of the Sitecore Identity Server. Identity Server is used to retrieve a token to connect to Commerce Engine. This means you need a user account to be able to access it.</td>
 </tr>
 <tr>
-    <td>ClientId</td><td>"Plumber"</td><td>Client id used to connect to identity server. </td>
+    <td>ClientId</td><td>"Plumber"</td><td>Client id used to connect to identity server. See the section on how to configure Identiy Server.</td>
 </tr>
 <tr>
     <td>PlumberUri</td><td>"http://localhost:8080"</td><td>Base uri of the commerce engine</td>
 </tr>
 </table>
 
-## Configuring Identity Server
+## Configuring Sitecore Identity Server
+
+Plumber-sc uses Sitecore Identity Server to get an authentication token, used to authenticate against the commerce engine. You need to add plumber-sc as a client in the configuration of Identity Server.
+
+You can find Identity Server's configuration in the `appsettings.json` file in the `wwwroot` folder of Sitecore Identity Server.
+
+Open the file and add the following to the `Clients` section:
+
+```
+{
+        "ClientId": "Plumber",
+        "ClientName": "Plumber",
+        "AccessTokenType": 0,
+        "AccessTokenLifetimeInSeconds": 3600,
+        "IdentityTokenLifetimeInSeconds": 3600,
+        "AllowAccessTokensViaBrowser": true,
+        "RequireConsent": false,
+        "RequireClientSecret": false,
+        "AllowedGrantTypes": [
+          "implicit"
+        ],
+        "RedirectUris": [
+          "http://localhost:8080",
+          "http://localhost:8080/?"
+        ],
+        "PostLogoutRedirectUris": [
+          "http://localhost:8080",
+          "http://localhost:8080/?"
+        ],
+        "AllowedCorsOrigins": [
+          "http://localhost:8080/",
+          "http://localhost:8080"
+        ],
+        "AllowedScopes": [
+          "openid",
+          "dataEventRecords",
+          "dataeventrecordsscope",
+          "securedFiles",
+          "securedfilesscope",
+          "role",
+          "EngineAPI"
+        ]
+      },
+```
+
+This configuratin sets up Identity Server to allow authentication from clients authenticating with client id `Plumber` coming from `https://localhost:8080`. If you're running plumber-sc on a different port you need to adjust these settings.
+
+## Configuring your commerce engine
+There are some small things you need to configure in your commerce engine to so Plumber-sc can access it.
+
+First, you need to add plumber-sc as an allowed origin
 
 ## Vue Build Setup
 
