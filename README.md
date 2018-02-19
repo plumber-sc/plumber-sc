@@ -16,11 +16,18 @@ This document describes two ways of installing Plumber: as an IIS website or run
 
 ### Using IIS
 
-The `dist` folder contains a pre-compiled version of Plumber that you can install as an IIS site.
+The `dist` folder contains a pre-compiled version of Plumber that you can install as an IIS site. 
+
+To use IIS to host Plumber-sc:
+
+1. In IIS Manager, create a new website called `plumber-sc`, use port `8080` and set the folder to host the application.
+2. Copy the contents of the dist folder to the folder you specified in the previous step.
+3. Configure Plumber, Sitecore Identity Server and the commerce engine. Instructions are in the following paragraphs.
+ 
 
 ### In development mode
 
-If you want
+If you want to run plumber-sc in development mode open a command prompt, navigate to the root of the repository and run `npm run dev`. This will start the tool at `http://localhost:8080` in development mode. Any change you make in the code will automatically trigger a rebuild.
 
 ## Configuring Plumber
 
@@ -120,8 +127,6 @@ First, you need to add plumber-sc as an allowed origin. Open `config.json` in th
 ```
 
 Secondly, you need to turn off CSRF validation. In `config.json` change `"AntiForgeryEnabled": true` to `"AntiForgeryEnabled": false`
-
-
 
 ## Vue Build Setup
 
