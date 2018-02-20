@@ -75,43 +75,43 @@ You can find Identity Server's configuration in the `appsettings.json` file in t
 Open the file and add the following to the `Clients` section:
 
 ```
-{
-        "ClientId": "Plumber",
-        "ClientName": "Plumber",
-        "AccessTokenType": 0,
-        "AccessTokenLifetimeInSeconds": 3600,
-        "IdentityTokenLifetimeInSeconds": 3600,
-        "AllowAccessTokensViaBrowser": true,
-        "RequireConsent": false,
-        "RequireClientSecret": false,
-        "AllowedGrantTypes": [
-          "implicit"
-        ],
-        "RedirectUris": [
-          "http://localhost:8080",
-          "http://localhost:8080/?"
-        ],
-        "PostLogoutRedirectUris": [
-          "http://localhost:8080",
-          "http://localhost:8080/?"
-        ],
-        "AllowedCorsOrigins": [
-          "http://localhost:8080/",
-          "http://localhost:8080"
-        ],
-        "AllowedScopes": [
-          "openid",
-          "dataEventRecords",
-          "dataeventrecordsscope",
-          "securedFiles",
-          "securedfilesscope",
-          "role",
-          "EngineAPI"
-        ]
-      },
+  {
+    "ClientId": "Plumber",
+    "ClientName": "Plumber",
+    "AccessTokenType": 0,
+    "AccessTokenLifetimeInSeconds": 3600,
+    "IdentityTokenLifetimeInSeconds": 3600,
+    "AllowAccessTokensViaBrowser": true,
+    "RequireConsent": false,
+    "RequireClientSecret": false,
+    "AllowedGrantTypes": [
+      "implicit"
+    ],
+    "RedirectUris": [
+      "http://localhost:8080",
+      "http://localhost:8080/?"
+    ],
+    "PostLogoutRedirectUris": [
+      "http://localhost:8080",
+      "http://localhost:8080/?"
+    ],
+    "AllowedCorsOrigins": [
+      "http://localhost:8080/",
+      "http://localhost:8080"
+    ],
+    "AllowedScopes": [
+      "openid",
+      "dataEventRecords",
+      "dataeventrecordsscope",
+      "securedFiles",
+      "securedfilesscope",
+      "role",
+      "EngineAPI"
+    ]
+  },
 ```
 
-This configuratin sets up Identity Server to allow authentication from clients authenticating with client id `Plumber` coming from `https://localhost:8080`. If you're running plumber-sc on a different port you need to adjust these settings.
+This configuration sets up Identity Server to allow authentication from clients authenticating with client id `Plumber` coming from `https://localhost:8080`. If you're running plumber-sc on a different port you need to adjust these settings.
 
 ## Configuring your commerce engine
 

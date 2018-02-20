@@ -4,7 +4,9 @@
     <b-row>
       <b-col>
         <div class="form-group has-feedback has-clear">
-          <input id="blocksdropdown" type="text" class="typeahead form-control" data-provide="typeahead" placeholder="Name of the block">
+          <div id="scrollable-dropdown-menu">
+            <input id="blocksdropdown" type="text" class="typeahead form-control" data-provide="typeahead" placeholder="Enter (part of) the name of the block">
+          </div>
           <a class="glyphicon glyphicon-remove-sign form-control-feedback form-control-clear" ng-click="ctrl.clearSearch()" style="pointer-events: auto; text-decoration: none;cursor: pointer;"></a>
         </div>
       </b-col>
@@ -75,7 +77,7 @@ export default {
         },
         {
           name: "blocks",
-          limit: 10,
+          limit: 20,
           source: substringMatcher(this.blocks)
         }
       );
@@ -110,5 +112,9 @@ var substringMatcher = function(strs) {
 <style>
 #blocksdropdown {
   width: 100%;
+}
+#scrollable-dropdown-menu .tt-menu {
+  max-height: 150px;
+  overflow-y: auto;
 }
 </style>

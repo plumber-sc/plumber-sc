@@ -5,7 +5,7 @@
       <b-col>
         <div class="form-group has-feedback has-clear">
           <div id="scrollable-dropdown-menu">
-            <input id="pipelineSearch" type="text" class="typeahead form-control" data-provide="typeahead" placeholder="Name of the pipeline">
+            <input id="pipelineSearch" type="text" class="typeahead form-control tt-input" placeholder="Enter (part of) the name of the pipeline">
           </div>
           <a class="glyphicon glyphicon-remove-sign form-control-feedback form-control-clear" ng-click="ctrl.clearSearch()" style="pointer-events: auto; text-decoration: none;cursor: pointer;"></a>
         </div>
@@ -97,7 +97,7 @@ export default {
         },
         {
           name: "pipelines",
-          limit: 10,
+          limit: 20,
           source: substringMatcher(this.pipelineNames)
         }
       );

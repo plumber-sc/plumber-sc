@@ -11,7 +11,7 @@
           </div>
         </div>
         <div v-if="connectionError" class="alert alert-danger" role="alert">
-          <strong>Oh snap!</strong> Change a few things up and try submitting again.
+          <strong>Oh snap!</strong> Something went wrong. Refresh the page, maybe it will work...
         </div>
         <keep-alive>
           <router-view v-if="loggedIn && finishedLoading" />
