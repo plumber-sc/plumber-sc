@@ -21,7 +21,7 @@
 
 <script>
 import axios from "axios";
-import Pipeline from "./pipeline.vue";
+import Pipeline from "./Pipeline";
 import sortJsonArray from "sort-json-array";
 import $ from "jquery";
 import Typeahead from "typeahead.js";
