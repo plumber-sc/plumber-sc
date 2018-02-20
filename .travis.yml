@@ -8,14 +8,12 @@ install:
   - npm run build
 
 after_script:
-  zip -r release.zip dist
+  - zip -r release.zip dist
 
 deploy:
   provider: releases
   api_key: $GITHUB_TOKEN
-  file_glob: true
-  file: dist/*
-  skip_cleanup: true
+  file: release.zip
   skip_cleanup: true
   on:
     tags: true
