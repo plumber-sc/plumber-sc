@@ -1,5 +1,7 @@
 <p align="center"><a href="http://plumber-sc.com" target="_blank"><img width="100" src="http://plumber-sc.com/images/logo.png" alt="Plumber for Sitecore Commerce"></a></p>
 
+[![Build Status](https://travis-ci.org/ewerkman/plumber-sc.svg?branch=master)](https://travis-ci.org/ewerkman/plumber-sc)
+
 # Plumber for Sitecore Commerce
 
 Plumber is a configuration viewer for Sitecore Commerce, a bit like `showconfig.aspx` in Sitecore but with built-in search capabilities.
