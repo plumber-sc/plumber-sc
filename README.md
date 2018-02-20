@@ -18,14 +18,14 @@ This document describes two ways of installing Plumber: as an IIS website or run
 
 ### Using IIS
 
-The `dist` folder contains a pre-compiled version of Plumber that you can install as an IIS site. 
+You can download the latest compiled version of Plumber-sc from [releases][releases]. The file `release.zip` contains a pre-compiled version of Plumber that you can install as an IIS site. 
 
 Make sure you have installed the IIS Rewrite module (https://www.iis.net/downloads/microsoft/url-rewrite)
 
 To use IIS to host Plumber-sc:
 
 1. In IIS Manager, create a new website called `plumber-sc`, use port `8080` and set the folder to host the application.
-2. Copy the contents of the dist folder to the folder you specified in the previous step.
+2. Copy the contents of `release.zip` to the folder you specified in the previous step.
 3. Configure Plumber, Sitecore Identity Server and the commerce engine. Instructions are in the following paragraphs.
  
 
