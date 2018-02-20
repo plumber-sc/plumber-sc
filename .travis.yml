@@ -7,6 +7,9 @@ install:
   - npm install
   - npm run build
 
+after_script:
+  zip -r release.zip dist
+
 deploy:
   provider: releases
   api_key: $GITHUB_TOKEN
