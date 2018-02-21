@@ -206,18 +206,18 @@ body {
   color: #fafafa;
 }
 
-.github {
+.external {
   margin-top: 40px;
   text-align: center;
   color: white;
   font-size: 24pt;
 }
 
-.github a:hover {
+.external a:hover {
   text-decoration: none;
 }
 
-.github span {
+.external span {
   margin-right: 6px;
 }
 
