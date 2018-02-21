@@ -14,6 +14,8 @@ install:
   - cd dist
   - zip -r ../release.zip .
 
+script: npm test
+
 deploy:
   provider: releases
   api_key: $GITHUB_TOKEN
