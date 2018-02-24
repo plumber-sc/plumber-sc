@@ -12,6 +12,8 @@ Checking what happens in Sitecore Commerce can sometimes be a bit complicated. T
 
 Plumber is a [Vue](https://vuejs.org/) single page application. Built for production, you can use it with any web server. It doesn't require any server side technology for itself.
 
+A small introduction: https://commerceservertips.com/introducing-plumber-the-configuration-viewer-for-sitecore-commerce-2/
+
 ## Installing Plumber
 
 This document describes two ways of installing Plumber: as an IIS website or running it in development mode directly from NPM.
