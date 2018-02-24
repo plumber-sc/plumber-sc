@@ -224,3 +224,7 @@ body {
 .introduction {
   font-size: 20pt;
 }
+
+.introduction a {
+  text-decoration: underline;
+}
