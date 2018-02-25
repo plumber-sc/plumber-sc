@@ -12,6 +12,8 @@ Checking what happens in Sitecore Commerce can sometimes be a bit complicated. T
 
 Plumber is a [Vue](https://vuejs.org/) single page application. Built for production, you can use it with any web server. It doesn't require any server side technology for itself.
 
+A small introduction: https://commerceservertips.com/introducing-plumber-the-configuration-viewer-for-sitecore-commerce-2/
+
 ### Compatibility
 
 Plumber is compatible with Sitecore Commerce 8.2.1 and Sitecore Commerce 9 and up. If you're using Sitecore Commerce 8.2.1 notice that you can leave the `IdentityServerUrl` config entry empty as this version doesn't use Identity Server.
