@@ -62,6 +62,7 @@ export default {
   mounted() {
     if (
       !this.$store.token &&
+      (this.$store.config && this.$store.config.IdentityServerUri) &&
       this.$route.path != "/auth/callback" &&
       !this.$store.state.startedLoading
     ) {
@@ -76,16 +77,18 @@ export default {
         .get("/static/config.json")
         .then(response => {
           var config = response.data;
-          var identityUri = `${
-            config.IdentityServerUri
-          }/connect/authorize?response_type=id_token%20token&client_id=${
-            config.ClientId
-          }&redirect_uri=${
-            config.PlumberUri
-          }/auth/callback&scope=openid%20EngineAPI&nonce=plumber-${Math.floor(
-            Date.now()
-          )}`;
-          window.location = identityUri;
+          if(config.IdentityServerUri) {
+            var identityUri = `${
+              config.IdentityServerUri
+            }/connect/authorize?response_type=id_token%20token&client_id=${
+              config.ClientId
+            }&redirect_uri=${
+              config.PlumberUri
+            }/auth/callback&scope=openid%20EngineAPI&nonce=plumber-${Math.floor(
+              Date.now()
+            )}`;
+            window.location = identityUri;
+          }
         })
         .catch(function(error) {
           console.log(error);
