@@ -3,7 +3,7 @@
     <h1>Plugins</h1>
     <div class="message">The following plugins were loaded:</div>
     <div v-for="plugin in plugins">
-      {{ plugin.Name }}
+      <router-link :to="'metadata#'+bookmarkName(plugin)">{{ plugin.Name }}</router-link>
     </div>
   </div>
 </template>
@@ -15,6 +15,11 @@ export default {
   computed: {
     plugins: function() {
       return sortJsonArray(this.$store.state.plugins, "Name");
+    }
+  },
+  methods: {
+    bookmarkName: function(plugin) {
+      return plugin.Name.replace(/\./g , "_");
     }
   }
 };
