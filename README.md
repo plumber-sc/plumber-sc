@@ -137,8 +137,6 @@ First, you need to add plumber-sc as an allowed origin. Open `config.json` in th
   ],
 ```
 
-Secondly, you need to turn off CSRF validation. In `config.json` change `"AntiForgeryEnabled": true` to `"AntiForgeryEnabled": false`
-
 ## Vue Build Setup
 
 If you want to change something in the app, below you will find instructions on how to build the project below. 
