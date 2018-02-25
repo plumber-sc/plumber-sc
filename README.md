@@ -4,13 +4,17 @@
 
 # Plumber for Sitecore Commerce
 
-Plumber is a configuration viewer for Sitecore Commerce, a bit like `showconfig.aspx` in Sitecore but with built-in search capabilities.
+Plumber is a configuration viewer for Sitecore Commerce, a bit like `showconfig.aspx` in Sitecore but with built-in search capabilities. 
 
 ## What do you use it for?
 
 Checking what happens in Sitecore Commerce can sometimes be a bit complicated. This tool will give you insight into how the pipelines are configured, which blocks are used and how the policies are configured per environment.
 
 Plumber is a [Vue](https://vuejs.org/) single page application. Built for production, you can use it with any web server. It doesn't require any server side technology for itself.
+
+### Compatibility
+
+Plumber is compatible with Sitecore Commerce 8.2.1 and Sitecore Commerce 9 and up. If you're using Sitecore Commerce 8.2.1 notice that you can leave the `IdentityServerUrl` config entry empty as this version doesn't use Identity Server.
 
 ## Installing Plumber
 
@@ -58,7 +62,10 @@ The following table describes the parameters and their default values.
     <td>EngineUri</td><td>"http://localhost:5000"</td><td>Base uri of the commerce engine</td>
 </tr>
 <tr>
-    <td>IdentityServerUri</td><td>"http://localhost:5050"</td><td>Base uri of the Sitecore Identity Server. Identity Server is used to retrieve a token to connect to Commerce Engine. This means you need a user account to be able to access it.</td>
+    <td>IdentityServerUri</td><td>"http://localhost:5050"</td><td>Base uri of the Sitecore Identity Server. Identity Server is used to retrieve a token to connect to Commerce Engine. This means you need a user account to be able to access it.<br/>
+    <br/>
+    If you're using Sitecore Commerce 8.2.1 leave this empty.
+    </td>
 </tr>
 <tr>
     <td>ClientId</td><td>"Plumber"</td><td>Client id used to connect to identity server. See the section on how to configure Identiy Server.</td>
