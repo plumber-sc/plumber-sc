@@ -13,6 +13,8 @@ install:
   - cp install/iis/web.config dist/
   - cd dist
   - zip -r ../release.zip .
+  - cd ..
+
 
 script: npm test
 
