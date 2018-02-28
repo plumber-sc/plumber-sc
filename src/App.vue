@@ -70,7 +70,9 @@ export default {
               ) {
                 this.authenticate(response.data);
               } else if (this.$route.path != "/auth/callback") {
+                this.$store.commit("setToken", "8.2.1");
                 this.$store.dispatch("initData");
+                this.$router.push({name: "pipelines"});
               }
         })
         .catch(function(error) {
