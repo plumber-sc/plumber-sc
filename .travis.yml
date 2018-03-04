@@ -12,7 +12,10 @@ install:
   - npm run build
   - cp install/iis/web.config dist/
   - cd dist
-  - zip -r ../release.zip .
+  - touch version.txt
+  - echo $TRAVIS_TAG > version.txt
+  - echo $TRAVIS_BUILD_NUMBER >> version.txt
+  - zip -r ../release_$TRAVIS_TAG.zip .
   - cd ..
 
 

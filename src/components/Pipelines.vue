@@ -3,12 +3,15 @@
     <h1>Pipelines ({{ pipelines.length}})</h1>
     <b-row>
       <b-col>
-        <div class="form-group has-feedback has-clear">
-          <div id="scrollable-dropdown-menu">
-            <input id="pipelineSearch" type="text" class="typeahead form-control tt-input" placeholder="Enter (part of) the name of the pipeline">
-          </div>
-          <a class="glyphicon glyphicon-remove-sign form-control-feedback form-control-clear" ng-click="ctrl.clearSearch()" style="pointer-events: auto; text-decoration: none;cursor: pointer;"></a>
-        </div>
+        <form id="pipelinesearch">
+            <div class="typeahead__container">
+                <div class="typeahead__field">
+                    <span class="typeahead__query">
+                        <input class="js-typeahead" name="q" type="search" placeholder="Start typing to search for any text in the pipelines" autocomplete="off">
+                    </span>
+                </div>
+            </div>
+        </form>
       </b-col>
     </b-row>
     <b-row class="mt-3">
@@ -24,7 +27,8 @@ import axios from "axios";
 import Pipeline from "./Pipeline";
 import sortJsonArray from "sort-json-array";
 import $ from "jquery";
-import Typeahead from "typeahead.js";
+import typeahead from 'jquery-typeahead';
+import Router from '../router';
 
 export default {
   name: "Pipelines",
@@ -46,7 +50,9 @@ export default {
         if (!this.namespaces.includes(pipeline.Namespace)) {
           namespaces.unshift(pipeline.Namespace);
         }
-        pipelineNames.unshift(`${pipeline.Namespace}.${pipeline.Name}`);
+        pipelineNames.unshift({ 
+          name: pipeline.Name,
+          namespace: pipeline.Namespace});
       });
       return pipelineNames;
     },
@@ -64,9 +70,6 @@ export default {
   mounted() {
     var self = this;
     this.initTypeahead();
-    $("#pipelineSearch").bind("typeahead:select", function(ev, suggestion) {
-      self.selectPlugin(suggestion);
-    });
   },
   beforeUpdate() {
     if (this.pipelineid) {
@@ -88,49 +91,34 @@ export default {
       return `/pipelines/${pipeline.Namespace}.${pipeline.Name}`;
     },
     initTypeahead: function() {
-      $("#pipelineSearch").typeahead("destroy");
-      $("#pipelineSearch").typeahead(
-        {
-          hint: true,
-          highlight: true,
-          minLength: 1
-        },
-        {
-          name: "pipelines",
-          limit: 20,
-          source: substringMatcher(this.pipelineNames)
+      $.typeahead({
+        input: ".js-typeahead",
+        order: 'asc',
+        display: ['name', 'namespace'],
+        source: { data: this.pipelineNames },
+        template: "{{name}} <small>in</small> <small style='color:#999;'>{{namespace}}</small>",
+        templateValue: "{{namespace}}.{{name}}",
+        maxItem: 100,
+        callback: {
+            onClick: function (node, a, item, event) {
+                var suggestion = `${item.namespace}.${item.name}`;
+                Router.push(`/pipelines/${suggestion}`);
+            },
+            onCancel: function(node, event) {
+              Router.push('/pipelines');
+            }
         }
-      );
+      });
     }
   }
 };
 
-var substringMatcher = function(strs) {
-  return function findMatches(q, cb) {
-    var matches, substringRegex;
-
-    // an array that will be populated with substring matches
-    matches = [];
-
-    // regex used to determine if a string contains the substring `q`
-    substringRegex = new RegExp(q, "i");
-
-    // iterate through the pool of strings and for any string that
-    // contains the substring `q`, add it to the `matches` array
-    $.each(strs, function(i, str) {
-      if (substringRegex.test(str)) {
-        matches.push(str);
-      }
-    });
-
-    cb(matches);
-  };
-};
 </script>
 
 <style>
-#scrollable-dropdown-menu .tt-dropdown-menu {
-  max-height: 150px;
-  overflow-y: auto;
+#pipelinesearch .typeahead__list {
+    max-height: 300px;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 </style>
