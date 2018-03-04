@@ -3,12 +3,15 @@
        <h1>Blocks ({{ blocks.length }})</h1>
     <b-row>
       <b-col>
-        <div class="form-group has-feedback has-clear">
-          <div id="scrollable-dropdown-menu">
-            <input id="blocksdropdown" type="text" class="typeahead form-control" data-provide="typeahead" placeholder="Enter (part of) the name of the block">
-          </div>
-          <a class="glyphicon glyphicon-remove-sign form-control-feedback form-control-clear" ng-click="ctrl.clearSearch()" style="pointer-events: auto; text-decoration: none;cursor: pointer;"></a>
-        </div>
+         <form id="blocksearch">
+            <div class="typeahead__container">
+                <div class="typeahead__field">
+                    <span class="typeahead__query">
+                        <input class="js-typeahead" name="q" type="search" placeholder="Start typing to search for any text in the blocks" autocomplete="off">
+                    </span>
+                </div>
+            </div>
+        </form>
       </b-col>
     </b-row>
     <b-row class="mt-3">
@@ -21,7 +24,8 @@
 
 <script>
 import $ from "jquery";
-import Typeahead from "typeahead.js";
+import typeahead from "jquery-typeahead";
+import Router from '../router';
 
 import Block from "./Block";
 
@@ -43,9 +47,6 @@ export default {
   mounted() {
     var self = this;
     this.initTypeAhead();
-    $("#blocksdropdown").bind("typeahead:select", function(ev, suggestion) {
-      self.selectBlock(suggestion);
-    });
     this.selectedBlockName = this.blockname;
   },
   activated() {
@@ -53,10 +54,9 @@ export default {
     this.selectedBlockName = this.blockname;
   },
   beforeRouteUpdate(to, from, next) {
-    console.log("beforeRouteUpdate");
-    if (to.params.blockname) {
+    if (to.params) {
       this.selectedBlockName = to.params.blockname;
-    }
+    } 
     next();
   },
   beforeUpdate() {
@@ -68,53 +68,37 @@ export default {
       this.$router.push({ name: "blocks", params: { blockname: suggestion } });
     },
     initTypeAhead: function() {
-      $("#blocksdropdown").typeahead("destroy");
-      $("#blocksdropdown").typeahead(
-        {
-          hint: true,
-          highlight: true,
-          minLength: 1
-        },
-        {
-          name: "blocks",
-          limit: 20,
-          source: substringMatcher(this.blocks)
+     $.typeahead({
+        input: ".js-typeahead",
+        order: 'asc',
+        display: ['Name', 'Namespace'],
+        source: { data: this.blocks },
+        template: "{{Name}} <small>in</small> <small style='color:#999;'>{{Namespace}}</small>",
+        templateValue: "{{Namespace}}.{{Name}}",
+        maxItem: 100,
+        callback: {
+            onClick: function (node, a, item, event) {
+                var suggestion = `${item.Namespace}.${item.Name}`;
+                Router.push(`/blocks/${suggestion}`);
+            },
+            onCancel: function(node, event) {
+              Router.push('/blocks');
+            }
         }
-      );
+      });
     }
   }
 };
 
-var substringMatcher = function(strs) {
-  return function findMatches(q, cb) {
-    var matches, substringRegex;
-
-    // an array that will be populated with substring matches
-    matches = [];
-
-    // regex used to determine if a string contains the substring `q`
-    substringRegex = new RegExp(q, "i");
-
-    // iterate through the pool of strings and for any string that
-    // contains the substring `q`, add it to the `matches` array
-    $.each(strs, function(i, str) {
-      var blockname = `${str.Namespace}.${str.Name}`;
-      if (substringRegex.test(blockname)) {
-        matches.push(blockname);
-      }
-    });
-
-    cb(matches);
-  };
-};
 </script>
 
 <style>
 #blocksdropdown {
   width: 100%;
 }
-#scrollable-dropdown-menu .tt-menu {
-  max-height: 150px;
-  overflow-y: auto;
+#blocksearch .typeahead__list {
+    max-height: 300px;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 </style>
