@@ -13,8 +13,7 @@ install:
   - cp install/iis/web.config dist/
   - cd dist
   - touch version.txt
-  - echo $TRAVIS_TAG > version.txt
-  - echo $TRAVIS_BUILD_NUMBER >> version.txt
+  - echo $TRAVIS_TAG-$TRAVIS_BUILD_NUMBER > version.txt
   - zip -r ../release.zip .
   - cd ..
 
