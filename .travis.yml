@@ -15,7 +15,7 @@ install:
   - touch version.txt
   - echo $TRAVIS_TAG > version.txt
   - echo $TRAVIS_BUILD_NUMBER >> version.txt
-  - zip -r ../release_$TRAVIS_TAG.zip .
+  - zip -r ../release.zip .
   - cd ..
 
 
