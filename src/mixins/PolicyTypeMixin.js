@@ -12,6 +12,9 @@ export default {
         })
       }
       return properties
+    },
+    dataType: function() {
+      return this.policy["@odata.type"].substring(1);
     }
   },
   mounted() {},

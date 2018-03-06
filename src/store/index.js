@@ -11,6 +11,7 @@ export default new Vuex.Store({
     environments: [],
     pipelines: [],
     blocks: [],
+    policySets: [],
     schema: null,
     plugins: [],
     config: null,
@@ -53,6 +54,9 @@ export default new Vuex.Store({
     },
     addLoadMessage: (state, loadMessage) => {
       state.loadMessages.push(loadMessage);
+    },
+    setPolicySet: (state, policySet) =>  {
+      state.policySets.unshift(policySet);
     }
   },
   getters: {
@@ -62,20 +66,24 @@ export default new Vuex.Store({
       state.pipelines.forEach(pipeline => {
         pipeline.Blocks.forEach(block => {
           if (blockname === `${block.Namespace}.${block.Name}`) {
-            pipelinesForBlock.unshift(pipeline);
+            pipelinesForBlock.unshift(pipeline)
           }
-        });
-      });
-      return pipelinesForBlock;
+        })
+      })
+      return pipelinesForBlock
     },
     getPipeline: state => pipelineName => {
       var pipeline = state.pipelines.find(element => {
-        return `${element.Namespace}.${element.Name}` === pipelineName;
+        return `${element.Namespace}.${element.Name}` === pipelineName
       });
-      return pipeline;
+      return pipeline
     },
-    getConfig: state => () => {
-     
+    getConfig: state => () => {},
+    getPolicySet: state => name => {
+      var policySet = state.policySets.find(policySet =>  {
+        return policySet.Id.endsWith(name)
+      });
+      return policySet
     }
   },
   actions,

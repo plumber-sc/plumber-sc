@@ -1,6 +1,5 @@
 <<template>
     <div class="policy">
-        <h3>{{ dataType }}</h3>
         <component :is="componentType" :policy="policy"></component>
     </div>
 </template>
@@ -19,9 +18,6 @@ export default {
       };
       var componentType = policyTypes[this.policy["@odata.type"]];
       return componentType ? componentType : "Other";
-    },
-    dataType: function() {
-      return this.policy["@odata.type"].substring(1);
     }
   },
   components: {

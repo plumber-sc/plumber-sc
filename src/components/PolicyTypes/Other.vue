@@ -1,5 +1,8 @@
 <<template>
-    <div v-html="getMarkedupJson(policy)">
+    <div>
+      <h3>{{ dataType }}</h3>
+      <div v-html="getMarkedupJson(policy)">
+      </div>
     </div>
 </template>
 
