@@ -1,6 +1,6 @@
 <<template>
     <div class="policy">
-        <component :is="componentType" :policy="policy"></component>
+        <component :is="componentType" :policy="policy" :environmentName="environmentName"></component>
     </div>
 </template>
 
@@ -9,7 +9,7 @@ import Other from "@/components/PolicyTypes/Other.vue";
 import SitecoreCommerceCorePolicySetPolicy from "@/components/PolicyTypes/Sitecore.Commerce.Core.PolicySetPolicy.vue";
 
 export default {
-  props: ["policy"],
+  props: ["policy", "environmentName"],
   computed: {
     componentType: function() {
       var policyTypes = {

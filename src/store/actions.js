@@ -28,16 +28,16 @@ export const initData = context => {
     });
 };
 
-export const getPolicySet = (context, policySetName) => {
+export const getPolicySet = (context, params) => {
   var headers = {
     Authorization: context.state.token,
     "Content-Type": "application/json"
   };
   axios
-    .get(context.state.config.EngineUri + `/api/PolicySets('${policySetName}')`, {
+    .get(context.state.config.EngineUri + `/api/PolicySets('${params.policySetName}')`, {
       headers: headers
     })
     .then(response => {
-      context.commit("setPolicySet", response.data)
+      context.commit("setPolicySet", { environmentName: params.environmentName , policySet: response.data})
     });
 };

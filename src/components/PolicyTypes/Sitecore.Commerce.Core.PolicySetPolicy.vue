@@ -1,7 +1,7 @@
 <<template>
     <div>
         <h3>{{ policySetName }}</h3>
-        <div v-html="getMarkedupJson(policySet)">
+        <div v-html="getMarkedupJson(policy)">
         </div>
     </div>
 </template>
@@ -28,7 +28,10 @@ export default {
     }
   },
   mounted() {
-    this.$store.dispatch("getPolicySet", this.policySetName);
+    this.$store.dispatch("getPolicySet", {
+      environmentName: this.environmentName,
+      policySetName: this.policySetName
+    });
   }
 };
 </script>

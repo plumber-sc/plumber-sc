@@ -10,14 +10,14 @@
           <div class="form-group row">
             <label for="environmentSelect" class="col-sm-3 col-form-label">Environment: </label>
             <div class="col-sm-9">
-              <b-form-select id="environmentSelect" v-model="selected" :options="environments" class="mb-3" />
+              <b-form-select id="environmentSelect" v-model="selectedEnvironment" :options="environments" class="mb-3" />
             </div>
           </div>
         </form>
       </b-col>
     </b-row>
 
-    <div v-if="selected">
+    <div v-if="selectedEnvironment">
       <h2>{{ environment.Id }} </h2>
       {{ environment.Name }} (version {{ environment.Version }})
       <form class="searchform">
@@ -31,7 +31,7 @@
       <div class="results">
         {{ policies.length }} policies found.
       </div>
-      <policy v-for="policy in policies" :key="policy.PolicyId" :policy="policy"></policy>
+      <policy v-for="policy in policies" :key="policy.PolicyId" :policy="policy" :environmentName="selectedEnvironment"></policy>
     </div>
   </div>
 </template>
@@ -43,7 +43,7 @@ import Policy from "@/components/Policy.vue";
 export default {
   data() {
     return {
-      selected: null,
+      selectedEnvironment: null,
       searchText: ""
     };
   },
@@ -54,7 +54,7 @@ export default {
     },
     environment: function() {
       var environment = _.find(this.$store.state.environments, environment => {
-        return environment.Name == this.selected;
+        return environment.Name == this.selectedEnvironment;
       });
       return environment;
     },

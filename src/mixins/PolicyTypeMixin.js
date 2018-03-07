@@ -1,7 +1,7 @@
 import jsonMarkup from "json-markup";
 
 export default {
-  props: ['policy'],
+  props: ['policy', 'environmentName'],
   computed: {
     properties: function() {
       var properties = []
