@@ -28,15 +28,17 @@ export function getEnvironments(config, headers, context) {
     })
     .then(response => {
       // Relplace policysets references with actual poiicy set
-      var policySets = [];
+      var loadedPolicySets = [];
       var environments = response.data.value;
       _.each(environments, (environment, envIndex) => {
         console.log(environment.Name);
         var policies = environment.Policies;
         _.each(policies, (policy, policyIndex) => {
           if (
-            policy["@odata.type"] === "#Sitecore.Commerce.Core.PolicySetPolicy"
+            policy["@odata.type"] === "#Sitecore.Commerce.Core.PolicySetPolicy" &&
+            loadedPolicySets.indexOf(policy.PolicySetId) < 0
           ) {
+            loadedPolicySets.unshift(policy.PolicySetId)
             var policySetName = policy.PolicySetId.substring(
               policy.PolicySetId.lastIndexOf("-") + 1
             );
@@ -58,7 +60,7 @@ export function getEnvironments(config, headers, context) {
                   policySet: policySet,
                   environmentName: environment.Name
                 });
-                //environments[envIndex].Policies[policyIndex] = policySet;
+                loadedPolicySets.unshift(policySetName)
               });
           }
         });

@@ -3,7 +3,7 @@ import Vuex from "vuex";
 import { createFlashStore } from "vuex-flash";
 import * as actions from "./actions";
 import axios from "axios";
-import _ from 'underscore';
+import _ from "underscore";
 
 Vue.use(Vuex);
 
@@ -12,8 +12,8 @@ export default new Vuex.Store({
     environments: [],
     pipelines: [],
     blocks: [],
-    policySets: [],
     schema: null,
+    policySets: [],
     plugins: [],
     config: null,
     token: null,
@@ -57,18 +57,15 @@ export default new Vuex.Store({
       state.loadMessages.push(loadMessage);
     },
     setPolicySet: (state, payload) => {
-      var environmentIndex = state.environments.findIndex(i => i.Name === payload.environmentName)
-      var policyIndex = state.environments[environmentIndex].Policies.findIndex(i => i.PolicySetId === payload.policySet.Id)
-      state.environments[environmentIndex].Policies[policyIndex] = payload.policySet;
-
-      var environment = _.find(state.environments, environment => {
-        return environment.Name === payload.environmentName;
-      })
-      var policy = _.find(environment.Policies, policy => {
-        return policy.PolicySetId === payload.policySet.Id
-      })
-      policy = payload.policySet;
-      state.policySets.unshift(payload.policySet);
+      if (state.policySets.indexOf(payload.policySet.Id) < 0) {
+        _.forEach(state.environments, (environment, index) => {
+          var policyIndex = state.environments[index].Policies.findIndex(
+            i => i.PolicySetId === payload.policySet.Id
+          );
+          state.environments[index].Policies[policyIndex] = payload.policySet;
+        });
+        state.policySets.unshift(payload.policySet.Id);
+      }
     }
   },
   getters: {
