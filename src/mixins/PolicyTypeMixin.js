@@ -14,7 +14,7 @@ export default {
       return properties
     },
     dataType: function() {
-      return this.policy["@odata.type"].substring(1);
+      return this.policy["@odata.type"] ? this.policy["@odata.type"].substring(1) : this.policy.Name
     }
   },
   mounted() {},

@@ -16,7 +16,7 @@ export default {
         "#Sitecore.Commerce.Core.PolicySetPolicy":
           "SitecoreCommerceCorePolicySetPolicy"
       };
-      var componentType = policyTypes[this.policy["@odata.type"]];
+      var componentType = ""// policyTypes[this.policy["@odata.type"]];
       return componentType ? componentType : "Other";
     }
   },
