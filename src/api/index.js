@@ -1,15 +1,16 @@
-import axios from 'axios'
-import xml2js from 'xml2js'
+import axios from "axios";
+import xml2js from "xml2js";
 import sortJsonArray from "sort-json-array";
+import _ from "underscore";
 
 export function getMetaData(config, headers, context) {
   axios
-    .get(config.EngineUri + '/commerceops/$metadata', headers)
+    .get(config.EngineUri + "/commerceops/$metadata", headers)
     .then(response => {
       xml2js.parseString(response.data, (err, result) => {
         console.log(err);
         context.commit(
-          'setSchema',
+          "setSchema",
           result["edmx:Edmx"]["edmx:DataServices"][0]["Schema"]
         );
       });
@@ -26,7 +27,46 @@ export function getEnvironments(config, headers, context) {
       headers: headers
     })
     .then(response => {
-      context.commit("setEnvironments", response.data.value);
+      // Relplace policysets references with actual poiicy set
+      var loadedPolicySets = [];
+      var environments = response.data.value;
+      _.each(environments, (environment, envIndex) => {
+        console.log(environment.Name);
+        var policies = environment.Policies;
+        _.each(policies, (policy, policyIndex) => {
+          if (
+            policy["@odata.type"] === "#Sitecore.Commerce.Core.PolicySetPolicy" &&
+            loadedPolicySets.indexOf(policy.PolicySetId) < 0
+          ) {
+            loadedPolicySets.unshift(policy.PolicySetId)
+            var policySetName = policy.PolicySetId.substring(
+              policy.PolicySetId.lastIndexOf("-") + 1
+            );
+            var headers = {
+              Authorization: context.state.token,
+              "Content-Type": "application/json"
+            };
+            axios
+              .get(
+                context.state.config.EngineUri +
+                  `/api/PolicySets('${policySetName}')`,
+                {
+                  headers: headers
+                }
+              )
+              .then(response => {
+                var policySet = response.data;
+                context.commit("setPolicySet", {
+                  policySet: policySet,
+                  environmentName: environment.Name
+                });
+                loadedPolicySets.unshift(policySetName)
+              });
+          }
+        });
+      });
+
+      context.commit("setEnvironments", environments);
       context.commit("addLoadMessage", "Loaded environments");
     })
     .catch(error => {
@@ -50,16 +90,16 @@ export function getPlugins(config, headers, context) {
 }
 
 export function getPipelines(config, headers, context) {
-  context.commit('addLoadMessage', 'Loading pipelines.')
+  context.commit("addLoadMessage", "Loading pipelines.");
   axios
-    .get(config.EngineUri + '/commerceops/GetPipelines()', {
+    .get(config.EngineUri + "/commerceops/GetPipelines()", {
       headers: headers
     })
     .then(response => {
-      var pipelines = sortJsonArray(response.data.List, 'Namespace')
-      var namespaces = []
-      var pipelineNames = []
-      var blocks = []
+      var pipelines = sortJsonArray(response.data.List, "Namespace");
+      var namespaces = [];
+      var pipelineNames = [];
+      var blocks = [];
 
       pipelines.forEach(pipeline => {
         if (!namespaces.includes(pipeline.Namespace)) {
@@ -70,7 +110,7 @@ export function getPipelines(config, headers, context) {
         pipeline.Blocks.forEach(block => {
           var blockName = `${block.Namespace}.${block.Name}`;
           var existingBlock = blocks.find(element => {
-            return `${element.Namespace}.${element.Name}` === blockName
+            return `${element.Namespace}.${element.Name}` === blockName;
           });
           if (!existingBlock) {
             blocks.unshift(block);

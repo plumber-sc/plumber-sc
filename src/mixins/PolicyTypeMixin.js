@@ -1,7 +1,7 @@
 import jsonMarkup from "json-markup";
 
 export default {
-  props: ['policy'],
+  props: ['policy', 'environmentName'],
   computed: {
     properties: function() {
       var properties = []
@@ -12,6 +12,9 @@ export default {
         })
       }
       return properties
+    },
+    dataType: function() {
+      return this.policy["@odata.type"] ? this.policy["@odata.type"].substring(1) : this.policy.Name
     }
   },
   mounted() {},

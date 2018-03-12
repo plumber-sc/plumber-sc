@@ -24,7 +24,7 @@
 <script>
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap-vue/dist/bootstrap-vue.css";
-import "jquery-typeahead/dist/jquery.typeahead.min.css"
+import "jquery-typeahead/dist/jquery.typeahead.min.css";
 
 import Navigation from "./components/navigation";
 import xml2js from "xml2js";
@@ -60,31 +60,31 @@ export default {
   },
   created() {},
   mounted() {
-     axios
-        .get("/static/config.json")
-        .then(response => {
-          if (response.data.IdentityServerUri &&
-                !this.$store.token &&
-                this.$route.path != "/auth/callback" &&
-                !this.$store.state.startedLoading
-              ) {
-                this.authenticate(response.data);
-              } else if (this.$route.path != "/auth/callback") {
-                if(!response.data.IdentityServerUri) {
-                  this.$store.commit("setToken", "8.2.1");
-                }
-                this.$store.dispatch("initData");
-                this.$router.push({name: "pipelines"});
-              }
-        })
-        .catch(function(error) {
-          console.log(error);
-        });
-   
+    axios
+      .get("/static/config.json")
+      .then(response => {
+        if (
+          response.data.IdentityServerUri &&
+          !this.$store.token &&
+          this.$route.path != "/auth/callback" &&
+          !this.$store.state.startedLoading
+        ) {
+          this.authenticate(response.data);
+        } else if (this.$route.path != "/auth/callback") {
+          if (!response.data.IdentityServerUri) {
+            this.$store.commit("setToken", "8.2.1");
+            this.$store.dispatch("initData");
+            this.$router.push({ name: "pipelines" });
+          }
+        }
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
   },
   methods: {
     authenticate: function(config) {
-      if(config.IdentityServerUri) {
+      if (config.IdentityServerUri) {
         var identityUri = `${
           config.IdentityServerUri
         }/connect/authorize?response_type=id_token%20token&client_id=${
