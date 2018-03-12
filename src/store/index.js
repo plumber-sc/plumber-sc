@@ -3,6 +3,7 @@ import Vuex from "vuex";
 import { createFlashStore } from "vuex-flash";
 import * as actions from "./actions";
 import axios from "axios";
+import _ from "underscore";
 
 Vue.use(Vuex);
 
@@ -12,6 +13,7 @@ export default new Vuex.Store({
     pipelines: [],
     blocks: [],
     schema: null,
+    policySets: [],
     plugins: [],
     config: null,
     token: null,
@@ -53,6 +55,17 @@ export default new Vuex.Store({
     },
     addLoadMessage: (state, loadMessage) => {
       state.loadMessages.push(loadMessage);
+    },
+    setPolicySet: (state, payload) => {
+      if (state.policySets.indexOf(payload.policySet.Id) < 0) {
+        _.forEach(state.environments, (environment, index) => {
+          var policyIndex = state.environments[index].Policies.findIndex(
+            i => i.PolicySetId === payload.policySet.Id
+          );
+          state.environments[index].Policies[policyIndex] = payload.policySet;
+        });
+        state.policySets.unshift(payload.policySet.Id);
+      }
     }
   },
   getters: {
@@ -74,8 +87,12 @@ export default new Vuex.Store({
       });
       return pipeline;
     },
-    getConfig: state => () => {
-     
+    getConfig: state => () => {},
+    getPolicySet: state => name => {
+      var policySet = state.policySets.find(policySet => {
+        return policySet.Id.endsWith(name);
+      });
+      return policySet;
     }
   },
   actions,

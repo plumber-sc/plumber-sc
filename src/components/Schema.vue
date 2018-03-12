@@ -11,7 +11,7 @@
     </b-row>
     <b-row v-for="schemaItem in filteredSchema" :key="schemaItem.namespace" class="mt-3">
       <b-col>
-        <div class="namespace">
+        <div class="namespace" :id="bookmarkname(schemaItem.namespace)">
              <h2>{{ schemaItem.namespace }}</h2>
             <structure :structure="schemaItem.types"></structure>
         </div>
@@ -84,6 +84,9 @@ export default {
   methods: {
     searchChange: function() {
       console.log(this.searchText);
+    },
+    bookmarkname: function(namespace) {
+      return namespace.replace(/\./g , "_");
     },
     getStructure: function(schema, searchText) {
       var commands = [];

@@ -66,5 +66,17 @@ export default new Router({
       path: '*',
       component: PageNotFound
     }
-  ]
+  ],
+  scrollBehavior (to, from, savedPosition) {
+    const position = {}
+    if (to.hash) {
+      position.selector = to.hash
+      position.offset = { y: 100 }
+
+      if (document.querySelector(to.hash)) {
+        return position
+      }
+      return false
+    }
+  }
 })

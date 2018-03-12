@@ -4,13 +4,19 @@
 
 # Plumber for Sitecore Commerce
 
-Plumber is a configuration viewer for Sitecore Commerce, a bit like `showconfig.aspx` in Sitecore but with built-in search capabilities.
+Plumber is a configuration viewer for Sitecore Commerce, a bit like `showconfig.aspx` in Sitecore but with built-in search capabilities. 
 
 ## What do you use it for?
 
 Checking what happens in Sitecore Commerce can sometimes be a bit complicated. This tool will give you insight into how the pipelines are configured, which blocks are used and how the policies are configured per environment.
 
 Plumber is a [Vue](https://vuejs.org/) single page application. Built for production, you can use it with any web server. It doesn't require any server side technology for itself.
+
+A small introduction: https://commerceservertips.com/introducing-plumber-the-configuration-viewer-for-sitecore-commerce-2/
+
+### Compatibility
+
+Plumber is compatible with Sitecore Commerce 8.2.1 and Sitecore Commerce 9 and up. If you're using Sitecore Commerce 8.2.1 see: [Using Plumber with Sitecore Commerce 8.2.1](#commerce821)
 
 ## Installing Plumber
 
@@ -27,7 +33,7 @@ To use IIS to host Plumber-sc:
 1. In IIS Manager, create a new website called `plumber-sc`, use port `8080` and set the folder to host the application.
 2. Copy the contents of `release.zip` to the folder you specified in the previous step.
 3. Configure Plumber, Sitecore Identity Server and the commerce engine. Instructions are in the following paragraphs.
- 
+
 
 ### In development mode
 
@@ -58,7 +64,10 @@ The following table describes the parameters and their default values.
     <td>EngineUri</td><td>"http://localhost:5000"</td><td>Base uri of the commerce engine</td>
 </tr>
 <tr>
-    <td>IdentityServerUri</td><td>"http://localhost:5050"</td><td>Base uri of the Sitecore Identity Server. Identity Server is used to retrieve a token to connect to Commerce Engine. This means you need a user account to be able to access it.</td>
+    <td>IdentityServerUri</td><td>"http://localhost:5050"</td><td>Base uri of the Sitecore Identity Server. Identity Server is used to retrieve a token to connect to Commerce Engine. This means you need a user account to be able to access it.<br/>
+    <br/>
+    If you're using Sitecore Commerce 8.2.1 leave this empty. See also: <a href="#commerce821">Using Plumber with Sitecore Commerce 8.2.1</a>
+    </td>
 </tr>
 <tr>
     <td>ClientId</td><td>"Plumber"</td><td>Client id used to connect to identity server. See the section on how to configure Identiy Server.</td>
@@ -130,7 +139,38 @@ First, you need to add plumber-sc as an allowed origin. Open `config.json` in th
   ],
 ```
 
-Secondly, you need to turn off CSRF validation. In `config.json` change `"AntiForgeryEnabled": true` to `"AntiForgeryEnabled": false`
+## <a name="commerce821"></a> Using Plumber with Sitecore Commerce 8.2.1
+
+If you're using SC 8.2.1 there are a couple of things you need to change:
+
+### Configuration
+* As 8.2.1 doesn't use Sitecore Identity Server you can leave the `IdentityServerUri` blank;
+* Because the commerce engine is probably not using https, change the `EngineUri` to http://localhost:5000
+
+A default `config.json` will look like this:
+
+```javascript
+{
+  "EngineUri": "http://localhost:5000",
+  "IdentityServerUri": "",
+  "ClientId": "Plumber",
+  "PlumberUri": "http://localhost:8080"
+}
+```
+
+### Adding CORS support to your engine
+
+As Plumber is doing a cross-site request you need to enable CORS support in your commerce engine, which means you will need to rebuild and deploy it.
+
+To add CORS support do the following:
+
+In the `Sitecore.Commerce.Engine` project change the following in `startup.cs`:
+
+* In the `ConfigureServices` method add the following line:   
+`services.AddCors();`
+
+* In the `Configure` method add the following line:  
+`app.UseCors(builder => builder.WithOrigins("http://localhost:8080").AllowCredentials().AllowAnyHeader().AllowAnyMethod());` 
 
 ## Vue Build Setup
 
