@@ -14,7 +14,7 @@ install:
   - cd ..
 
 
-script: npm test
+script: npm run test
 
 deploy:
   provider: releases
