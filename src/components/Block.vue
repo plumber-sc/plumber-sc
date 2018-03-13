@@ -11,11 +11,11 @@
         <span class="namespace">{{ block.Namespace }}</span>
         <h3>{{ block.Name }}</h3>
 
-        <div>
-            <i class="fa fa-sign-in" aria-hidden="true"></i> {{ block.Receives }}
+        <div v-bind:title="block.Receives">
+            <i class="fa fa-sign-in" aria-hidden="true"></i> {{ block.Receives | prettyClrType }}
         </div>
-        <div>
-            <i class="fa fa-sign-out" aria-hidden="true"></i> {{ block.Returns }}
+        <div v-bind:title="block.Returns">
+            <i class="fa fa-sign-out" aria-hidden="true"></i> {{ block.Returns | prettyClrType }}
         </div>
         </b-col>
         </b-row>
@@ -36,12 +36,17 @@
 </template>
 
 <script>
+import { prettyClrType } from "../filters/clrTypes";
+
 export default {
   props: ["blockname"],
   data() {
     return {
       pipelines: []
     };
+  },
+  filters: {
+    prettyClrType
   },
   computed: {
     block: function() {
