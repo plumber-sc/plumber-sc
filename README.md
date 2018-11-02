@@ -24,16 +24,23 @@ This document describes two ways of installing Plumber: as an IIS website or run
 
 ### Using IIS
 
-You can download the latest compiled version of Plumber-sc from [releases](https://github.com/ewerkman/plumber-sc/releases). The file `release.zip` contains a pre-compiled version of Plumber that you can install as an IIS site. 
+You can download the latest source code of Plumber-sc from [releases](https://github.com/ewerkman/plumber-sc/releases).
 
-Make sure you have installed the IIS Rewrite module (https://www.iis.net/downloads/microsoft/url-rewrite)
+Make sure you have:
+
+- Node.js
+- IIS Rewrite module (https://www.iis.net/downloads/microsoft/url-rewrite)
 
 To use IIS to host Plumber-sc:
 
-1. In IIS Manager, create a new website called `plumber-sc`, use port `8080` and set the folder to host the application.
-2. Copy the contents of `release.zip` to the folder you specified in the previous step.
-3. Configure Plumber, Sitecore Identity Server and the commerce engine. Instructions are in the following paragraphs.
-
+1. Copy the `plumber-sc-[version]` folder from the release ZIP file into `C:\inetpub\wwwroot`.
+2. Open a command prompt located in `C:\inetpub\wwwroot\plumber-sc-[version]`.
+3. Install Plumber dependencies by executing the `npm install` command.
+4. Build Plumber by executing the `npm run build` command. The application is built in `\dist`.
+5. Copy the `\install\iis\web.config` file into `\dist`.
+6. In IIS Manager, create a new website called `plumber-sc`, use port `8080`, no host name, and set the physical path to `C:\inetpub\wwwroot\plumber-sc-[version]\dist`.
+7. Configure Plumber, Sitecore Identity Server and the commerce engine. Instructions are in the following paragraphs.
+8. Load `http://localhost:8080` in your browser and experience Plumber.
 
 ### In development mode
 
@@ -124,6 +131,8 @@ Open the file and add the following to the `Clients` section:
 
 This configuration sets up Identity Server to allow authentication from clients authenticating with client id `Plumber` coming from `https://localhost:8080`. If you're running plumber-sc on a different port you need to adjust these settings.
 
+Restart the Sitecore Identity Server website in IIS.
+
 ## Configuring your commerce engine
 
 There are some small things you need to configure in your commerce engine to so Plumber-sc can access it.
@@ -138,6 +147,8 @@ First, you need to add plumber-sc as an allowed origin. Open `config.json` in th
       "http://sxa.storefront.com"
   ],
 ```
+
+Restart the Sitecore Commerce Engine website in IIS.
 
 ## <a name="commerce821"></a> Using Plumber with Sitecore Commerce 8.2.1
 
