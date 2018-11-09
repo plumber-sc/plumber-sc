@@ -24,7 +24,7 @@ This document describes two ways of installing Plumber: as an IIS website or run
 
 ### Using IIS
 
-You can download the latest compiled version of Plumber-sc from [releases](https://github.com/ewerkman/plumber-sc/releases). The file `release.zip` contains a pre-compiled version of Plumber that you can install as an IIS site. 
+You can download the latest compiled version of Plumber-sc from [releases](https://github.com/plumber-sc/plumber-sc/releases). The file `release.zip` contains a pre-compiled version of Plumber that you can install as an IIS site. 
 
 Make sure you have installed the IIS Rewrite module (https://www.iis.net/downloads/microsoft/url-rewrite)
 
