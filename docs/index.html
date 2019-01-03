@@ -1,83 +1,39 @@
-<!doctype html>
-<html lang="en">
+---
+title: "Plumber Configuration Viewer"
+layout: splash
+date: 2019-01-04T11:48:41-04:00
+header:
+  overlay_color: "#373737"
+  overlay_filter: "0.7"
+  overlay_image: "/assets/images/old-pipes.jpg"
+  cta_label: "Get the latest version"
+  cta_url: "https://github.com/plumber-sc/plumber-sc/releases/latest"
+  caption: "Icons made by [FreePik](https://www.freepik.com/) from [www.flaticon.com](https://www.flaticon.com/) is licensed by [CC 3.0 BY](http://creativecommons.org/licenses/by/3.0/)"
+excerpt: 'Plumber is a configuration viewer for Sitecore Commerce, a bit like showconfig.aspx in Sitecore but with built-in search capabilities.<br/>
+ <br /> 
+[![](https://img.shields.io/github/release/plumber-sc/plumber-sc.svg?style=for-the-badge&label=Latest)](https://github.com/plumber-sc/plumber-sc/releases/latest)
+[![](https://img.shields.io/github/stars/plumber-sc/plumber-sc.svg?style=for-the-badge&label=Star)](https://github.com/plumber-sc/plumber-sc/stargazers)
+[![](https://img.shields.io/github/forks/plumber-sc/plumber-sc.svg?style=for-the-badge&label=Fork)](https://github.com/plumber-sc/plumber-sc/fork)
+'
+feature_row:
+  - title: "Easy to use:<br/>requires just 3 steps"
+    image_path: /assets/images/manual.svg
+    excerpt: "Just add attributes to your component and register your component with Plumber Component Decorator"
+    btn_label: "Read More"
+    btn_class: "btn--primary"
+    url: "/docs/getting-started/"
+  - title: "Add easy validation<br/>to your components"
+    image_path: /assets/images/validate.svg
+    excerpt: "Use standard ASP.NET model validation attributes to validate your components in the Business Tools."
+    url: "/docs/validation/"
+    btn_label: "Read More"
+    btn_class: "btn--primary"
+  - title: "Extend<br/>all entities"
+    image_path: /assets/images/invoice.svg
+    excerpt: "Add views to your custom components on all your entities, even the ones you created yourself."
+    url: "/docs/extensibility"
+    btn_label: "Read More"
+    btn_class: "btn--primary"
+---
 
-<head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
-        crossorigin="anonymous">
-    <link rel="stylesheet" href="/css/style.css" />
-    <link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet">
-
-    <script src="https://use.fontawesome.com/4d73d5352d.js"></script>
-    <title>Plumber - Configuration Viewer for Sitecore Commerce</title>
-</head>
-
-<body class="hero">
-    <div class="site-wrapper">
-        <div class="site-wrapper-inner">
-            <div class="cover-container">
-
-                <div class="masthead">
-
-                </div>
-                <div class="inner cover">
-                    <div>
-                        <div class="logo">
-                            <img width="200" src="http://plumber-sc.com/images/plumber-logo.svg" alt="Plumber for Sitecore Commerce">
-                        </div>
-                        <div class="logoname">
-                            <span id="logo">Plumber</span>
-                            <span class="subtitle">Configuration viewer for Sitecore Commerce</span>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="introduction">
-                            <p>
-                                Plumber is a configuration viewer for Sitecore Commerce. It will show you the configuration of pipelines, blocks, policies
-                                and meta information, while making it all searchable as well.
-                            </p>
-                            <p>
-                                You can find an introduction on <a href="https://commerceservertips.com/introducing-plumber-the-configuration-viewer-for-sitecore-commerce-2/">commerceservertips.com</a>
-                            </p>
-                        </div>
-                        <div class="external">
-                            <a href="https://github.com/plumber-sc/plumber-sc">
-                                <span>Get it on:</span>
-                                <i class="fa fa-github fa-2x" aria-hidden="true"></i>
-                                <small>https://github.com/plumber-sc/plumber-sc</small>
-                            </a>
-                        </div>
-                        <div class="">
-                            <a href="https://twitter.com/plumber_sc">
-                                <span>Follow:</span>
-                                <i class="fa fa-twitter fa-2x" aria-hidden="true"></i> @plumber_sc
-                            </a>
-                        </div>
-                    </div>
-
-                </div>
-
-                <div class="mastfoot">
-
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-        crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-        crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-        crossorigin="anonymous"></script>
-</body>
-
-</html>
+{% include feature_row %}
