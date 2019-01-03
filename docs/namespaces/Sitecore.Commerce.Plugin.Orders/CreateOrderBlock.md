@@ -1,3 +1,0 @@
-# CreateOrderBlock
-
-Creates an order.

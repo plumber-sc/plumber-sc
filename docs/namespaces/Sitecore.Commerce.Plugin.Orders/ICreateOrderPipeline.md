@@ -1,3 +1,0 @@
-# ICreateOrderPipeline
-
-Creates an order
