@@ -1,6 +1,6 @@
-<p align="center"><a href="http://plumber-sc.com" target="_blank"><img width="100" src="http://plumber-sc.com/images/logo.png" alt="Plumber for Sitecore Commerce"></a></p>
+<p align="center"><a href="http://plumber-sc.com" target="_blank"><img width="100" src="http://plumber-sc.com/assets/images/plumber-logo-284x284.png" alt="Plumber for Sitecore Commerce"></a></p>
 
-[![Build Status](https://travis-ci.org/ewerkman/plumber-sc.svg?branch=master)](https://travis-ci.org/ewerkman/plumber-sc)
+[![Build Status](https://travis-ci.org/plumber-sc/plumber-sc.svg?branch=master)](https://travis-ci.org/plumber-sc/plumber-sc)
 
 # Plumber for Sitecore Commerce
 
