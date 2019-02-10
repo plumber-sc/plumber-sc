@@ -1,7 +1,5 @@
 language: node_js
 
-os: windows
-
 node_js:
   - "lts/*"
 
@@ -12,16 +10,15 @@ install:
   - cd dist
   - touch version.txt
   - echo $TRAVIS_TAG-$TRAVIS_BUILD_NUMBER > version.txt
-  - zip -r ../release.zip .
+  - zip -r ../plumber-sc.$TRAVIS_TAG-$TRAVIS_BUILD_NUMBER.zip .
   - cd ..
-
 
 script: npm run test
 
 deploy:
   provider: releases
   api_key: $GITHUB_TOKEN
-  file: release.zip
+  file: plumber-sc.$TRAVIS_TAG-$TRAVIS_BUILD_NUMBER.zip
   skip_cleanup: true
   on:
     tags: true
