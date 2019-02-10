@@ -4,6 +4,7 @@ node_js:
   - "lts/*"
 
 install:
+  - echo Building Plumber $TRAVIS_TAG-$TRAVIS_BUILD_NUMBER
   - npm install
   - npm run build
   - cp install/iis/web.config dist/
