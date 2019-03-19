@@ -1,0 +1,37 @@
+---
+# Only the main Sass file needs front matter (the dashes are enough)
+---
+
+@charset "utf-8";
+
+$sans-serif : 'Open Sans', sans-serif;
+
+@import "minimal-mistakes/skins/{{ site.minimal_mistakes_skin | default: 'default' }}"; // skin
+@import "minimal-mistakes"; // main partials
+@import url('https://fonts.googleapis.com/css?family=Lobster|Open+Sans:400,700');
+
+.archive__item-teaser img {
+    display: block;
+    width: 100px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.feature__item {
+    text-align: center;
+}
+
+.page__hero--overlay .page__title {
+    font-family: 'Lobster', cursive;
+    font-size: 3.5em;
+    color: #eceff1;
+    text-shadow: 2px 2px #546e7a;
+}
+
+.page__title {
+    color: #DC3F30;
+}
+
+.btn--primary {
+    background-color: #DC3F30;
+}

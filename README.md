@@ -1,6 +1,8 @@
 <p align="center"><a href="http://plumber-sc.com" target="_blank"><img width="100" src="http://plumber-sc.com/assets/images/plumber-logo-284x284.png" alt="Plumber for Sitecore Commerce"></a></p>
 
 [![Build Status](https://travis-ci.org/plumber-sc/plumber-sc.svg?branch=master)](https://travis-ci.org/plumber-sc/plumber-sc)
+[![Netlify Status](https://api.netlify.com/api/v1/badges/9c487351-b5ff-4a38-b91e-5d7d3317fbe0/deploy-status)](https://app.netlify.com/sites/plumber-viewer/deploys)
+
 
 # Plumber for Sitecore Commerce
 
