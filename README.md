@@ -22,7 +22,7 @@ Plumber is compatible with:
 * Sitecore Commerce 8.2.1 
 * Sitecore Commerce 9 and up. 
 
-If you're using Sitecore Commerce 8.2.1 see: [Using Plumber with Sitecore Commerce 8.2.1](#using plumber-with-sitecore-commerce-8.2.1)
+If you're using Sitecore Commerce 8.2.1 see: [Using Plumber with Sitecore Commerce 8.2.1](#using plumber-with-sitecore-commerce-821)
 
 ## Installing Plumber
 
@@ -89,7 +89,7 @@ The following table describes the parameters and their default values.
 There are different ways to configure Sitecore Identity Server based on the version:
 
 * [Sitecore Commerce 9](#configuring-identity-server-for-sitecore-commerce-9)
-* [Sitecore Commerce 9.1](#configuring-identity-server-for-sitecore-commerce-9.1)
+* [Sitecore Commerce 9.1](#configuring-identity-server-for-sitecore-commerce-91)
 
 ### Configuring Identity Server for Sitecore Commerce 9
 
