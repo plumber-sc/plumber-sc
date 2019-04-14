@@ -18,7 +18,11 @@ A small introduction: https://commerceservertips.com/introducing-plumber-the-con
 
 ### Compatibility
 
-Plumber is compatible with Sitecore Commerce 8.2.1 and Sitecore Commerce 9 and up. If you're using Sitecore Commerce 8.2.1 see: [Using Plumber with Sitecore Commerce 8.2.1](#commerce821)
+Plumber is compatible with:
+* Sitecore Commerce 8.2.1 
+* Sitecore Commerce 9 and up. 
+
+If you're using Sitecore Commerce 8.2.1 see: [Using Plumber with Sitecore Commerce 8.2.1](#using plumber-with-sitecore-commerce-8.2.1)
 
 ## Installing Plumber
 
@@ -67,6 +71,7 @@ The following table describes the parameters and their default values.
 </tr>
 <tr>
     <td>IdentityServerUri</td><td>"http://localhost:5050"</td><td>Base uri of the Sitecore Identity Server. Identity Server is used to retrieve a token to connect to Commerce Engine. This means you need a user account to be able to access it.<br/>
+    If you are using Sitecore Commerce 9.1 enter the url for Sitecore Identity Server which was installed when using Sitecore XP 9.1.
     <br/>
     If you're using Sitecore Commerce 8.2.1 leave this empty. See also: <a href="#commerce821">Using Plumber with Sitecore Commerce 8.2.1</a>
     </td>
@@ -79,7 +84,14 @@ The following table describes the parameters and their default values.
 </tr>
 </table>
 
-## Configuring Sitecore Identity Server
+## Configuring Sitecore Identity Server (Sitecore Commerce 9 and up)
+
+There are different ways to configure Sitecore Identity Server based on the version:
+
+* [Sitecore Commerce 9](#configuring-identity-server-for-sitecore-commerce-9)
+* [Sitecore Commerce 9.1](#configuring-identity-server-for-sitecore-commerce-9.1)
+
+### Configuring Identity Server for Sitecore Commerce 9
 
 Plumber-sc uses Sitecore Identity Server to get an authentication token, used to authenticate against the commerce engine. You need to add plumber-sc as a client in the configuration of Identity Server.
 
@@ -87,7 +99,7 @@ You can find Identity Server's configuration in the `appsettings.json` file in t
 
 Open the file and add the following to the `Clients` section:
 
-```
+```json
   {
     "ClientId": "Plumber",
     "ClientName": "Plumber",
@@ -124,7 +136,50 @@ Open the file and add the following to the `Clients` section:
   },
 ```
 
-This configuration sets up Identity Server to allow authentication from clients authenticating with client id `Plumber` coming from `https://localhost:8080`. If you're running plumber-sc on a different port you need to adjust these settings.
+This configuration sets up Identity Server to allow authentication from clients authenticating with client id `Plumber` coming from `http ://localhost:8080`. If you're running plumber-sc on a different port you need to adjust these settings.
+
+### Configuring Identity Server for Sitecore Commerce 9.1
+
+In Sitecore 9.1, Identity Server is used for the whole platform. This brought about a change in the configuration file going from JSON to XML. 
+
+You can find Identity Server's configuration in the `\Config\production\Sitecore.Commerce.IdentityServer.Host.xml` folder where Sitecore Identity Server was installed.
+
+Open the file and add the following to the `<Clients>` section:
+
+```xml
+  <PlumberClient>
+    <ClientId>Plumber</ClientId>
+    <ClientName>Plumber</ClientName>
+    <AccessTokenType>0</AccessTokenType>
+    <AllowOfflineAccess>true</AllowOfflineAccess>
+    <AlwaysIncludeUserClaimsInIdToken>false</AlwaysIncludeUserClaimsInIdToken>
+    <AccessTokenLifetimeInSeconds>3600</AccessTokenLifetimeInSeconds>
+    <IdentityTokenLifetimeInSeconds>3600</IdentityTokenLifetimeInSeconds>
+    <AllowAccessTokensViaBrowser>true</AllowAccessTokensViaBrowser>
+    <RequireConsent>false</RequireConsent>
+    <RequireClientSecret>false</RequireClientSecret>
+    <AllowedGrantTypes>
+      <AllowedGrantType1>implicit</AllowedGrantType1>
+    </AllowedGrantTypes>
+    <RedirectUris>
+      <RedirectUri1>{AllowedCorsOrigin}/auth/callback</RedirectUri1>
+    </RedirectUris>
+    <PostLogoutRedirectUris>
+      <PostLogoutRedirectUri1>{AllowedCorsOrigin}</PostLogoutRedirectUri1>
+    </PostLogoutRedirectUris>
+    <AllowedCorsOrigins>
+      <AllowedCorsOrigins1>http://localhost:8080</AllowedCorsOrigins1>
+    </AllowedCorsOrigins>
+    <AllowedScopes>
+      <AllowedScope1>openid</AllowedScope1>
+      <AllowedScope2>EngineAPI</AllowedScope2>
+      <AllowedScope3>postman_api</AllowedScope3>
+    </AllowedScopes>
+    <UpdateAccessTokenClaimsOnRefresh>true</UpdateAccessTokenClaimsOnRefresh>
+  </PlumberClient>
+
+```
+This configuration sets up Identity Server to allow authentication from clients authenticating with client id `Plumber` coming from `http://localhost:8080`. If you're running plumber-sc on a different port you need to adjust these settings.
 
 ## Configuring your commerce engine
 
@@ -141,7 +196,7 @@ First, you need to add plumber-sc as an allowed origin. Open `config.json` in th
   ],
 ```
 
-## <a name="commerce821"></a> Using Plumber with Sitecore Commerce 8.2.1
+## Using Plumber with Sitecore Commerce 8.2.1
 
 If you're using SC 8.2.1 there are a couple of things you need to change:
 
