@@ -22,7 +22,7 @@ Plumber is compatible with:
 * Sitecore Commerce 8.2.1 
 * Sitecore Commerce 9 and up. 
 
-If you're using Sitecore Commerce 8.2.1 see: [Using Plumber with Sitecore Commerce 8.2.1](#using plumber-with-sitecore-commerce-821)
+If you're using Sitecore Commerce 8.2.1 see: [Using Plumber with Sitecore Commerce 8.2.1](#using-plumber-with-sitecore-commerce-821)
 
 ## Installing Plumber
 
