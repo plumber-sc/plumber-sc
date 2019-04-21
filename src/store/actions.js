@@ -1,6 +1,15 @@
 import axios from "axios";
 import * as api from "../api";
 
+export const initConfig = context => {
+  axios
+    .get("/config.json")
+    .then(response => {
+      var config = response.data;
+      context.commit("setConfig", config);
+    });
+}
+
 export const initData = context => {
   var headers = {
     Authorization: context.state.token,
@@ -11,7 +20,7 @@ export const initData = context => {
   context.commit("addLoadMessage", "Loading configuration");
   // Get configuration
   axios
-    .get("/static/config.json")
+    .get("/config.json")
     .then(response => {
       var config = response.data;
       context.commit("setConfig", config);
