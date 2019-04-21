@@ -58,10 +58,12 @@ export default {
     Navigation,
     Authenticate
   },
-  created() {},
+  created() {
+    this.$store.dispatch("initConfig");
+  },
   mounted() {
     axios
-      .get("/static/config.json")
+      .get("/config.json")
       .then(response => {
         if (
           response.data.IdentityServerUri &&
