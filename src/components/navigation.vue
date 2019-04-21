@@ -2,7 +2,7 @@
   <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light">
     <div class="container">
       <a href="/" class="logo">
-        <img src="/static/logo.png" width="64px" />
+        <img src="/logo.png" width="64px" />
         <span>Plumber</span>
       </a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">

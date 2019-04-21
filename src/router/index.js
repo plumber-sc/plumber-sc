@@ -7,10 +7,11 @@ import Plugins from '@/components/Plugins'
 import Schema from '@/components/Schema'
 import PageNotFound from '@/components/PageNotFound'
 import _ from 'underscore'
+import store from '../store'
 
 Vue.use(Router)
 
-export default new Router({
+const router = new Router({
   mode: 'history',
   routes: [
     {
@@ -80,3 +81,21 @@ export default new Router({
     }
   }
 })
+
+router.beforeEach((to, from,next) => {
+  console.log("beforeEach");
+  console.log(to);
+  console.log(from);
+
+  console.log(store.state.config);
+
+  if(!store.state.token)
+  {
+
+  }
+
+  console.log(store.state.token);
+  next();
+});   
+
+export default router
