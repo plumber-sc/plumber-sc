@@ -6,12 +6,11 @@
             <span class="namespace">{{ pipeline.Namespace }}</span>
             <h2>{{ pipeline.Name }}</h2>
 
-
             <div>
-                <i class="fa fa-cog" aria-hidden="true"></i>
+                <i class="fas fa-cog"></i>
             </div>
             <div>
-                <i class="fa fa-commenting-o" aria-hidden="true"></i> {{ pipeline.Comments }}
+                <i class="far fa-comment"></i> {{ pipeline.Comments }}
             </div>
 
             <div class="timeline-centered">
@@ -25,8 +24,8 @@
 
                         <div class="timeline-label">
                             <h3>Start</h3>
-                            <div v-bind:title="pipeline.Receives">
-                                <i class="fa fa-sign-in" aria-hidden="true"></i> {{ pipeline.Receives | prettyClrType }}
+                            <div v-bind:title="'Input: '+pipeline.Receives" class="code">
+                                <i class="fas fa-sign-in-alt"></i> {{ pipeline.Receives | prettyClrType }}
                             </div>
                         </div>
                     </div>
@@ -44,15 +43,17 @@
                             <span class="namespace">{{ block.Namespace }}</span>
                             <h3 v-if="!isBlockPipeline(block)"><router-link :to="{ name: 'blocks', params: { blockname: `${block.Namespace}.${block.Name}` }}">{{ block.Name }}</router-link></h3>
                             <h3 v-else><router-link :to="{ name: 'pipelines', params: { pipelineid: `${block.Namespace}.${block.Name}` }}">{{ block.Name }}</router-link></h3>
-                            <div>
-                                <i class="fa fa-cog" aria-hidden="true"></i>
+
+                            <div v-bind:title="'Input: '+block.Receives" class="code">
+                                <i class="fas fa-sign-in-alt"></i> {{ block.Receives | prettyClrType }}
                             </div>
-                            <div v-bind:title="block.Receives">
-                                <i class="fa fa-sign-in" aria-hidden="true"></i> {{ block.Receives | prettyClrType }}
+                            <div v-bind:title="'Output: '+block.Returns" class="code">
+                                <i class="fas fa-sign-out-alt"></i> {{ block.Returns | prettyClrType }}
                             </div>
-                            <div v-bind:title="block.Returns">
-                                <i class="fa fa-sign-out" aria-hidden="true"></i> {{ block.Returns | prettyClrType }}
-                            </div>
+                        </div>
+
+                        <div class="timeline-code" title="Generate script">
+                          <i class="fas fa-scroll" v-b-modal.modal-blockcode @click="sendInfo(block)"></i>
                         </div>
                     </div>
 
@@ -68,42 +69,109 @@
 
                         <div class="timeline-label">
                             <h3>Finish</h3>
-                            <div v-bind:title="pipeline.Returns">
-                                <i class="fa fa-sign-out" aria-hidden="true"></i> {{ pipeline.Returns | prettyClrType }}
+                            <div v-bind:title="pipeline.Returns" class="code">
+                                <i class="fas fa-sign-out-alt"></i> {{ pipeline.Returns | prettyClrType }}
                             </div>
                         </div>
                     </div>
 
                 </article>
+
             </div>
         </div>
+        <b-modal id="modal-blockcode" size="xl"   title="Pipeline block">
+          <div>
+            <b-form-input v-model="blockName" placeholder="Enter your name"></b-form-input>
+          </div>
+          <h3>Pipeline Block</h3>
+          <pre v-highlightjs='pipelineBlockCode'><code class="c#"></code></pre>
+          <h3>ConfigureSitecore</h3>
+          <pre v-highlightjs='configureSitecoreCode'><code class="c#"></code></pre>
+        </b-modal>
     </div>
 </template>
 
 <script>
 import { prettyClrType } from "../filters/clrTypes";
+import doT from "dot";
+import axios from "axios";
 
 export default {
   name: "Pipeline",
   props: ["pipeline"],
   data() {
     return {
-      blocks: []
+      blocks: [],
+      pipelineBlock: "",
+      blockName: "PipelineBlockName",
+      sourcecode: 'const str = "This sourcecode will update dynamically"',
+      blockCodeTemplate: "",
+      configureBlockCodeTemplate: ""
     };
   },
   filters: {
     prettyClrType
   },
   computed: {
-    pipelines: () => {
+    pipelines: function() {
       if (this.$store) {
         return this.$store.state.pipelines;
       } else {
         return [];
       }
+    },
+    pipelineBlockCode: function() {
+      if (this.pipelineBlock) {
+        var pipelineBlockData = {
+          blockName: this.blockName,
+          receives: prettyClrType(this.pipelineBlock.Returns),
+          returns: prettyClrType(this.pipelineBlock.Returns)
+        };
+
+        var template = doT.template(this.blockCodeTemplate);
+        return template(pipelineBlockData);
+      } else {
+        return "";
+      }
+    },
+    configureSitecoreCode: function() {
+      if (this.pipelineBlock) {
+        var configurePipelineBlockData = {
+          pipelineName: this.pipeline.Name,
+          blockName: this.blockName,
+          receives: prettyClrType(this.pipelineBlock.Returns),
+          returns: prettyClrType(this.pipelineBlock.Returns),
+          afterBlockName: this.pipelineBlock.Name
+        };
+
+        var template = doT.template(this.configureBlockCodeTemplate);
+        return template(configurePipelineBlockData);
+      } else {
+        return "";
+      }
     }
   },
-  created() {},
+  created() {
+    doT.templateSettings = {
+      evaluate: /\{\{([\s\S]+?)\}\}/g,
+      interpolate: /\{\{=([\s\S]+?)\}\}/g,
+      encode: /\{\{!([\s\S]+?)\}\}/g,
+      use: /\{\{#([\s\S]+?)\}\}/g,
+      define: /\{\{##\s*([\w\.$]+)\s*(\:|=)([\s\S]+?)#\}\}/g,
+      conditional: /\{\{\?(\?)?\s*([\s\S]*?)\s*\}\}/g,
+      iterate: /\{\{~\s*(?:\}\}|([\s\S]+?)\s*\:\s*([\w$]+)\s*(?:\:\s*([\w$]+))?\s*\}\})/g,
+      varname: "it",
+      strip: false,
+      append: true,
+      selfcontained: false
+    };
+    axios.get("/templates/pipelineblock.template").then(response => {
+      this.blockCodeTemplate = response.data;
+    });
+    axios.get("/templates/configure-pipelineblock.template").then(response => {
+      this.configureBlockCodeTemplate = response.data;
+    });
+  },
   beforeUpdate() {
     var pipelines = this.$store.state.pipelines;
     if (this.pipeline) {
@@ -116,6 +184,9 @@ export default {
         `${block.Namespace}.${block.Name}`
       );
       return pipeline;
+    },
+    sendInfo(block) {
+      this.pipelineBlock = block;
     }
   }
 };
@@ -499,5 +570,11 @@ img {
 
 .timeline-entry-inner .timeline-label.pipeline {
   background-color: #fff59d !important;
+}
+
+.timeline-code {
+  margin-left: 60px;
+  margin-top: 4px;
+  color: #a0a0a0;
 }
 </style>
