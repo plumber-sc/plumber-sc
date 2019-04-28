@@ -1,0 +1,30 @@
+namespace Plugin.Sample.Notes.Pipelines.Blocks
+{
+    using Sitecore.Commerce.Core;
+    using Sitecore.Framework.Conditions;
+    using Sitecorae.Framework.Pipelines;
+    using System.Threading.Tasks;
+
+    [PipelineDisplayName("Change to <Project>Constants.Pipelines.Blocks.<Block Name>")]
+    public class {{=it.blockName}} : PipelineBlock<{{=it.receives }}, {{=it.returns }}, CommercePipelineExecutionContext>
+    {
+        protected CommerceCommander Commander { get; set; }
+
+        public {{=it.blockName}}(CommerceCommander commander)
+            : base(null)
+        {
+
+            this.Commander = commander;
+
+        }
+
+        public override Task<{{=it.returns}}> Run({{=it.receives}} arg, CommercePipelineExecutionContext context)
+        {
+            Condition.Requires(arg).IsNotNull($"{this.Name}: The argument can not be null");
+
+            /* Add business logic here */
+
+            return Task.FromResult(arg);
+        }
+    }
+}

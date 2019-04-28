@@ -1,5 +1,5 @@
 <<template>
-    <div v-if="property">
+    <div v-if="property" class="code">
        <b>{{ property.$.Name }}</b> : {{ property.$.Type }}
     </div>
 </template>
