@@ -11,11 +11,11 @@
         <span class="namespace">{{ block.Namespace }}</span>
         <h3>{{ block.Name }}</h3>
 
-        <div v-bind:title="block.Receives">
-            <i class="fa fa-sign-in" aria-hidden="true"></i> {{ block.Receives | prettyClrType }}
+        <div v-bind:title="block.Receives" class="code">
+            <i class="fas fa-sign-in-alt"></i> {{ block.Receives | prettyClrType }}
         </div>
-        <div v-bind:title="block.Returns">
-            <i class="fa fa-sign-out" aria-hidden="true"></i> {{ block.Returns | prettyClrType }}
+        <div v-bind:title="block.Returns" class="code">
+            <i class="fas fa-sign-out-alt"></i> {{ block.Returns | prettyClrType }}
         </div>
         </b-col>
         </b-row>

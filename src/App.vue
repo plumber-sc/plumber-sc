@@ -123,4 +123,8 @@ h3 {
 h1 {
   color: #212121;
 }
+
+.code {
+  font-family: 'Roboto Mono', monospace;
+}
 </style>

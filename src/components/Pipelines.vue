@@ -27,8 +27,8 @@ import axios from "axios";
 import Pipeline from "./Pipeline";
 import sortJsonArray from "sort-json-array";
 import $ from "jquery";
-import typeahead from 'jquery-typeahead';
-import Router from '../router';
+import typeahead from "jquery-typeahead";
+import Router from "../router";
 
 export default {
   name: "Pipelines",
@@ -50,9 +50,10 @@ export default {
         if (!this.namespaces.includes(pipeline.Namespace)) {
           namespaces.unshift(pipeline.Namespace);
         }
-        pipelineNames.unshift({ 
+        pipelineNames.unshift({
           name: pipeline.Name,
-          namespace: pipeline.Namespace});
+          namespace: pipeline.Namespace
+        });
       });
       return pipelineNames;
     },
@@ -93,32 +94,32 @@ export default {
     initTypeahead: function() {
       $.typeahead({
         input: ".js-typeahead",
-        order: 'asc',
-        display: ['name', 'namespace'],
+        order: "asc",
+        display: ["name", "namespace"],
         source: { data: this.pipelineNames },
-        template: "{{name}} <small>in</small> <small style='color:#999;'>{{namespace}}</small>",
+        template:
+          "{{name}} <small>in</small> <small style='color:#999;'>{{namespace}}</small>",
         templateValue: "{{namespace}}.{{name}}",
         maxItem: 100,
         callback: {
-            onClick: function (node, a, item, event) {
-                var suggestion = `${item.namespace}.${item.name}`;
-                Router.push(`/pipelines/${suggestion}`);
-            },
-            onCancel: function(node, event) {
-              Router.push('/pipelines');
-            }
+          onClick: function(node, a, item, event) {
+            var suggestion = `${item.namespace}.${item.name}`;
+            Router.push(`/pipelines/${suggestion}`);
+          },
+          onCancel: function(node, event) {
+            Router.push("/pipelines");
+          }
         }
       });
     }
   }
 };
-
 </script>
 
 <style>
 #pipelinesearch .typeahead__list {
-    max-height: 300px;
-    overflow-y: auto;
-    overflow-x: hidden;
+  max-height: 300px;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 </style>
