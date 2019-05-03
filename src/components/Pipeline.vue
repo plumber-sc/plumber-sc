@@ -83,9 +83,15 @@
           <div>
             <b-form-input v-model="blockName" placeholder="Enter your name"></b-form-input>
           </div>
-          <h3>Pipeline Block</h3>
-          <pre v-highlightjs='pipelineBlockCode'><code class="c#"></code></pre>
-          <h3>ConfigureSitecore</h3>
+
+
+          <h3><i class="far fa-copy" v-clipboard:copy="pipelineBlockCode"
+                v-clipboard:success="onCopy"
+                v-clipboard:error="onError"></i> Pipeline Block</h3>
+          <pre id="pipelinecode" v-highlightjs='pipelineBlockCode'><code class="c#"></code></pre>
+          <h3> <i class="far fa-copy" v-clipboard:copy="configureSitecoreCode"
+          v-clipboard:success="onCopy"
+          v-clipboard:error="onError"></i> ConfigureSitecore</h3>
           <pre v-highlightjs='configureSitecoreCode'><code class="c#"></code></pre>
         </b-modal>
     </div>
@@ -187,12 +193,21 @@ export default {
     },
     sendInfo(block) {
       this.pipelineBlock = block;
+    },
+    onCopy: function(e) {},
+    onError: function(e) {
+      alert("Failed to copy texts");
     }
   }
 };
 </script>
 
 <style>
+
+#pipelinecode {
+  height: 300px;
+}
+
 img {
   vertical-align: middle;
 }

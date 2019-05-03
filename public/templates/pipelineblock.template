@@ -13,9 +13,7 @@ namespace Plugin.Sample.Notes.Pipelines.Blocks
         public {{=it.blockName}}(CommerceCommander commander)
             : base(null)
         {
-
             this.Commander = commander;
-
         }
 
         public override Task<{{=it.returns}}> Run({{=it.receives}} arg, CommercePipelineExecutionContext context)
