@@ -12,10 +12,15 @@ import axios from 'axios'
 
 import hljs from 'highlight.js'
 
+import VueClipboard from 'vue-clipboard2'
+
 Vue.use(BootstrapVue)
 Vue.use(Snotify)
 
 Vue.use(VueAxios, axios)
+
+VueClipboard.config.autoSetContainer = true
+Vue.use(VueClipboard)
 
 Vue.config.productionTip = false
 
