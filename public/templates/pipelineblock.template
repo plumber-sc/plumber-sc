@@ -1,4 +1,4 @@
-namespace Plugin.Sample.Notes.Pipelines.Blocks
+namespace {{=it.namespace}}
 {
     using Sitecore.Commerce.Core;
     using Sitecore.Framework.Conditions;
