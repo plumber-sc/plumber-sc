@@ -1,6 +1,6 @@
 <<template>
   <div class="blocks">
-       <h1>Blocks ({{ blocks.length }})</h1>
+       <h1>Blocks <small class="text-muted">({{ blocks.length}} blocks found)</small></h1>
     <b-row>
       <b-col>
          <form id="blocksearch">
@@ -56,7 +56,7 @@ export default {
   beforeRouteUpdate(to, from, next) {
     if (to.params) {
       this.selectedBlockName = to.params.blockname;
-    } 
+    }
     next();
   },
   beforeUpdate() {
