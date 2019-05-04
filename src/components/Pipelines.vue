@@ -1,6 +1,6 @@
 <<template>
   <div class="pipelines">
-    <h1>Pipelines ({{ pipelines.length}})</h1>
+    <h1>Pipelines <small class="text-muted">({{ pipelines.length}} pipelines found)</small></h1>
     <b-row>
       <b-col>
         <form id="pipelinesearch">
