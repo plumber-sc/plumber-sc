@@ -152,6 +152,11 @@ export default {
             configureBlockCodeTemplate: ""
         };
     },
+    watch: {
+        namespace: function (newNamespace) {
+            this.$cookie.set('pipelineBlockNamespace', newNamespace);
+        }
+    },
     filters: {
         prettyClrType
     },
@@ -198,6 +203,11 @@ export default {
         }
     },
     created() {
+        var namespace = this.$cookie.get('pipelineBlockNamespace');
+        if (namespace) {
+            this.namespace = namespace
+        }
+
         doT.templateSettings = {
             evaluate: /\{\{([\s\S]+?)\}\}/g,
             interpolate: /\{\{=([\s\S]+?)\}\}/g,
