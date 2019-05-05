@@ -24,14 +24,10 @@
 <script>
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap-vue/dist/bootstrap-vue.css";
-import "jquery-typeahead/dist/jquery.typeahead.min.css";
 
 import Navigation from "./components/navigation";
-import xml2js from "xml2js";
-import _ from "underscore";
 
 import axios from "axios";
-import sortJsonArray from "sort-json-array";
 
 import Authenticate from "@/components/Authenticate.vue";
 
