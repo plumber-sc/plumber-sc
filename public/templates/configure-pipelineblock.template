@@ -1,4 +1,4 @@
  services.Sitecore().Pipelines(config =>
                      config.ConfigurePipeline<{{=it.pipelineName}}>(c =>
-                        c.Add<{{=it.blockName}}>().After<{{=it.afterBlockName}}>()
+                        c.Add<{{=it.blockName}}>().{{? it.addBefore }}Before<{{=it.afterBlockName}}>(){{??}}After<{{=it.afterBlockName}}(){{?}}
                      )
