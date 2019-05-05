@@ -28,6 +28,10 @@
                             <i class="fas fa-sign-in-alt"></i> {{ pipeline.Receives | prettyClrType }}
                         </div>
                     </div>
+                    <div class="timeline-code">
+                        <i class="fas fa-chevron-right"></i>
+                        <i class="fas fa-scroll" v-b-tooltip.hover  :title="'Generate code for adding a pipeline block after '+pipeline.Blocks[0].Name"  v-b-modal.modal-blockcode @click="sendInfo(pipeline.Blocks[0], true)"></i>
+                    </div>
                 </div>
 
             </article>
@@ -56,8 +60,9 @@
                         </div>
                     </div>
 
-                    <div class="timeline-code" title="Generate script">
-                        <i class="fas fa-scroll" v-b-modal.modal-blockcode @click="sendInfo(block)"></i>
+                    <div class="timeline-code" >
+                      <i class="fas fa-chevron-right"></i>
+                        <i class="fas fa-scroll" v-b-tooltip.hover :title="'Generate code for adding a pipeline block after '+block.Name" v-b-modal.modal-blockcode @click="sendInfo(block)"></i>
                     </div>
                 </div>
 
@@ -83,8 +88,7 @@
 
         </div>
     </div>
-    <b-modal id="modal-blockcode" size="xl" title="Pipeline block" v-model="show">
-
+    <b-modal id="modal-blockcode" size="xl" title="Pipeline block code" v-model="show">
         <div>
 
             <b-form>
@@ -142,6 +146,7 @@ export default {
         return {
             show: false,
             blocks: [],
+            addBefore: false,
             pipelineBlock: "",
             namespace: "Plugin.Commerce",
             blockName: "PipelineBlockName",
@@ -182,6 +187,7 @@ export default {
                     namespace: this.namespace,
                     pipelineName: this.pipeline.Name,
                     blockName: this.blockName,
+                    addBefore: this.addBefore,
                     receives: prettyClrType(this.pipelineBlock.Returns),
                     returns: prettyClrType(this.pipelineBlock.Returns),
                     afterBlockName: this.pipelineBlock.Name
@@ -228,7 +234,8 @@ export default {
             );
             return pipeline;
         },
-        sendInfo(block) {
+        sendInfo(block, addBefore = false) {
+            this.addBefore = addBefore;
             this.pipelineBlock = block;
         },
         onCopy: function (e) {},
@@ -572,7 +579,15 @@ img {
 .timeline-code {
     margin-left: 60px;
     margin-top: 4px;
-    color: #a0a0a0;
+    color: black;
+}
+
+.timeline-code .fa-chevron-right {
+  margin-right: 3px;
+}
+
+.timeline-code .fa-scroll {
+  color: #c5e1a5;
 }
 
 .bd-clipboard {
