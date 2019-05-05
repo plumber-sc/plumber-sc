@@ -13,6 +13,7 @@ import axios from 'axios'
 import hljs from 'highlight.js'
 
 import VueClipboard from 'vue-clipboard2'
+import VueBootstrapTypeahead from 'vue-bootstrap-typeahead'
 
 Vue.use(BootstrapVue)
 Vue.use(Snotify)
@@ -21,6 +22,8 @@ Vue.use(VueAxios, axios)
 
 VueClipboard.config.autoSetContainer = true
 Vue.use(VueClipboard)
+
+Vue.component('vue-bootstrap-typeahead', VueBootstrapTypeahead)
 
 Vue.config.productionTip = false
 
