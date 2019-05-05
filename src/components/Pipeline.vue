@@ -7,10 +7,7 @@
         <h2>{{ pipeline.Name }}</h2>
 
         <div>
-            <i class="fas fa-cog"></i>
-        </div>
-        <div>
-            <i class="far fa-comment"></i> {{ pipeline.Comments }}
+            <i class="far fa-comment" v-b-tooltip.hover title="Comments"></i> {{ pipeline.Comments }}
         </div>
 
         <div class="timeline-centered">
@@ -24,13 +21,13 @@
 
                     <div class="timeline-label">
                         <h3>Start</h3>
-                        <div v-bind:title="'Input: '+pipeline.Receives" class="code">
+                        <div v-bind:title="'Input: '+prettyClrType(pipeline.Receives)" class="code">
                             <i class="fas fa-sign-in-alt"></i> {{ pipeline.Receives | prettyClrType }}
                         </div>
                     </div>
                     <div class="timeline-code">
                         <i class="fas fa-chevron-right"></i>
-                        <i class="fas fa-scroll" v-b-tooltip.hover  :title="'Generate code for adding a pipeline block after '+pipeline.Blocks[0].Name"  v-b-modal.modal-blockcode @click="sendInfo(pipeline.Blocks[0], true)"></i>
+                        <i class="fas fa-scroll" v-b-tooltip.hover :title="'Generate code for adding a pipeline block before '+pipeline.Blocks[0].Name"  v-b-modal.modal-blockcode @click="sendInfo(pipeline.Blocks[0], true)"></i>
                     </div>
                 </div>
 
@@ -228,6 +225,9 @@ export default {
         }
     },
     methods: {
+      prettyClrType: function(type) {
+        return prettyClrType(type)
+      },
         isBlockPipeline: function (block) {
             var pipeline = this.$store.getters.getPipeline(
                 `${block.Namespace}.${block.Name}`
