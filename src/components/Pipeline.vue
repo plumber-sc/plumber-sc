@@ -1,4 +1,4 @@
-<<template>
+<template>
 <div class="pipeline">
     <div v-if="!pipeline">
     </div>
@@ -21,7 +21,7 @@
 
                     <div class="timeline-label">
                         <h3>Start</h3>
-                        <div v-bind:title="'Input: '+prettyClrType(pipeline.Receives)" class="code">
+                        <div v-bind:title="'Input: '+prettyClrType(pipeline.Receives)   " class="code">
                             <i class="fas fa-sign-in-alt"></i> {{ pipeline.Receives | prettyClrType }}
                         </div>
                     </div>
@@ -57,8 +57,8 @@
                         </div>
                     </div>
 
-                    <div class="timeline-code" >
-                      <i class="fas fa-chevron-right"></i>
+                    <div class="timeline-code">
+                        <i class="fas fa-chevron-right"></i>
                         <i class="fas fa-scroll" v-b-tooltip.hover :title="'Generate code for adding a pipeline block after '+block.Name" v-b-modal.modal-blockcode @click="sendInfo(block)"></i>
                     </div>
                 </div>
@@ -203,9 +203,9 @@ export default {
             interpolate: /\{\{=([\s\S]+?)\}\}/g,
             encode: /\{\{!([\s\S]+?)\}\}/g,
             use: /\{\{#([\s\S]+?)\}\}/g,
-            define: /\{\{##\s*([\w\.$]+)\s*(\:|=)([\s\S]+?)#\}\}/g,
+            define: /\{\{##\s*([\w.$]+)\s*(:|=)([\s\S]+?)#\}\}/g,
             conditional: /\{\{\?(\?)?\s*([\s\S]*?)\s*\}\}/g,
-            iterate: /\{\{~\s*(?:\}\}|([\s\S]+?)\s*\:\s*([\w$]+)\s*(?:\:\s*([\w$]+))?\s*\}\})/g,
+            iterate: /\{\{~\s*(?:\}\}|([\s\S]+?)\s*:\s*([\w$]+)\s*(?::\s*([\w$]+))?\s*\}\})/g,
             varname: "it",
             strip: false,
             append: true,
@@ -219,15 +219,14 @@ export default {
         });
     },
     beforeUpdate() {
-        var pipelines = this.$store.state.pipelines;
         if (this.pipeline) {
             this.blocks = this.pipeline.blocks;
         }
     },
     methods: {
-      prettyClrType: function(type) {
-        return prettyClrType(type)
-      },
+        prettyClrType: function (type) {
+            return prettyClrType(type)
+        },
         isBlockPipeline: function (block) {
             var pipeline = this.$store.getters.getPipeline(
                 `${block.Namespace}.${block.Name}`
@@ -238,8 +237,8 @@ export default {
             this.addBefore = addBefore;
             this.pipelineBlock = block;
         },
-        onCopy: function (e) {},
-        onError: function (e) {
+        onCopy: function () {},
+        onError: function () {
             alert("Failed to copy texts");
         }
     }
@@ -583,11 +582,11 @@ img {
 }
 
 .timeline-code .fa-chevron-right {
-  margin-right: 3px;
+    margin-right: 3px;
 }
 
 .timeline-code .fa-scroll {
-  color: #c5e1a5;
+    color: #c5e1a5;
 }
 
 .bd-clipboard {
