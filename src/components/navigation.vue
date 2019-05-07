@@ -9,7 +9,7 @@
         <span class="navbar-toggler-icon"></span>
       </button>
 
-      <div class="collapse navbar-collapse" id="navbarNav">
+      <div class="collapse navbar-collapse" id="navbarNav" v-if="showNavigation">
         <ul class="nav nav-pills">
           <li class="nav-item">
             <router-link :to="{ name: 'pipelines'}" class="nav-link" active-class="active">Pipelines</router-link>
@@ -36,6 +36,7 @@
 import _ from "underscore";
 
 export default {
+  props: {showNavigation: Boolean },
   computed: {
     environments: function() {
       var environments = _.map(this.$store.state.environments, environment => {
