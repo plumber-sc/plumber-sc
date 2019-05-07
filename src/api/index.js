@@ -27,7 +27,7 @@ export function getEnvironments(config, headers, context) {
       headers: headers
     })
     .then(response => {
-      // Relplace policysets references with actual poiicy set
+      // Replace policysets references with actual poiicy set
       var loadedPolicySets = [];
       var environments = response.data.value;
       _.each(environments, (environment, envIndex) => {
@@ -61,6 +61,9 @@ export function getEnvironments(config, headers, context) {
                   environmentName: environment.Name
                 });
                 loadedPolicySets.unshift(policySetName)
+              })
+              .catch(error => {
+                console.log(error);
               });
           }
         });
