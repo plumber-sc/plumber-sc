@@ -9,25 +9,27 @@
         <span class="navbar-toggler-icon"></span>
       </button>
 
-      <div class="collapse navbar-collapse" id="navbarNav" v-if="showNavigation">
-        <ul class="nav nav-pills">
-          <li class="nav-item">
-            <router-link :to="{ name: 'pipelines'}" class="nav-link" active-class="active">Pipelines</router-link>
-          </li>
-          <li class="nav-item">
-            <router-link :to="{ name: 'blocks'}" class="nav-link" active-class="active">Blocks</router-link>
-          </li>
-          <li class="nav-item">
-            <router-link :to="{ name: 'policies'}" class="nav-link" active-class="active">Policies</router-link>
-          </li>
-          <li class="nav-item">
-            <router-link :to="{ name: 'metadata'}" class="nav-link" active-class="active">Metadata</router-link>
-          </li>
-          <li class="nav-item">
-            <router-link :to="{ name: 'plugins'}" class="nav-link" active-class="active">Plugins</router-link>
-          </li>
-        </ul>
-      </div>
+      <transition name="fade">
+        <div class="collapse navbar-collapse" id="navbarNav" v-if="showNavigation">
+          <ul class="nav nav-pills">
+            <li class="nav-item">
+              <router-link :to="{ name: 'pipelines'}" class="nav-link" active-class="active">Pipelines</router-link>
+            </li>
+            <li class="nav-item">
+              <router-link :to="{ name: 'blocks'}" class="nav-link" active-class="active">Blocks</router-link>
+            </li>
+            <li class="nav-item">
+              <router-link :to="{ name: 'policies'}" class="nav-link" active-class="active">Policies</router-link>
+            </li>
+            <li class="nav-item">
+              <router-link :to="{ name: 'metadata'}" class="nav-link" active-class="active">Metadata</router-link>
+            </li>
+            <li class="nav-item">
+              <router-link :to="{ name: 'plugins'}" class="nav-link" active-class="active">Plugins</router-link>
+            </li>
+          </ul>
+        </div>
+      </transition>
     </div>
   </nav>
 </template>

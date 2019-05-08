@@ -20,6 +20,7 @@ export default new Vuex.Store({
     startedLoading: false,
     finishedLoading: false,
     connectionError: false,
+    authenticating: false,
     loadMessages: []
   },
   mutations: {
@@ -52,6 +53,9 @@ export default new Vuex.Store({
     },
     setConnectionError: (state, connectionError) => {
       state.connectionError = connectionError;
+    },
+    setAuthenticating: (state, authenticating)  => {
+      state.authenticating = authenticating;
     },
     addLoadMessage: (state, loadMessage) => {
       state.loadMessages.push(loadMessage);
