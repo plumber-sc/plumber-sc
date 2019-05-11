@@ -83,19 +83,11 @@ const router = new Router({
 })
 
 router.beforeEach((to, from,next) => {
-  console.log("beforeEach");
-  console.log(to);
-  console.log(from);
-
-  console.log(store.state.config);
-
   if(!store.state.token)
   {
 
   }
-
-  console.log(store.state.token);
   next();
-});   
+});
 
 export default router

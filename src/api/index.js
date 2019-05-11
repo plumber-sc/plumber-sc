@@ -8,7 +8,6 @@ export function getMetaData(config, headers, context) {
     .get(config.EngineUri + "/commerceops/$metadata", headers)
     .then(response => {
       xml2js.parseString(response.data, (err, result) => {
-        console.log(err);
         context.commit(
           "setSchema",
           result["edmx:Edmx"]["edmx:DataServices"][0]["Schema"]
@@ -31,7 +30,6 @@ export function getEnvironments(config, headers, context) {
       var loadedPolicySets = [];
       var environments = response.data.value;
       _.each(environments, (environment, envIndex) => {
-        console.log(environment.Name);
         var policies = environment.Policies;
         _.each(policies, (policy, policyIndex) => {
           if (
