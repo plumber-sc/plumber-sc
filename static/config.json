@@ -1,6 +1,0 @@
-{
-  "EngineUri": "https://localhost:5000",
-  "IdentityServerUri": "https://localhost:5050",
-  "ClientId": "Plumber",
-  "PlumberUri": "http://localhost:8080"
-}
