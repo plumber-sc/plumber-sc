@@ -26,7 +26,7 @@
                 <p>
                     <ul>
                     <li><a :href="latestRelease.html_url" class="alert-link">Read about what's new</a></li>
-                    <li><a :href="latestRelease.html_url+'/release.'+latestRelease.tag_name+.zip'" class="alert-link">Download the latest release</a></li>
+                    <li><a :href="latestRelease.html_url+'/release.'+latestRelease.tag_name+'.zip'" class="alert-link">Download the latest release</a></li>
                   </ul>
                 </p>
             </b-alert>
