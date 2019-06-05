@@ -15,14 +15,14 @@
     </b-row>
     <b-row class="mt-3">
         <b-col>
-            <pipeline v-bind:pipeline="selectedPipeline" />
+            <pipeline v-bind:pipeline="selectedPipeline" v-bind:count="0" />
         </b-col>
     </b-row>
 </div>
 </template>
 
 <script>
-import Pipeline from "./Pipeline";
+import Pipeline from "./Partials/Pipeline";
 import Router from "../router";
 
 export default {
@@ -65,14 +65,6 @@ export default {
     },
     created() {},
     mounted() {},
-    beforeUpdate() {
-        if (this.pipelineid) {
-            var pipeline = this.pipelines.find(pipeline => {
-                return `${pipeline.Namespace}.${pipeline.Name}` == this.pipelineid;
-            });
-            this.selectedPipeline = pipeline;
-        }
-    },
     methods: {
         selectPlugin: function (suggestion) {
             var pipeline = this.pipelines.find(pipeline => {
