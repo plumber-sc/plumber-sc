@@ -156,8 +156,7 @@ export default {
         prettyClrType
     },
     components: {
-        Block,
-        Pipeline
+        Block
     },
     computed: {
         pipelines: function () {
