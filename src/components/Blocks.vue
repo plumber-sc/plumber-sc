@@ -25,7 +25,7 @@
 import Router from '../router';
 import _ from "underscore";
 
-import Block from "./Block";
+import Block from "./Partials/Block";
 
 export default {
     name: "Blocks",
@@ -53,7 +53,7 @@ export default {
         Block
     },
     mounted() {
-        this.initTypeAhead();
+        //this.initTypeAhead();
         this.selectedBlockName = this.blockname;
     },
     activated() {
@@ -66,7 +66,7 @@ export default {
         next();
     },
     beforeUpdate() {
-        this.initTypeAhead();
+        //this.initTypeAhead();
     },
     methods: {
         selectBlock: function (suggestion) {
@@ -95,5 +95,13 @@ export default {
     max-height: 300px;
     overflow-y: auto;
     overflow-x: hidden;
+}
+
+.block {
+  background-color: #aed581 !important;
+  padding: 10px;
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
+  border-radius: 8px;
 }
 </style>
