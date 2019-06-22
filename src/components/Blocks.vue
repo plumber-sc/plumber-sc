@@ -53,7 +53,6 @@ export default {
         Block
     },
     mounted() {
-        this.initTypeAhead();
         this.selectedBlockName = this.blockname;
     },
     activated() {
@@ -66,7 +65,6 @@ export default {
         next();
     },
     beforeUpdate() {
-        this.initTypeAhead();
     },
     methods: {
         selectBlock: function (suggestion) {

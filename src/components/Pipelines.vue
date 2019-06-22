@@ -63,16 +63,6 @@ export default {
     components: {
         Pipeline
     },
-    created() {},
-    mounted() {},
-    beforeUpdate() {
-        if (this.pipelineid) {
-            var pipeline = this.pipelines.find(pipeline => {
-                return `${pipeline.Namespace}.${pipeline.Name}` == this.pipelineid;
-            });
-            this.selectedPipeline = pipeline;
-        }
-    },
     methods: {
         selectPlugin: function (suggestion) {
             var pipeline = this.pipelines.find(pipeline => {
