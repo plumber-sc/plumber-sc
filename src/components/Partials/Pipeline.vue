@@ -9,6 +9,12 @@
         <div>
             <i class="far fa-comment" v-b-tooltip.hover title="Comments"></i> {{ pipeline.Comments }}
         </div>
+        <div v-if="pipeline.Description" v-bind:title="pipeline.Description">
+            <i class="fas fa-book-open"></i> {{ pipeline.Description }}
+        </div>
+        <div v-if="pipeline.AdditionalComments" v-bind:title="pipeline.AdditionalComments">
+            <i class="fas fa-comment"></i> {{ pipeline.AdditionalComments }}
+        </div>
 
         <div class="timeline-centered">
             <article class="timeline-entry start">
@@ -16,7 +22,7 @@
                 <div class="timeline-entry-inner">
 
                     <div class="timeline-icon">
-                        <i class="entypo-feather"></i>
+                        <i class="far fa-circle"></i>
                     </div>
 
                     <div class="timeline-label">
@@ -37,24 +43,11 @@
                 <div class="timeline-entry-inner">
 
                     <div class="timeline-icon">
-                        <i class="entypo-feather"></i>
+                        <i class="fas fa-circle"></i>
                     </div>
 
                     <div class="timeline-label" v-bind:class="{ pipeline : isBlockPipeline(block) }">
-                        <span class="namespace">{{ block.Namespace }}</span>
-                        <h3 v-if="!isBlockPipeline(block)">
-                            <router-link :to="{ name: 'blocks', params: { blockname: `${block.Namespace}.${block.Name}` }}">{{ block.Name }}</router-link>
-                        </h3>
-                        <h3 v-else>
-                            <router-link :to="{ name: 'pipelines', params: { pipelineid: `${block.Namespace}.${block.Name}` }}">{{ block.Name }}</router-link>
-                        </h3>
-
-                        <div v-bind:title="'Input: '+block.Receives" class="code">
-                            <i class="fas fa-sign-in-alt"></i> {{ block.Receives | prettyClrType }}
-                        </div>
-                        <div v-bind:title="'Output: '+block.Returns" class="code">
-                            <i class="fas fa-sign-out-alt"></i> {{ block.Returns | prettyClrType }}
-                        </div>
+                        <Block v-bind:blockname="`${block.Namespace}.${block.Name}`" context="pipeline"></Block>
                     </div>
 
                     <div class="timeline-code">
@@ -70,7 +63,7 @@
                 <div class="timeline-entry-inner">
 
                     <div class="timeline-icon">
-                        <i class="entypo-feather"></i>
+                       <i class="far fa-circle"></i>
                     </div>
 
                     <div class="timeline-label">
@@ -132,9 +125,11 @@
 <script>
 import {
     prettyClrType
-} from "../filters/clrTypes";
+} from "../../filters/clrTypes";
 import doT from "dot";
 import axios from "axios";
+
+import Block from "./Block";
 
 export default {
     name: "Pipeline",
@@ -159,6 +154,9 @@ export default {
     },
     filters: {
         prettyClrType
+    },
+    components: {
+        Block
     },
     computed: {
         pipelines: function () {
@@ -250,6 +248,9 @@ export default {
         onCopy: function () {},
         onError: function () {
             alert("Failed to copy texts");
+        },
+        getPipelineName: pipeline => {
+        return `${pipeline.Namespace}.${pipeline.Name}`;
         }
     }
 };

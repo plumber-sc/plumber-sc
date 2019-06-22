@@ -15,7 +15,7 @@
     </b-row>
     <b-row class="mt-3">
         <b-col>
-            <Block v-bind:blockname="selectedBlockName"></Block>
+            <Block v-bind:blockname="selectedBlockName" context="block"></Block>
         </b-col>
     </b-row>
 </div>
@@ -25,7 +25,7 @@
 import Router from '../router';
 import _ from "underscore";
 
-import Block from "./Block";
+import Block from "./Partials/Block";
 
 export default {
     name: "Blocks",
@@ -94,4 +94,5 @@ export default {
     overflow-y: auto;
     overflow-x: hidden;
 }
+
 </style>
