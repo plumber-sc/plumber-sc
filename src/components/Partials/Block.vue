@@ -6,9 +6,11 @@
     </div>
     <div v-else class="block">
         <span class="namespace">{{ block.Namespace }}</span>
-        <h3>
-            <router-link :to="{ name: 'blocks', params: { blockname: `${block.Namespace}.${block.Name}` }}">{{ block.Name }}</router-link>
+        
+        <h3 v-if="context == 'pipeline'">
+          <router-link :to="{ name: 'blocks', params: { blockname: `${block.Namespace}.${block.Name}` }}">{{ block.Name }}</router-link>
         </h3>
+        <h3 v-if="context == 'block'">{{ block.Name }}</h3>
 
         <div v-bind:title="'Input: '+block.Receives" class="code">
             <i class="fas fa-sign-in-alt"></i> {{ block.Receives | prettyClrType }}
@@ -16,10 +18,10 @@
         <div v-bind:title="'Output: '+block.Returns" class="code">
             <i class="fas fa-sign-out-alt"></i> {{ block.Returns | prettyClrType }}
         </div>
-        <div>
-            <h4>Used in the following pipelines:</h4>
+        <div v-if="context == 'block'" class="spacing-above">
+            <h5>Used in the following pipelines:</h5>
             <ul>
-                <li v-for="pipeline in pipelines">
+                <li v-for="pipeline in pipelines" v-bind:key="pipeline.Name">
                     <router-link :to="{ name: 'pipelines', params: { pipelineid: getPipelineName(pipeline) }}">
                     {{ pipeline.Name }}
                     </router-link>
@@ -34,12 +36,8 @@
 import { prettyClrType } from "../../filters/clrTypes";
 
 export default {
-  props: ["blockname"],
-  data() {
-    return {
-      pipelines: []
-    };
-  },
+  props: ["blockname", 
+  "context"],
   filters: {
     prettyClrType
   },
@@ -49,12 +47,12 @@ export default {
       if (this.blockname) {
         selectedBlock = this.$store.state.blocks.find(block => {
           return this.blockname === `${block.Namespace}.${block.Name}`;
-        });
-        this.pipelines = this.$store.getters.getPipelinesForBlock(
-          this.blockname
-        );
+        }); 
       }
       return selectedBlock;
+    },
+    pipelines: function() {
+      return this.$store.getters.getPipelinesForBlock(this.blockname);
     }
   },
   mounted() {},
@@ -76,12 +74,18 @@ export default {
 <style>
 .block {
   background-color: #aed581 !important;
-  padding: 10px;
+  padding: 20px;
+  padding-left: 20px;
   -webkit-border-radius: 8px;
   -moz-border-radius: 8px;
   border-radius: 8px;
 }
+
 .timeline-label.pipeline .block {
   background-color: #fff59d !important;
+}
+
+.spacing-above {
+  padding-top: 12px;
 }
 </style>

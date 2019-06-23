@@ -15,7 +15,7 @@ export function getMetaData(config, headers, context) {
       });
     })
     .catch(error => {
-      context.commit("setConnectionError", true);
+      context.commit("setConnectionError", error);
     });
 }
 
@@ -71,7 +71,7 @@ export function getEnvironments(config, headers, context) {
       context.commit("addLoadMessage", "Loaded environments");
     })
     .catch(error => {
-      context.commit("setConnectionError", true);
+      context.commit("setConnectionError", error);
     });
 }
 
@@ -86,7 +86,7 @@ export function getPlugins(config, headers, context) {
       context.commit("addLoadMessage", "Loaded plugins");
     })
     .catch(error => {
-      context.commit("setConnectionError", true);
+      context.commit("setConnectionError", error);
     });
 }
 
