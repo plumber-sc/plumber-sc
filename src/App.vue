@@ -12,14 +12,15 @@
                 </div>
             </div>
 
-            <div v-if="connectionError" class="alert alert-danger" role="alert">
-                <h4 class="alert-heading">Oops...</h4>
-                <p>It looks like we cannot communicate with the Commerce Engine on <code>{{config.EngineUri}}</code></p>
-                <hr>
-                <p><a class="alert-link" href="https://github.com/plumber-sc/plumber-sc#configuring-plumber" target="_blank">Click here for more information on how to configure Plumber</a></p>
+            <div v-if="connectionError">
+                <Message heading="Oops..." 
+                    :message="`It looks like we cannot communicate with the Commerce Engine on <code>`+config.EngineUri+`</code>`" 
+                    :error="connectionError.message" 
+                    helpLink="https://github.com/plumber-sc/plumber-sc#configuring-plumber"
+                    helpText="Click here for more information on how to configure Plumber" />
             </div>
             <IdentityServer v-if="authenticating" />
-            <Message v-if="showMessage" :heading="messageHeading" :message="messageText" />
+            <Message v-if="showMessage" :heading="messageHeading" :message="messageText" :error="errorText" />
             <MissingConfig v-if="missingConfig" />
             <b-alert v-model="showNewVersionMessage" variant="info" dismissible @dismissed="dismissNewVersionMessage">
               <h4 class="alert-heading">There is a new version of Plumber available!</h4>
@@ -62,6 +63,7 @@ export default {
             missingConfig: false,
             messageHeading: '',
             messageText: '',
+            errorText: '',
             config: null,
             version: '',
             showNewVersionMessage: false,
@@ -186,6 +188,7 @@ export default {
                     .catch(error => {
                         this.messageHeading = "Something is wrong..."
                         this.messageText = "It looks like Sitecore Identity Server cannot be reached on this url: <code>" + this.config.IdentityServerUri + "</code>"
+                        this.errorText = `${error.message}`;
                     });
               } else {
                 this.messageHeading = "Oops..."
