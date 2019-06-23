@@ -33,7 +33,7 @@ export const initData = context => {
       api.getPipelines(context.state.config, headers, context);
     })
     .catch(function(error) {
-      context.commit("setConnectionError", true);
+      context.commit("setConnectionError", error);
     });
 };
 

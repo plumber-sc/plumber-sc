@@ -15,7 +15,7 @@
     </b-row>
     <b-row class="mt-3">
         <b-col>
-            <Block v-bind:blockname="selectedBlockName"></Block>
+            <Block v-bind:blockname="selectedBlockName" context="block"></Block>
         </b-col>
     </b-row>
 </div>
@@ -53,7 +53,6 @@ export default {
         Block
     },
     mounted() {
-        //this.initTypeAhead();
         this.selectedBlockName = this.blockname;
     },
     activated() {
@@ -66,7 +65,6 @@ export default {
         next();
     },
     beforeUpdate() {
-        //this.initTypeAhead();
     },
     methods: {
         selectBlock: function (suggestion) {
@@ -97,11 +95,4 @@ export default {
     overflow-x: hidden;
 }
 
-.block {
-  background-color: #aed581 !important;
-  padding: 10px;
-  -webkit-border-radius: 8px;
-  -moz-border-radius: 8px;
-  border-radius: 8px;
-}
 </style>

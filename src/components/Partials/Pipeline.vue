@@ -22,7 +22,7 @@
                 <div class="timeline-entry-inner">
 
                     <div class="timeline-icon">
-                        <i class="fas fa-feather-alt"></i>
+                        <i class="far fa-circle"></i>
                     </div>
 
                     <div class="timeline-label">
@@ -43,11 +43,11 @@
                 <div class="timeline-entry-inner">
 
                     <div class="timeline-icon">
-                        <i class="fas fa-feather-alt"></i>
+                        <i class="fas fa-circle"></i>
                     </div>
 
                     <div class="timeline-label" v-bind:class="{ pipeline : isBlockPipeline(block) }">
-                        <Block v-bind:blockname="`${block.Namespace}.${block.Name}`"></Block>
+                        <Block v-bind:blockname="`${block.Namespace}.${block.Name}`" context="pipeline"></Block>
                     </div>
 
                     <div class="timeline-code">
@@ -63,7 +63,7 @@
                 <div class="timeline-entry-inner">
 
                     <div class="timeline-icon">
-                        <i class="fas fa-feather-alt"></i>
+                       <i class="far fa-circle"></i>
                     </div>
 
                     <div class="timeline-label">

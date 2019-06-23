@@ -19,7 +19,7 @@ export default new Vuex.Store({
     token: null,
     startedLoading: false,
     finishedLoading: false,
-    connectionError: false,
+    connectionError: null,
     authenticating: false,
     loadMessages: []
   },

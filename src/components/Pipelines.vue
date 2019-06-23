@@ -1,24 +1,24 @@
 <template>
-<div class="pipelines">
-    <h1>Pipelines <small class="text-muted">({{ pipelines.length}} pipelines found)</small></h1>
-    <b-row>
-        <b-col>
-            <vue-bootstrap-typeahead v-model="selectedPipelineName" :serializer="s => s.name" :data="pipelineNames" @hit="hit($event)" placeholder="Start typing to search for any text in the pipelines">
-                <template slot="suggestion" slot-scope="{ data, htmlText }">
-                    <div>
-                        <span v-html="htmlText"></span> &nbsp;<small>in
-                          <span v-html="data.namespace"></span></small>
-                    </div>
-                </template>
-            </vue-bootstrap-typeahead>
-        </b-col>
-    </b-row>
-    <b-row class="mt-3">
-        <b-col>
-            <pipeline v-bind:pipeline="selectedPipeline" v-bind:count="0" />
-        </b-col>
-    </b-row>
-</div>
+    <div class="pipelines">
+        <h1>Pipelines <small class="text-muted">({{ pipelines.length}} pipelines found)</small></h1>
+        <b-row>
+            <b-col>
+                <vue-bootstrap-typeahead v-model="selectedPipelineName" :serializer="s => s.name" :data="pipelineNames" @hit="hit($event)" placeholder="Start typing to search for any text in the pipelines">
+                    <template slot="suggestion" slot-scope="{ data, htmlText }">
+                        <div>
+                            <span v-html="htmlText"></span> &nbsp;<small>in
+                            <span v-html="data.namespace"></span></small>
+                        </div>
+                    </template>
+                </vue-bootstrap-typeahead>
+            </b-col>
+        </b-row>
+        <b-row class="mt-3">
+            <b-col>
+                <pipeline v-bind:pipeline="selectedPipeline" v-bind:count="0" />
+            </b-col>
+        </b-row>
+    </div>
 </template>
 
 <script>
@@ -63,8 +63,6 @@ export default {
     components: {
         Pipeline
     },
-    created() {},
-    mounted() {},
     methods: {
         selectPlugin: function (suggestion) {
             var pipeline = this.pipelines.find(pipeline => {
