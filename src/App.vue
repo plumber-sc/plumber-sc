@@ -31,7 +31,7 @@
                   </ul>
                 </p>
             </b-alert>
-
+            <SettingsModal />
             <keep-alive>
                 <transition name="component-fade" mode="out-in">
                     <router-view v-if="loggedIn && finishedLoading && !showInitializing" />
@@ -55,6 +55,7 @@ import Authenticate from "@/components/Authenticate.vue"
 import MissingConfig from "@/components/tips/MissingConfig.vue"
 import IdentityServer from '@/components/messages/IdentityServer.vue'
 import Message from '@/components/messages/Message.vue'
+import SettingsModal from '@/components/SettingsModal.vue'
 
 export default {
     name: "app",
@@ -101,7 +102,8 @@ export default {
         Authenticate,
         MissingConfig,
         IdentityServer,
-        Message
+        Message,
+        SettingsModal
     },
     created() {
         this.$store.dispatch("initConfig");
@@ -169,9 +171,8 @@ export default {
                     }
                 }
             })
-            .catch(function (error) {
+            .catch(function () {
                 self.missingConfig = true;
-                console.log(error);
             });
     },
     methods: {
@@ -180,7 +181,7 @@ export default {
                 var discoveryUrl = this.config.IdentityServerUri + "/.well-known/openid-configuration"
                 axios
                     .get(discoveryUrl)
-                    .then(response => {
+                    .then(() => {
                         this.$store.commit("setAuthenticating", true);
                         var identityUri = `${this.config.IdentityServerUri}/connect/authorize?response_type=id_token%20token&client_id=${this.config.ClientId}&redirect_uri=${this.config.PlumberUri}/auth/callback&scope=openid%20EngineAPI&nonce=plumber-${Math.floor(Date.now())}`;
                         window.location = identityUri;
