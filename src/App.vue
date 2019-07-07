@@ -106,7 +106,6 @@ export default {
         SettingsModal
     },
     created() {
-        this.$store.dispatch("initConfig");
     },
     mounted() {
         var self = this;
@@ -119,7 +118,12 @@ export default {
         axios
             .get("/config.json")
             .then(response => {
-                this.config = response.data;
+
+                this.config = self.$store.state.config;
+                if(this.config == null)
+                {
+                    this.config = response.data;
+                }
 
                 // Let's do some checking
                 var messages = [];

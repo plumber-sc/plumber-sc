@@ -18,8 +18,8 @@
       </button>
 
       <transition name="fade">
-        <div class="collapse navbar-collapse" id="navbarNav" v-if="showNavigation">
-          <ul class="nav nav-pills">
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="nav nav-pills" v-if="showNavigation">
             <li class="nav-item">
               <router-link
                 :to="{ name: 'pipelines'}"

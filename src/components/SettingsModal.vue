@@ -31,15 +31,22 @@
         </b-form-group>
       </b-form>
     </p>
+    
         <div slot="modal-footer">
-            <b-button variant="primary" size="sm" class="float-right btn-danger" @click="saveConfig">
+            <b-button variant="danger" size="sm" @click="saveConfig">
                 Save
+            </b-button>&nbsp;
+            <b-button variant="outline-secondary" size="sm" @click="cancelConfig">
+                Cancel
             </b-button>
         </div>
   </b-modal>
 </template>
 
 <script>
+
+import deepEqual from "deep-equal"
+
 export default {
   props: [],
   data: function() {
@@ -58,7 +65,22 @@ export default {
           this.identityServerClientId = this.$store.state.config.ClientId;
       },
     saveConfig(e) {
-      alert(e);
+      var config = {};
+      config.EngineUri = this.engineUrl;
+      config.IdentityServerUri = this.identityServerUrl;
+      config.ClientId = this.identityServerClientId;
+      config.PlumberUri = this.$store.state.config.PlumberUri;
+
+      if(!deepEqual(config, this.$store.state.config))
+      {
+          this.$store.commit("setConfig", config);
+          this.$store.dispatch("initData");
+      }
+
+      this.$root.$emit('bv::hide::modal', 'settingsModal')
+    },
+    cancelConfig(e) {
+        this.$root.$emit('bv::hide::modal', 'settingsModal')
     }
   }
 };

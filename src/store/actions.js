@@ -1,14 +1,6 @@
 import axios from "axios";
 import * as api from "../api";
-
-export const initConfig = context => {
-  axios
-    .get("/config.json")
-    .then(response => {
-      var config = response.data;
-      context.commit("setConfig", config);
-    });
-}
+import VueCookie from "vue-cookie"
 
 export const initData = context => {
   var headers = {
@@ -18,12 +10,27 @@ export const initData = context => {
 
   context.commit("setStartedLoading", true);
   context.commit("addLoadMessage", "Loading configuration");
+
+  var configJson = VueCookie.get("config");
+  if(configJson != null)
+  {
+    var config = JSON.parse(configJson);
+    if(config != null)
+    {
+      context.commit("setConfig", config);
+    }
+  }
+
   // Get configuration
   axios
     .get("/config.json")
     .then(response => {
-      var config = response.data;
-      context.commit("setConfig", config);
+      var config = context.state.config;
+      if(config == null)
+      {
+        config = response.data;
+        context.commit("setConfig", config);
+      }
       context.commit("addLoadMessage", "Loaded configuration");
 
       api.getMetaData(context.state.config, headers, context);
