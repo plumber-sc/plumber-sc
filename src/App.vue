@@ -130,7 +130,6 @@ export default {
    created() {
       var self = this;
       this.$bus.$on("reload", function() {
-         console.log("event is received.");
          self.$store.commit("setStartLoading");
          self.initializeApp();
       });
@@ -152,7 +151,7 @@ export default {
                   var plumberUri =
                      `${window.location.protocol}//${window.location.hostname}` +
                      (window.location.port ? `:${window.location.port}` : ``);
-                  console.log(plumberUri);
+
                   this.$store.commit("setAuthenticating", true);
                   var identityUri = `${
                      this.config.IdentityServerUri

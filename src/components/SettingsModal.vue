@@ -56,12 +56,12 @@ export default {
    },
    mounted() {},
    methods: {
-      showModal(e) {
+      showModal() {
          this.engineUrl = this.$store.state.config.EngineUri;
          this.identityServerUrl = this.$store.state.config.IdentityServerUri;
          this.identityServerClientId = this.$store.state.config.ClientId;
       },
-      saveConfig(e) {
+      saveConfig() {
          var config = {};
          config.EngineUri = this.engineUrl;
          config.IdentityServerUri = this.identityServerUrl;
@@ -75,7 +75,7 @@ export default {
 
          this.$root.$emit("bv::hide::modal", "settingsModal");
       },
-      cancelConfig(e) {
+      cancelConfig() {
          this.$root.$emit("bv::hide::modal", "settingsModal");
       }
    }
