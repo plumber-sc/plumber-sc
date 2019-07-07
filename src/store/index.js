@@ -48,6 +48,19 @@ export default new Vuex.Store({
     },
     setStartedLoading: (state, startedLoading) => {
       state.startedLoading = startedLoading;
+      state.finishedLoading = false;
+    },
+    setStartLoading: (state) => {
+      state.startedLoading = false
+      state.finishedLoading = false
+      state.pipelines = []
+      state.blocks = []
+      state.schema = null
+      state.policySets = []
+      state.plugins = []
+      state.token = null
+      state.loadMessages = []
+      state.connectionError = null
     },
     setFinishedLoading: (state, finishedLoading) => {
       state.finishedLoading = finishedLoading;
