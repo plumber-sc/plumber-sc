@@ -32,4 +32,5 @@ deploy:
   provider: script
   script: netlify deploy -s $NETLIFY_SITE_ID -t $NETLIFY_TOKEN -p ./dist
   skip_cleanup: true
- 
+  on:
+    branch: develop
