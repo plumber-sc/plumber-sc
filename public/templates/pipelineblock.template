@@ -2,7 +2,7 @@ namespace {{=it.namespace}}
 {
     using Sitecore.Commerce.Core;
     using Sitecore.Framework.Conditions;
-    using Sitecorae.Framework.Pipelines;
+    using Sitecore.Framework.Pipelines;
     using System.Threading.Tasks;
 
     [PipelineDisplayName("Change to <Project>Constants.Pipelines.Blocks.<Block Name>")]

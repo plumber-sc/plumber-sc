@@ -7,6 +7,12 @@ install:
   - echo Building Plumber $TRAVIS_TAG-$TRAVIS_BUILD_NUMBER
   - npm install
   - npm run build
+
+script: 
+  - npm run build
+
+before_deploy:
+  - npm install netlify-cli -g
   - cp install/iis/web.config dist/
   - cd dist
   - touch version.txt
@@ -14,12 +20,17 @@ install:
   - zip -r ../plumber-sc.$TRAVIS_TAG.zip .
   - cd ..
 
-script: npm run test
-
 deploy:
   provider: releases
   api_key: $GITHUB_TOKEN
   file: plumber-sc.$TRAVIS_TAG.zip
+  skip_cleanup: true
+  on:
+    tags: true
+
+deploy:
+  provider: script
+  script: netlify deploy --site $NETLIFY_SITE_ID --auth $NETLIFY_TOKEN --prod --dir ./dist
   skip_cleanup: true
   on:
     tags: true
