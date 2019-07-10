@@ -1,13 +1,17 @@
 import axios from "axios";
 import * as api from "../api";
+import VueCookie from "vue-cookie"
 
-export const initConfig = context => {
-  axios
-    .get("/config.json")
-    .then(response => {
-      var config = response.data;
+export const initStore = context => {
+  var configJson = VueCookie.get("config");
+  if(configJson != null)
+  {
+    var config = JSON.parse(configJson);
+    if(config != null)
+    {
       context.commit("setConfig", config);
-    });
+    }
+  }
 }
 
 export const initData = context => {
@@ -18,12 +22,17 @@ export const initData = context => {
 
   context.commit("setStartedLoading", true);
   context.commit("addLoadMessage", "Loading configuration");
+
   // Get configuration
   axios
     .get("/config.json")
     .then(response => {
-      var config = response.data;
-      context.commit("setConfig", config);
+      var config = context.state.config;
+      if(config == null)
+      {
+        config = response.data;
+        context.commit("setConfig", config);
+      }
       context.commit("addLoadMessage", "Loaded configuration");
 
       api.getMetaData(context.state.config, headers, context);

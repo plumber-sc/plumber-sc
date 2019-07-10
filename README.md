@@ -6,7 +6,7 @@
 
 # Plumber for Sitecore Commerce
 
-Plumber is a configuration viewer for Sitecore Commerce, a bit like `showconfig.aspx` in Sitecore but with built-in search capabilities. 
+Plumber is a configuration viewer for Sitecore Commerce, a bit like `showconfig.aspx` in Sitecore but with a more visual interface and built-in search capabilities. 
 
 ## What do you use it for?
 
@@ -24,7 +24,122 @@ Plumber is compatible with:
 
 If you're using Sitecore Commerce 8.2.1 see: [Using Plumber with Sitecore Commerce 8.2.1](#using-plumber-with-sitecore-commerce-821)
 
-## Installing Plumber
+## Using hosted Plumber
+
+You don't have to install Plumber to use it: you can use the hosted version on [https://vwr.plumber-sc.com](https://vwr.plumber-sc.com). You _do_ need to configure Sitecore Identity Server and configure your Commerce Engines that you want Plumber to have access to.
+
+* [Configuring Identity Server for Sitecore Commerce 9 for hosted Plumber](#Configuring-Identity-Server-for-Sitecore-Commerce-9-for-hosted-Plumber)
+* [Configuring Identity Server for Sitecore Commerce 9.1 for hosted Plumber](#Configuring-Identity-Server-for-Sitecore-Commerce-9.1-for-hosted-Plumber)
+* [Configuring your commerce engine for hosted Plumber](#Configuring-your-commerce-engine-for-hosted-Plumber)
+
+You can use the _Settings_ dialog in Plumber to change:
+
+* the url of the engine you are connecting to;
+* the url of the Sitecore Identity Server you are connecting to;
+* the client id you are using when connecting with Identity Server;
+
+![Settings dialog in Plumber](https://github.com/plumber-sc/plumber-sc/blob/develop/docs/assets/images/plumber-settings.png?raw=true)
+
+### Configuring Identity Server for Sitecore Commerce 9 for hosted Plumber
+
+Plumber-sc uses Sitecore Identity Server to get an authentication token, used to authenticate against the commerce engine. You need to add plumber-sc as a client in the configuration of Identity Server.
+
+You can find Identity Server's configuration in the `appsettings.json` file in the `wwwroot` folder of Sitecore Identity Server.
+
+Open the file and add the following to the `Clients` section:
+
+```json
+  {
+    "ClientId": "Plumber",
+    "ClientName": "Plumber",
+    "AccessTokenType": 0,
+    "AccessTokenLifetimeInSeconds": 3600,
+    "IdentityTokenLifetimeInSeconds": 3600,
+    "AllowAccessTokensViaBrowser": true,
+    "RequireConsent": false,
+    "RequireClientSecret": false,
+    "AllowedGrantTypes": [
+      "implicit"
+    ],
+    "RedirectUris": [
+      "https://vwr.plumber-sc.com/"
+    ],
+    "PostLogoutRedirectUris": [
+      "https://vwr.plumber-sc.com/"
+    ],
+    "AllowedCorsOrigins": [
+      "https://vwr.plumber-sc.com/"
+    ],
+    "AllowedScopes": [
+      "openid",
+      "dataEventRecords",
+      "dataeventrecordsscope",
+      "securedFiles",
+      "securedfilesscope",
+      "role",
+      "EngineAPI"
+    ]
+  },
+```
+
+This configuration sets up Identity Server to allow authentication from clients authenticating with client id `Plumber` coming from `https://vwr.plumber-sc.com/`. 
+
+### Configuring Identity Server for Sitecore Commerce 9.1 for hosted Plumber
+
+In Sitecore 9.1, Identity Server is used for the whole platform. This brought about a change in the configuration file going from JSON to XML. 
+
+You can find Identity Server's configuration in the `\Config\production\Sitecore.Commerce.IdentityServer.Host.xml` folder where Sitecore Identity Server was installed.
+
+Open the file and add the following to the `<Clients>` section:
+
+```xml
+  <PlumberClient>
+    <ClientId>Plumber</ClientId>
+    <ClientName>Plumber</ClientName>
+    <AccessTokenType>0</AccessTokenType>
+    <AllowOfflineAccess>true</AllowOfflineAccess>
+    <AlwaysIncludeUserClaimsInIdToken>false</AlwaysIncludeUserClaimsInIdToken>
+    <AccessTokenLifetimeInSeconds>3600</AccessTokenLifetimeInSeconds>
+    <IdentityTokenLifetimeInSeconds>3600</IdentityTokenLifetimeInSeconds>
+    <AllowAccessTokensViaBrowser>true</AllowAccessTokensViaBrowser>
+    <RequireConsent>false</RequireConsent>
+    <RequireClientSecret>false</RequireClientSecret>
+    <AllowedGrantTypes>
+      <AllowedGrantType1>implicit</AllowedGrantType1>
+    </AllowedGrantTypes>
+    <RedirectUris>
+      <RedirectUri1>{AllowedCorsOrigin}/auth/callback</RedirectUri1>
+    </RedirectUris>
+    <PostLogoutRedirectUris>
+      <PostLogoutRedirectUri1>{AllowedCorsOrigin}</PostLogoutRedirectUri1>
+    </PostLogoutRedirectUris>
+    <AllowedCorsOrigins>
+      <AllowedCorsOrigins1>https://vwr.plumber-sc.com</AllowedCorsOrigins1>
+    </AllowedCorsOrigins>
+    <AllowedScopes>
+      <AllowedScope1>openid</AllowedScope1>
+      <AllowedScope2>EngineAPI</AllowedScope2>
+      <AllowedScope3>postman_api</AllowedScope3>
+    </AllowedScopes>
+    <UpdateAccessTokenClaimsOnRefresh>true</UpdateAccessTokenClaimsOnRefresh>
+  </PlumberClient>
+
+```
+This configuration sets up Identity Server to allow authentication from clients authenticating with client id `Plumber` coming from `https://vwr.plumber-sc.com`. If you're running plumber-sc on a different port you need to adjust these settings.
+
+## Configuring your commerce engine for hosted Plumber
+
+To configure your engine to allow Plumber, you add plumber-sc as an allowed origin. Open `config.json` in the `wwwroot` folder of your commerce engine and add the url of hosted Plumber (`https://vwr.plumber-sc.com`) to the `AllowedOrigins` section. It should look something like this: 
+
+```
+  "AllowedOrigins": [
+      "https://localhost:4200",
+      "http://localhost:4200",
+      "https://vwr.plumber-sc.com"
+  ],
+```
+
+## Installing Plumber locally
 
 This document describes two ways of installing Plumber: as an IIS website or running it in development mode directly from NPM.
 

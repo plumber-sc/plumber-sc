@@ -15,10 +15,12 @@ import hljs from 'highlight.js'
 import VueClipboard from 'vue-clipboard2'
 import VueBootstrapTypeahead from 'vue-bootstrap-typeahead'
 import VueCookie from 'vue-cookie'
+import VueBus from 'vue-event-bus'
 
 Vue.use(BootstrapVue)
 Vue.use(Snotify)
 Vue.use(VueCookie);
+Vue.use(VueBus);
 
 Vue.use(VueAxios, axios)
 

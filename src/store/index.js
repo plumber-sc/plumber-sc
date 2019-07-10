@@ -2,8 +2,8 @@ import Vue from "vue";
 import Vuex from "vuex";
 import { createFlashStore } from "vuex-flash";
 import * as actions from "./actions";
-import axios from "axios";
 import _ from "underscore";
+import VueCookie from 'vue-cookie'
 
 Vue.use(Vuex);
 
@@ -41,12 +41,26 @@ export default new Vuex.Store({
     },
     setConfig: (state, config) => {
       state.config = config;
+      VueCookie.set("config", JSON.stringify(config));
     },
     setToken: (state, token) => {
       state.token = token;
     },
     setStartedLoading: (state, startedLoading) => {
       state.startedLoading = startedLoading;
+      state.finishedLoading = false;
+    },
+    setStartLoading: (state) => {
+      state.startedLoading = false
+      state.finishedLoading = false
+      state.pipelines = []
+      state.blocks = []
+      state.schema = null
+      state.policySets = []
+      state.plugins = []
+      state.token = null
+      state.loadMessages = []
+      state.connectionError = null
     },
     setFinishedLoading: (state, finishedLoading) => {
       state.finishedLoading = finishedLoading;
