@@ -33,4 +33,4 @@ deploy:
   script: netlify deploy --site $NETLIFY_SITE_ID --auth $NETLIFY_TOKEN --prod --dir ./dist
   skip_cleanup: true
   on:
-    branch: develop
+    tags: true
