@@ -32,6 +32,13 @@ You don't have to install Plumber to use it: you can use the hosted version on [
 * [Configuring Identity Server for Sitecore Commerce 9.1 for hosted Plumber](#Configuring-Identity-Server-for-Sitecore-Commerce-9.1-for-hosted-Plumber)
 * [Configuring your commerce engine for hosted Plumber](#Configuring-your-commerce-engine-for-hosted-Plumber)
 
+You can use the _Settings_ dialog in Plumber to change:
+
+* the url of the engine you are connecting to;
+* the url of the Sitecore Identity Server you are connecting to;
+* the client id you are using when connecting with Identity Server;
+
+![Settings dialog in Plumber](https://github.com/plumber-sc/plumber-sc/blob/develop/docs/assets/images/plumber-settings.png?raw=true)
 
 ### Configuring Identity Server for Sitecore Commerce 9 for hosted Plumber
 
