@@ -88,43 +88,52 @@ This configuration sets up Identity Server to allow authentication from clients 
 
 In Sitecore 9.1, Identity Server is used for the whole platform. This brought about a change in the configuration file going from JSON to XML. 
 
-You can find Identity Server's configuration in the `\Config\production\Sitecore.Commerce.IdentityServer.Host.xml` folder where Sitecore Identity Server was installed.
+You can find Identity Server's configuration in the `\Config\production\` folder where Sitecore Identity Server was installed.
 
-Open the file and add the following to the `<Clients>` section:
+Create a new file in this folder called `Plumber.IdentityServer.Host.xml` and paste the the following xml:
 
 ```xml
-  <PlumberClient>
-    <ClientId>Plumber</ClientId>
-    <ClientName>Plumber</ClientName>
-    <AccessTokenType>0</AccessTokenType>
-    <AllowOfflineAccess>true</AllowOfflineAccess>
-    <AlwaysIncludeUserClaimsInIdToken>false</AlwaysIncludeUserClaimsInIdToken>
-    <AccessTokenLifetimeInSeconds>3600</AccessTokenLifetimeInSeconds>
-    <IdentityTokenLifetimeInSeconds>3600</IdentityTokenLifetimeInSeconds>
-    <AllowAccessTokensViaBrowser>true</AllowAccessTokensViaBrowser>
-    <RequireConsent>false</RequireConsent>
-    <RequireClientSecret>false</RequireClientSecret>
-    <AllowedGrantTypes>
-      <AllowedGrantType1>implicit</AllowedGrantType1>
-    </AllowedGrantTypes>
-    <RedirectUris>
-      <RedirectUri1>{AllowedCorsOrigin}/auth/callback</RedirectUri1>
-    </RedirectUris>
-    <PostLogoutRedirectUris>
-      <PostLogoutRedirectUri1>{AllowedCorsOrigin}</PostLogoutRedirectUri1>
-    </PostLogoutRedirectUris>
-    <AllowedCorsOrigins>
-      <AllowedCorsOrigins1>https://vwr.plumber-sc.com</AllowedCorsOrigins1>
-    </AllowedCorsOrigins>
-    <AllowedScopes>
-      <AllowedScope1>openid</AllowedScope1>
-      <AllowedScope2>EngineAPI</AllowedScope2>
-      <AllowedScope3>postman_api</AllowedScope3>
-    </AllowedScopes>
-    <UpdateAccessTokenClaimsOnRefresh>true</UpdateAccessTokenClaimsOnRefresh>
-  </PlumberClient>
-
+<?xml version="1.0" encoding="utf-8"?>
+<Settings>
+  <Sitecore>
+    <IdentityServer>
+      <Clients>
+        <PlumberClient>
+          <ClientId>Plumber</ClientId>
+          <ClientName>Plumber</ClientName>
+          <AccessTokenType>0</AccessTokenType>
+          <AllowOfflineAccess>true</AllowOfflineAccess>
+          <AlwaysIncludeUserClaimsInIdToken>false</AlwaysIncludeUserClaimsInIdToken>
+          <AccessTokenLifetimeInSeconds>3600</AccessTokenLifetimeInSeconds>
+          <IdentityTokenLifetimeInSeconds>3600</IdentityTokenLifetimeInSeconds>
+          <AllowAccessTokensViaBrowser>true</AllowAccessTokensViaBrowser>
+          <RequireConsent>false</RequireConsent>
+          <RequireClientSecret>false</RequireClientSecret>
+          <AllowedGrantTypes>
+            <AllowedGrantType1>implicit</AllowedGrantType1>
+          </AllowedGrantTypes>
+          <RedirectUris>
+            <RedirectUri1>{AllowedCorsOrigin}/auth/callback</RedirectUri1>
+          </RedirectUris>
+          <PostLogoutRedirectUris>
+            <PostLogoutRedirectUri1>{AllowedCorsOrigin}</PostLogoutRedirectUri1>
+          </PostLogoutRedirectUris>
+          <AllowedCorsOrigins>
+            <AllowedCorsOrigins1>https://vwr.plumber-sc.com</AllowedCorsOrigins1>
+          </AllowedCorsOrigins>
+          <AllowedScopes>
+            <AllowedScope1>openid</AllowedScope1>
+            <AllowedScope2>EngineAPI</AllowedScope2>
+            <AllowedScope3>postman_api</AllowedScope3>
+          </AllowedScopes>
+          <UpdateAccessTokenClaimsOnRefresh>true</UpdateAccessTokenClaimsOnRefresh>
+        </PlumberClient>
+      </Clients>
+    </IdentityServer>
+  </Sitecore>
+</Settings>
 ```
+
 This configuration sets up Identity Server to allow authentication from clients authenticating with client id `Plumber` coming from `https://vwr.plumber-sc.com`. If you're running plumber-sc on a different port you need to adjust these settings.
 
 ## Configuring your commerce engine for hosted Plumber
@@ -257,43 +266,52 @@ This configuration sets up Identity Server to allow authentication from clients 
 
 In Sitecore 9.1, Identity Server is used for the whole platform. This brought about a change in the configuration file going from JSON to XML. 
 
-You can find Identity Server's configuration in the `\Config\production\Sitecore.Commerce.IdentityServer.Host.xml` folder where Sitecore Identity Server was installed.
+You can find Identity Server's configuration in the `\Config\production\` folder where Sitecore Identity Server was installed.
 
-Open the file and add the following to the `<Clients>` section:
+Create a new file in this folder called `Plumber.IdentityServer.Host.xml` and paste the the following xml. Don't forget to replace `http://localhost:8080` with the url where you are hosting your copy of Plumber:
 
 ```xml
-  <PlumberClient>
-    <ClientId>Plumber</ClientId>
-    <ClientName>Plumber</ClientName>
-    <AccessTokenType>0</AccessTokenType>
-    <AllowOfflineAccess>true</AllowOfflineAccess>
-    <AlwaysIncludeUserClaimsInIdToken>false</AlwaysIncludeUserClaimsInIdToken>
-    <AccessTokenLifetimeInSeconds>3600</AccessTokenLifetimeInSeconds>
-    <IdentityTokenLifetimeInSeconds>3600</IdentityTokenLifetimeInSeconds>
-    <AllowAccessTokensViaBrowser>true</AllowAccessTokensViaBrowser>
-    <RequireConsent>false</RequireConsent>
-    <RequireClientSecret>false</RequireClientSecret>
-    <AllowedGrantTypes>
-      <AllowedGrantType1>implicit</AllowedGrantType1>
-    </AllowedGrantTypes>
-    <RedirectUris>
-      <RedirectUri1>{AllowedCorsOrigin}/auth/callback</RedirectUri1>
-    </RedirectUris>
-    <PostLogoutRedirectUris>
-      <PostLogoutRedirectUri1>{AllowedCorsOrigin}</PostLogoutRedirectUri1>
-    </PostLogoutRedirectUris>
-    <AllowedCorsOrigins>
-      <AllowedCorsOrigins1>http://localhost:8080</AllowedCorsOrigins1>
-    </AllowedCorsOrigins>
-    <AllowedScopes>
-      <AllowedScope1>openid</AllowedScope1>
-      <AllowedScope2>EngineAPI</AllowedScope2>
-      <AllowedScope3>postman_api</AllowedScope3>
-    </AllowedScopes>
-    <UpdateAccessTokenClaimsOnRefresh>true</UpdateAccessTokenClaimsOnRefresh>
-  </PlumberClient>
-
+<?xml version="1.0" encoding="utf-8"?>
+<Settings>
+  <Sitecore>
+    <IdentityServer>
+      <Clients>
+        <PlumberClient>
+          <ClientId>Plumber</ClientId>
+          <ClientName>Plumber</ClientName>
+          <AccessTokenType>0</AccessTokenType>
+          <AllowOfflineAccess>true</AllowOfflineAccess>
+          <AlwaysIncludeUserClaimsInIdToken>false</AlwaysIncludeUserClaimsInIdToken>
+          <AccessTokenLifetimeInSeconds>3600</AccessTokenLifetimeInSeconds>
+          <IdentityTokenLifetimeInSeconds>3600</IdentityTokenLifetimeInSeconds>
+          <AllowAccessTokensViaBrowser>true</AllowAccessTokensViaBrowser>
+          <RequireConsent>false</RequireConsent>
+          <RequireClientSecret>false</RequireClientSecret>
+          <AllowedGrantTypes>
+            <AllowedGrantType1>implicit</AllowedGrantType1>
+          </AllowedGrantTypes>
+          <RedirectUris>
+            <RedirectUri1>{AllowedCorsOrigin}/auth/callback</RedirectUri1>
+          </RedirectUris>
+          <PostLogoutRedirectUris>
+            <PostLogoutRedirectUri1>{AllowedCorsOrigin}</PostLogoutRedirectUri1>
+          </PostLogoutRedirectUris>
+          <AllowedCorsOrigins>
+            <AllowedCorsOrigins1>http://localhost:8080</AllowedCorsOrigins1>
+          </AllowedCorsOrigins>
+          <AllowedScopes>
+            <AllowedScope1>openid</AllowedScope1>
+            <AllowedScope2>EngineAPI</AllowedScope2>
+            <AllowedScope3>postman_api</AllowedScope3>
+          </AllowedScopes>
+          <UpdateAccessTokenClaimsOnRefresh>true</UpdateAccessTokenClaimsOnRefresh>
+        </PlumberClient>
+      </Clients>
+    </IdentityServer>
+  </Sitecore>
+</Settings>
 ```
+
 This configuration sets up Identity Server to allow authentication from clients authenticating with client id `Plumber` coming from `http://localhost:8080`. If you're running plumber-sc on a different port you need to adjust these settings.
 
 ## Configuring your commerce engine
