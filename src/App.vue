@@ -10,16 +10,15 @@
                <div v-for="message in loadMessages">{{ message }}</div>
             </div>
 
-            <div v-if="connectionError">
-               <Message
-                  heading="Oops..."
-                  :message="`It looks like we cannot communicate with the Commerce Engine on <code>`+config.EngineUri+`</code>`"
-                  :error="connectionError.message"
-                  helpLink="https://github.com/plumber-sc/plumber-sc#configuring-plumber"
-                  helpText="Click here for more information on how to configure Commerce Engine to work with Plumber"
-               />
-            </div>
             <IdentityServer v-if="authenticating" />
+            <IdentityServerHelp
+               v-if="showIdentityServerEror"
+               :config="config"
+               :plumberUri="plumberUri"
+            />
+
+            <CommerceEngineHelp v-if="connectionError" :config="config" :plumberUri="plumberUri" />
+
             <Message
                v-if="showMessage"
                :heading="messageHeading"
@@ -72,6 +71,8 @@ import MissingConfig from "@/components/tips/MissingConfig.vue";
 import IdentityServer from "@/components/messages/IdentityServer.vue";
 import Message from "@/components/messages/Message.vue";
 import SettingsModal from "@/components/SettingsModal.vue";
+import IdentityServerHelp from "./components/messages/IdentityServer-help.vue";
+import CommerceEngineHelp from "./components/messages/commerce-engine-help.vue";
 
 export default {
    name: "app",
@@ -84,10 +85,17 @@ export default {
          config: null,
          version: "",
          showNewVersionMessage: false,
+         showIdentityServerEror: false,
+         showCommerceEngineError: false,
          latestRelease: {}
       };
    },
    computed: {
+      plumberUri: () => {
+         return `${window.location.protocol}//${window.location.hostname}${
+            window.location.port ? ":" + window.location.port : ""
+         }`;
+      },
       showMessage: function() {
          return this.messageHeading != "" && this.messageText != "";
       },
@@ -100,6 +108,7 @@ export default {
             !this.connectionError &&
             !this.missingConfig &&
             !this.authenticating &&
+            !this.showIdentityServerEror &&
             !this.showMessage
          );
       },
@@ -125,7 +134,9 @@ export default {
       MissingConfig,
       IdentityServer,
       Message,
-      SettingsModal
+      SettingsModal,
+      IdentityServerHelp,
+      CommerceEngineHelp
    },
    created() {
       var self = this;
@@ -163,17 +174,10 @@ export default {
                   window.location = identityUri;
                })
                .catch(error => {
-                  this.messageHeading = "Something is wrong...";
-                  this.messageText =
-                     "It looks like Sitecore Identity Server cannot be reached on this url: <code>" +
-                     this.config.IdentityServerUri +
-                     "</code>";
-                  this.errorText = `${error.message}`;
+                  this.showIdentityServerEror = true;
                });
          } else {
-            this.messageHeading = "Oops...";
-            this.messageText =
-               "It looks like the Sitecore Identity Server url in the config.json file has not been set. ";
+            this.showIdentityServerEror = true;
          }
       },
       dismissNewVersionMessage: function() {
