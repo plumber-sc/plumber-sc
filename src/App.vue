@@ -189,7 +189,7 @@ export default {
       },
       initializeApp: function() {
          var self = this;
-         
+
          axios.get("/version.txt").then(response => {
             this.version = response.data;
          });
