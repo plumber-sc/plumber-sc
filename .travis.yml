@@ -21,16 +21,14 @@ before_deploy:
   - cd ..
 
 deploy:
-  provider: releases
-  api_key: $GITHUB_TOKEN
-  file: plumber-sc.$TRAVIS_TAG.zip
-  skip_cleanup: true
-  on:
-    tags: true
-
-deploy:
-  provider: script
-  script: netlify deploy --site $NETLIFY_SITE_ID --auth $NETLIFY_TOKEN --prod --dir ./dist
-  skip_cleanup: true
-  on:
-    tags: true
+  - provider: releases
+    api_key: $GITHUB_TOKEN
+    file: plumber-sc.$TRAVIS_TAG.zip
+    skip_cleanup: true
+    on:
+      tags: true
+  - provider: script
+    script: netlify deploy --site $NETLIFY_SITE_ID --auth $NETLIFY_TOKEN --prod --dir ./dist
+    skip_cleanup: true
+    on:
+      tags: true
