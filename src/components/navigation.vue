@@ -78,6 +78,7 @@
 import _ from "underscore";
 
 export default {
+
    props: {
       showNavigation: Boolean,
       version: {
@@ -96,6 +97,7 @@ export default {
          return environments;
       }
    }
+
 };
 </script>
 
@@ -134,5 +136,6 @@ a.logo span {
 
 i.fa-sliders-h {
    color: #d50000;
+
 }
 </style>

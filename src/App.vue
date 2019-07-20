@@ -74,6 +74,7 @@ import SettingsModal from "@/components/SettingsModal.vue";
 import IdentityServerHelp from "./components/messages/IdentityServer-help.vue";
 import CommerceEngineHelp from "./components/messages/commerce-engine-help.vue";
 
+
 export default {
    name: "app",
    data() {
@@ -189,7 +190,7 @@ export default {
       },
       initializeApp: function() {
          var self = this;
-
+         
          axios.get("/version.txt").then(response => {
             this.version = response.data;
          });
