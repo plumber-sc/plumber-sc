@@ -122,6 +122,8 @@ export default {
 }
 
 .pipelinelist .letter {
+   margin-top: 12px;
    font-weight: bold;
+   border-bottom: solid 1px #e0e0e0;
 }
 </style>

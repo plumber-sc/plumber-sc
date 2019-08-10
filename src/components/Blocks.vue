@@ -39,6 +39,7 @@
 
 <script>
 import Router from "../router";
+import { createSelector } from "reselect";
 
 import Block from "./Partials/Block";
 
@@ -121,7 +122,9 @@ export default {
 }
 
 .filterlist .letter {
+   margin-top: 12px;
    font-weight: bold;
+   border-bottom: solid 1px #d50000;
 }
 
 .back-link {
