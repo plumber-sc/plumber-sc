@@ -24,7 +24,7 @@
             </div>
          </b-col>
       </b-row>
-      <b-row class="mt-3">
+      <b-row class="mt-3" v-if="selectedBlockName">
          <b-col>
             <div class="back-link">
                <router-link :to="{ name: 'blocks'}">
@@ -118,13 +118,15 @@ export default {
 
 .filterlist {
    padding-top: 12px;
-   column-count: 2;
+   column-count: 3;
+   font-size: 0.95em;
 }
 
 .filterlist .letter {
    margin-top: 12px;
    font-weight: bold;
-   border-bottom: solid 1px #d50000;
+   font-size: 1.2em;
+   border-bottom: solid 1px #e0e0e0;
 }
 
 .back-link {
