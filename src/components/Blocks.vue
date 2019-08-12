@@ -39,7 +39,6 @@
 
 <script>
 import Router from "../router";
-import { createSelector } from "reselect";
 
 import Block from "./Partials/Block";
 

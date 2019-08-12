@@ -19,6 +19,8 @@
 
             <CommerceEngineHelp v-if="connectionError" :config="config" :plumberUri="plumberUri" />
 
+            <Welcome v-if="firstTime" />
+
             <Message
                v-if="showMessage"
                :heading="messageHeading"
@@ -73,6 +75,7 @@ import Message from "@/components/messages/Message.vue";
 import SettingsModal from "@/components/SettingsModal.vue";
 import IdentityServerHelp from "./components/messages/IdentityServer-help.vue";
 import CommerceEngineHelp from "./components/messages/commerce-engine-help.vue";
+import Welcome from "./components/messages/Welcome.vue"
 
 export default {
    name: "app",
@@ -87,7 +90,8 @@ export default {
          showNewVersionMessage: false,
          showIdentityServerEror: false,
          showCommerceEngineError: false,
-         latestRelease: {}
+         latestRelease: {},
+         firstTime: true
       };
    },
    computed: {
@@ -136,7 +140,8 @@ export default {
       Message,
       SettingsModal,
       IdentityServerHelp,
-      CommerceEngineHelp
+      CommerceEngineHelp,
+      Welcome
    },
    created() {
       var self = this;
