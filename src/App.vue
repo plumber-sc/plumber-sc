@@ -3,57 +3,65 @@
       <navigation :show-navigation="finishedLoading" :version="version"></navigation>
       <b-row>
          <b-col cols="12">
-            <authenticate></authenticate>
-
-            <div v-if="showInitializing" class="alert alert-info" role="alert">
-               <h4 class="alert-heading">Initializing...</h4>
-               <div v-for="message in loadMessages">{{ message }}</div>
-            </div>
-
-            <IdentityServer v-if="authenticating" />
-            <IdentityServerHelp
-               v-if="showIdentityServerEror"
-               :config="config"
-               :plumberUri="plumberUri"
-            />
-
-            <CommerceEngineHelp v-if="connectionError" :config="config" :plumberUri="plumberUri" />
-
-            <Welcome v-if="firstTime" />
-
-            <Message
-               v-if="showMessage"
-               :heading="messageHeading"
-               :message="messageText"
-               :error="errorText"
-            />
-            <MissingConfig v-if="missingConfig" />
-            <b-alert
-               v-model="showNewVersionMessage"
-               variant="info"
-               dismissible
-               @dismissed="dismissNewVersionMessage"
-            >
-               <h4 class="alert-heading">There is a new version of Plumber available!</h4>
-
-               <ul>
-                  <li>
-                     <a :href="latestRelease.html_url" class="alert-link">Read about what's new</a>
-                  </li>
-                  <li>
-                     <a
-                        :href="latestRelease.html_url+'/plumber-sc.'+latestRelease.tag_name+'.zip'"
-                        class="alert-link"
-                     >Download the latest release</a>
-                  </li>
-               </ul>
-            </b-alert>
             <SettingsModal />
-            <keep-alive>
-               <transition name="component-fade" mode="out-in">
-                  <router-view v-if="loggedIn && finishedLoading && !showInitializing" />
-               </transition>
-            </keep-alive>
+            <Welcome v-if="this.isFirstTime()" :config="config" :plumberUri="plumberUri" />
+            <div v-if="!this.isFirstTime()">
+               <authenticate></authenticate>
+
+               <template v-if="showInitializing">
+                  <div v-if="showInitializing" class="alert alert-info" role="alert">
+                     <h4 class="alert-heading">Initializing...</h4>
+                     <div v-for="message in loadMessages">{{ message }}</div>
+                  </div>
+               </template>
+
+               <template v-else-if="authenticating">
+                  <IdentityServer />
+               </template>
+
+               <template v-else-if="showIdentityServerEror">
+                  <IdentityServerHelp :config="config" :plumberUri="plumberUri" />
+               </template>
+
+               <template v-else-if="connectionError">
+                  <CommerceEngineHelp :config="config" :plumberUri="plumberUri" />
+               </template>
+
+               <template v-else-if="showMessage">
+                  <Message :heading="messageHeading" :message="messageText" :error="errorText" />
+               </template>
+
+               <template v-else-if="missingConfig">
+                  <MissingConfig />
+               </template>
+
+               <b-alert
+                  v-model="showNewVersionMessage"
+                  variant="info"
+                  dismissible
+                  @dismissed="dismissNewVersionMessage"
+               >
+                  <h4 class="alert-heading">There is a new version of Plumber available!</h4>
+
+                  <ul>
+                     <li>
+                        <a :href="latestRelease.html_url" class="alert-link">Read about what's new</a>
+                     </li>
+                     <li>
+                        <a
+                           :href="latestRelease.html_url+'/plumber-sc.'+latestRelease.tag_name+'.zip'"
+                           class="alert-link"
+                        >Download the latest release</a>
+                     </li>
+                  </ul>
+               </b-alert>
+
+               <keep-alive>
+                  <transition name="component-fade" mode="out-in">
+                     <router-view v-if="loggedIn && finishedLoading && !showInitializing" />
+                  </transition>
+               </keep-alive>
+            </div>
          </b-col>
       </b-row>
    </div>
@@ -75,7 +83,7 @@ import Message from "@/components/messages/Message.vue";
 import SettingsModal from "@/components/SettingsModal.vue";
 import IdentityServerHelp from "./components/messages/IdentityServer-help.vue";
 import CommerceEngineHelp from "./components/messages/commerce-engine-help.vue";
-import Welcome from "./components/messages/Welcome.vue"
+import Welcome from "./components/messages/Welcome.vue";
 
 export default {
    name: "app",
@@ -90,8 +98,7 @@ export default {
          showNewVersionMessage: false,
          showIdentityServerEror: false,
          showCommerceEngineError: false,
-         latestRelease: {},
-         firstTime: true
+         latestRelease: {}
       };
    },
    computed: {
@@ -153,7 +160,9 @@ export default {
       this.$store.dispatch("initStore");
    },
    mounted() {
-      this.initializeApp();
+      if (!this.isFirstTime()) {
+         this.initializeApp();
+      }
    },
    methods: {
       authenticate: function() {
@@ -184,6 +193,9 @@ export default {
          } else {
             this.showIdentityServerEror = true;
          }
+      },
+      isFirstTime: function() {
+         return this.$cookie.get("config") == null;
       },
       dismissNewVersionMessage: function() {
          var currentDate = new Date();
