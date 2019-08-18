@@ -47,7 +47,7 @@ export function getEnvironments(config, headers, context) {
             axios
               .get(
                 context.state.config.EngineUri +
-                  `/api/PolicySets('${policySetName}')`,
+                `/api/PolicySets('${policySetName}')`,
                 {
                   headers: headers
                 }
@@ -97,10 +97,12 @@ export function getPipelines(config, headers, context) {
       headers: headers
     })
     .then(response => {
-      var pipelines = sortJsonArray(response.data.List, "Namespace");
+      var allPipelines = sortJsonArray(response.data.List, "Name");
       var namespaces = [];
       var pipelineNames = [];
       var blocks = [];
+
+      var pipelines = _.uniq(allPipelines, true, (p) => `${p.Namespace}.${p.Name}`);
 
       pipelines.forEach(pipeline => {
         if (!namespaces.includes(pipeline.Namespace)) {
