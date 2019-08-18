@@ -97,10 +97,12 @@ export function getPipelines(config, headers, context) {
       headers: headers
     })
     .then(response => {
-      var pipelines = sortJsonArray(response.data.List, "Name");
+      var allPipelines = sortJsonArray(response.data.List, "Name");
       var namespaces = [];
       var pipelineNames = [];
       var blocks = [];
+
+      var pipelines = _.uniq(allPipelines, true, (p) => `${p.Namespace}.${p.Name}`);
 
       pipelines.forEach(pipeline => {
         if (!namespaces.includes(pipeline.Namespace)) {

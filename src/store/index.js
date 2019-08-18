@@ -12,6 +12,7 @@ export default new Vuex.Store({
     environments: [],
     pipelines: [],
     blocks: [],
+    blocksDictionary: null,
     schema: null,
     policySets: [],
     plugins: [],
@@ -32,6 +33,12 @@ export default new Vuex.Store({
     },
     setBlocks: (state, blocks) => {
       state.blocks = blocks;
+    },
+    setBlocksDictionary: (state, blocksDictionary) => {
+      state.blocksDictionary = blocksDictionary;
+    },
+    setBlocksDictionaryKeys: (state, keys) => {
+      state.blocksDictionaryKeys = keys;
     },
     setSchema: (state, schema) => {
       state.schema = schema;
@@ -68,7 +75,7 @@ export default new Vuex.Store({
     setConnectionError: (state, connectionError) => {
       state.connectionError = connectionError;
     },
-    setAuthenticating: (state, authenticating)  => {
+    setAuthenticating: (state, authenticating) => {
       state.authenticating = authenticating;
     },
     addLoadMessage: (state, loadMessage) => {
@@ -105,7 +112,7 @@ export default new Vuex.Store({
       });
       return pipeline;
     },
-    getConfig: state => () => {},
+    getConfig: state => () => { },
     getPolicySet: state => name => {
       var policySet = state.policySets.find(policySet => {
         return policySet.Id.endsWith(name);

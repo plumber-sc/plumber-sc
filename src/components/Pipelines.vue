@@ -14,11 +14,16 @@
                Pipelines
                <small class="text-muted">({{ pipelines.length}} pipelines found)</small>
             </h1>
-            <b-form-input v-model="pipelinefilter" placeholder="Start typing to filter pipelines"></b-form-input>
+            <b-form-input v-model="filter" placeholder="Start typing to filter pipelines"></b-form-input>
             <div class="pipelinelist">
                <div v-for="letter in allLetters()" v-bind:key="letter">
                   <div class="letter">{{letter}}</div>
-                  <div v-for="pipeline in selectedPipelines(letter)" v-bind:key="pipeline.Name">
+                  <div
+                     v-for="pipeline in selectedPipelines(letter)"
+                     v-bind:key="`${pipeline.Namespace}.${pipeline.Name}`"
+                  >
+                     <small>{{pipeline.Namespace}}</small>
+                     <br />
                      <router-link
                         :to="{ name: 'pipelines', params: { pipelineid: getPipelineName(pipeline) }}"
                      >{{ pipeline.Name }}</router-link>
@@ -41,7 +46,7 @@ export default {
       return {
          selectedPipelineName: "",
          namespaces: [],
-         pipelinefilter: ""
+         filter: ""
       };
    },
    computed: {
@@ -93,12 +98,11 @@ export default {
       selectedPipelines: function(letter) {
          return this.$store.state.pipelines.filter(item => {
             if (item.Name.substr(1, 1) !== letter) return false;
-            if (this.pipelinefilter.length < 2) return true;
+            if (this.filter.length < 2) return true;
             else
                return (
-                  item.Name.toLowerCase().indexOf(
-                     this.pipelinefilter.toLowerCase()
-                  ) >= 0
+                  item.Name.toLowerCase().indexOf(this.filter.toLowerCase()) >=
+                  0
                );
          });
       },
