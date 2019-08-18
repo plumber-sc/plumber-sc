@@ -134,7 +134,6 @@ Create a new file in this folder called `Plumber.IdentityServer.Host.xml` and pa
 </Settings>
 ```
 
-
 This configuration sets up Identity Server to allow authentication from clients authenticating with client id `Plumber` coming from `https://vwr.plumber-sc.com`. If you're running plumber-sc on a different port you need to adjust these settings.
 
 ## Configuring your commerce engine for hosted Plumber

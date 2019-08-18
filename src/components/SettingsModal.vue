@@ -50,7 +50,7 @@ export default {
    data: function() {
       return {
          engineUrl: "https://localhost:5000",
-         identityServerUrl: "https://localhost:8080",
+         identityServerUrl: "https://localhost:5050",
          identityServerClientId: "Plumber"
       };
    },

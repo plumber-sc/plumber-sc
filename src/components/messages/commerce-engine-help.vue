@@ -16,7 +16,7 @@
       </p>
       <h5>If you didn`t configure Sitecore Commerce Engine to recognize Plumber...</h5>
       <p>
-         To configure your engine to allow Plumber, you add it as an allowed origin. Open
+         To configure your engine to allow Plumber to connect to it, you add it as an allowed origin. Open
          <code>config.json</code>
          in the wwwroot folder of your commerce engine and add the url of
          Plumber (
